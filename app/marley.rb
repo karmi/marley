@@ -54,7 +54,7 @@ module Blog
         attributes.merge!( :comments => Blog::Comment.find_all_by_post_id(attributes[:id], :select => ['id']) )
         posts << self.new( attributes )
       end
-      return posts
+      return posts.reverse
     end
     
     def self.find_one(id, options={})

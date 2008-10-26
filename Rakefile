@@ -22,7 +22,7 @@ namespace :app do
     end
     task :create_sample_article do
       FileUtils.cp_r( File.join(File.dirname(__FILE__), 'app', 'test', 'fixtures', '001-test-article'), 
-                      File.join(File.dirname(__FILE__), '..', 'data')
+                      File.join(File.dirname(__FILE__), '..', 'data') )
     end
     task :create_sample_comment do
     end

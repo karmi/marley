@@ -1,0 +1,27 @@
+= Marley
+
+**Marley** is minimal blog engine written in Sinatra. It uses plain-text files for storing articles and SQLite database for storing comments. It comes with Rake and Capistrano tasks for deploying the application and syncing articles from your local machine to the server.
+
++master+ branch is what runs www.restafari.org, +plain+ branch is bare application suited for your own styling.
+
+== Ingredients
+
+* Sinatra and Rack
+* ActiveRecord and SQLite
+* Akismet spam filtering (see <tt>./vendor</tt> directory)
+* YAML configuration
+* Rake and Capistrano
+* RDiscount for Markdown --> HTML conversion
+
+== Installation
+
+TODO
+
+== Todo
+
+* Atom/RSS export of articles and comments
+
+== Licence
+
+Copyright (c) 2008 Karel Minarik (www.karmi.cz)
+Code released under the MIT license, do not reuse graphical assets and styles in the _master_ branch

@@ -8,7 +8,7 @@ set :user, "{REPLACE WITH YOUR SSH USERNAME}"
 
 # ----- Setup Git -------------------------------------------------------------
 set :runner, "deployer"
-set :application, 'app'
+set :application, 'marley'
 set :scm, :git
 # set :branch, "deploy"
 set :git_enable_submodules, 1
@@ -24,16 +24,21 @@ role :db,  "{REPLACE WITH YOUR SERVER}", :primary => true
 
 # ----- Specific tasks --------------------------------------------------------
 
-namespace :blog do
-  task :synchronize, :roles => :app do
-    upload "../data", "#{deploy_to}/../data"
+namespace :data do
+  task :sync, :roles => :app do
+    # TODO
+    # upload "../data", "#{deploy_to}/../data"
   end
 end
 
-# ----- Run these commands after each deploy ----------------------------------
-task :after_update_code, :roles => [:app, :db] do
+# ----- Hooks ----------------------------------------------------------------
+after "deploy:update_code" do
   # run "ln -nfs #{shared_path}/sinatra #{release_path}/sinatra"
+  run "ln -nfs #{shared_path}/config.yml #{release_path}/config/config.yml"
   run "ln -nfs #{deploy_to}/../data #{release_path}/data"
+end
+after "deploy:cold" do
+  run "cd #{current_path}; rake app:install:create_data_directory; rake app:install:create_database; rake app:install:create_sample_article"
 end
 
 # ----- Over-ride deploy tasks ------------------------------------------------

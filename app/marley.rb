@@ -216,7 +216,7 @@ post '/:post_id/comments' do
   puts params.inspect
   @comment = Blog::Comment.create( params )
   if @comment.valid?
-    redirect "/"+params[:post_id].to_s+'.html#comments'
+    redirect "/"+params[:post_id].to_s+'.html?thank_you=#comment_form'
   else
     @page_title = "#{@post.title} #{CONFIG['blog']['name']}"
     erb :post

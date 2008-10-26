@@ -169,7 +169,7 @@ helpers do
   alias_method :h, :escape_html
   
   def human_date(datetime)
-    datetime.strftime('%d. %m. %Y').gsub(/ 0(\d{1})/, ' \1')
+    datetime.strftime('%d|%m|%Y').gsub(/ 0(\d{1})/, ' \1')
   end
   
 end

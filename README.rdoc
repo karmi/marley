@@ -13,9 +13,21 @@
 * Rake and Capistrano
 * RDiscount for Markdown --> HTML conversion
 
-== Installation
+== Installation and dependencies
+
+You have to install following Rubygems:
+
+    sudo gem install sinatra
+    sudo gem install rack
+    sudo gem install thin
+    sudo gem install rdiscount
 
 TODO
+
+== Deployment
+
+* <tt>cap deploy:setup</tt>
+* <tt>cap deploy:cold</tt>
 
 == Todo
 

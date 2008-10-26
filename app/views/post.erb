@@ -1,53 +1,77 @@
-  <a href="/">Index</a>
+<div id="article">
 
-  <hr />
+  <div class="post">
+  <h1>
+    <%=h @post.title %>
+    <span class="meta">
+      <%= human_date @post.published_on %> 
+      <a href="#comments"><%= @post.comments.size %>&nbsp;comments</a>&nbsp;<a href="http://<%= hostname %>/<%= @post.id %>/feed" class="image"><img src="/images/rss.icon.12x12.png" width="12" height="12" alt="Comments for article feed" title="Comments for article feed" /></a>
+    </span>
+  </h1>
+  
+  <div class="body">
 
-  <h1><%=h @post.title %></h1>
-  
-  <div id="meta">
-  Published 
-  <%= "in categories <em>#{@post.categories.join(', ')}</em> " if @post.categories %>
-  on <%= human_date @post.published_on %>
-  </div><!-- /meta -->
+    <%= @post.body_html %>
 
-  <%= @post.body_html %>
+    <div class="nav">
+      <!-- <p class="home"><a href="/">&larr; Home</a></p> -->
+      <!-- <p class="next"><a href="#">Next &rarr;</a></p> -->
+    </div>
+    <!-- /nav -->
 
-  <hr />
+  </div><!-- /body -->
   
-  <% unless @post.comments.empty? %>
-  <h2 id="comments">Comments</h2>
-  
-  <div class="comments">
-    <% @post.comments.each do |comment| %>
-    <p id="comment_<%= comment.id %>" style="<%= 'color:red' if comment.spam? %>"><%=h comment.author %> said on <%= human_date(comment.created_at) %>: <%=h comment.body %></p>
-    <% end %>
-  </div><!-- /comments -->
-  
-  <hr />
-  <% end %>
-  
-  <h2 id="add_comment">Add Comment</h2>
-  
-  <form action="/<%= @post.id %>/comments#add_comment" method="post" accept-charset="utf-8">
+  <div id="comments">
     
-    <label>Author:</label><br />
-    <input type="text" name="author" value="" id="author" />
-    <% if  @comment and @comment.errors %><span class="error">Author <%= @comment.errors.on(:author).first %></span><% end %>
-    <br />
-    <label>E-mail:</label><br />
-    <input type="text" name="email" value="" id="email" />
-    <% if  @comment and @comment.errors %><span class="error">E-Mail <%= @comment.errors.on(:email).first %></span><% end %>
-    <br />
-    <label>URL:</label><br />
-    <input type="text" name="url" value="" id="url" />
-    <br />
-    <label>Message:</label><br />
-    <textarea name="body" rows="8" cols="40"></textarea>
-    <% if  @comment and @comment.errors %><span class="error">Message <%= @comment.errors.on(:body).first if @comment %></span><% end %>
-    <br />
+    <% @post.comments.each_with_index do |comment, index| %>
+    <% if params[:thank_you] && comment == @post.comments.last %>
+    <div id="comment_added_thanks"><div class="in"><p>Thank you for your comment!</p></div></div>
+    <% end %>
+    <div class="comment <%= 'spam' if comment.spam? %>" id="comment_<%= comment.id %>">
+      <div class="number"><span class="nodisplay"># </span><%= index.succ %></div>
+      <div class="author">
+        <strong>
+        <%= comment.url ? "<a href=\"#{h(comment.url)}\">#{h(comment.author)}</a>" : h(comment.author) %>
+        </strong> wrote on <%= human_date(comment.created_at) %>:</div>
+      <div class="message">
+        <%=h comment.body %>
+      </div>
+    </div><!-- /comment -->
 
-    <p><input type="submit" value="Post &rarr;" accesskey="s"></p>
-  </form>
-  
-  
-<pre> <%= request.env.inspect  %></pre>
+    <% end %>
+
+    <div id="comment_form">
+    <div class="container">
+
+      <h3><span>Join the discussion</span><div>&nbsp;</div></h3>
+
+      <form action="/<%= @post.id %>/comments#add_comment" method="post" accept-charset="utf-8">
+
+        <label class="required">Your name:</label>
+        <input type="text" class="text" name="author" value="" id="author" />
+        <span>(required)</span>
+        <% if  @comment and @comment.errors %><span class="error">Author <%= @comment.errors.on(:author).first %></span><% end %>
+        <br />
+        <label class="required">Your e-mail:</label>
+        <input type="text" class="text" name="email" value="" id="email" />
+        <span>(required, won't be displayed)</span>
+        <% if  @comment and @comment.errors %><span class="error">E-Mail <%= @comment.errors.on(:email).first %></span><% end %>
+        <br />
+
+        <label>Your website:</label>
+        <input type="text" class="text" name="url" value="" id="url" />
+        <br />
+
+        <label>Message:</label>
+        <textarea name="body" rows="8" cols="40"></textarea>
+        <% if  @comment and @comment.errors %><span class="error">Message <%= @comment.errors.on(:body).first if @comment %></span><% end %>
+        <br />
+
+        <input class="submit" type="submit" value="Send message &rarr;" accesskey="s" />
+      </form>
+    </div><!-- /container -->
+    </div><!-- /comment_form -->
+
+  </div><!-- /comments -->
+
+</div><!-- /article -->

@@ -1,0 +1,336 @@
+/* =====    GENERAL   ========================================================================== */ 
+
+@import 'common.css';
+@import 'image-replacement.css';
+@import 'code.css';
+@import 'layout.css';
+
+/* Colors */
+/*
+Pink:         ff0d61
+Blue:         20cefa
+Dark Grey:    636363
+*/
+
+/* Typography */
+body
+  { color: #303030;
+    background-color: #fafafa;
+    font-family: 'Helvetica CE', 'Helvetica', 'Arial', sans-serif; 
+    font-size: 87%; }
+
+#header
+  { color: #fff;
+    background-color: #ff0d61; 
+    position: relative; 
+    height: 51px; }
+#header a
+  { color: #fff; }
+#header h1
+  { position: absolute;
+    left: 0; }
+#header blockquote
+  { color: #fbd7e3;
+    font-style: italic;
+    margin: 0.8em 1.2em 0.5em 0.5em;
+    position: absolute;
+    right: 1em; }
+#header blockquote a
+  { color: #fbd7e3;
+    text-decoration: none; }
+#header blockquote a:hover
+  { text-decoration: underline; }
+
+#about
+  { color: #fff;
+    background-color: #ff0d61;
+    letter-spacing: -0.02em; }    
+#about h2
+  { background-color: #fafafa;
+    width: 100%; 
+    padding: 0 0 0 0;
+    margin: 0 0 0 0; }
+#about h2.expanded
+  { background-color: #ff0d61; }
+#about .content .in
+  { font-size: 130%; 
+    line-height: 135%; 
+    padding: 16px 0.5em 2em 16px; }
+#about p
+  { margin-bottom: 0.5em; } 
+#about a
+  { color: #fff; 
+    text-decoration: none; 
+    border-bottom: 1px solid #fc84ae; }
+#about a:hover
+  { border-bottom: 1px solid #fff; }
+#about .credit
+  { font-size: 80%; 
+    margin-top: 2em; }
+#about .floral
+  { margin: 80% 0 0 35%;}
+
+
+/* === List === */
+.post
+  { margin: 2em 0 2em -1em; 
+    padding: 1em 1em 1em 1em; }
+.post:hover,
+.post.hover
+  { background-color: #f2f2f2; }
+.post h2
+  { color: #636363; 
+    font-size: 300%;
+    letter-spacing: -0.08em;
+    line-height: 90%;
+    padding: 0 0 0 0;
+    margin: 0 0 0.1em 0; }
+.post h2 a
+  { color: #636363; 
+    text-decoration: none; }
+#posts .post:first-child h2,
+#posts .post:first-child h2 a,
+#posts .post:hover h2,
+#posts .post:hover h2 a
+  { color: #ff0d61; }
+
+.post .meta
+  { color: #7d7d7d; 
+    font-size: 137%; 
+    font-weight: normal; 
+    letter-spacing: -0.01em; 
+    padding: 0 0 0 0;
+    margin: 0 0 0.1em 0; }
+.post .meta a
+  { color: #20cefa; 
+    font-size: 85%; }
+.post .perex
+  { color: #808687; 
+    font-family: 'Lucida Grande', 'Helvetica', 'Arial', sans-serif; 
+    font-size: 90%; 
+    letter-spacing: -0.02em; }
+.post .perex a
+  { color: #808687; }
+#posts .post:first-child .perex a,
+#posts .post:hover .perex a
+  { color: #ff0d61; }
+
+
+/* === Detail === */
+#article .post
+  { margin-top: 0.7em; }
+#article .post:hover,
+#article .post.hover
+  { background: #fafafa; }
+#article .post h1
+  { color: #ff0d61; 
+    font-size: 325%;
+    letter-spacing: -0.08em;
+    line-height: 90%;
+    padding: 0 0 0.4em 0;
+    margin: 0 0 0.1em 0; 
+    border-bottom: 3px solid #ff0d61; }
+#article .post h1 .meta
+  { font-size: 80%;
+    font-weight: normal; }
+#article .post h1 .meta a
+  { color: #20cefa; 
+    font-size: 70%;
+    text-decoration: none;
+    border-bottom: 1px dotted #20cefa; }
+#article .post h1 .meta a:hover
+  { border-bottom: 1px solid #20cefa; }
+#article .post h1 .meta a.image,
+#article .post h1 .meta a.image:hover
+  { border: none !important; }
+
+#article .body
+  { color: #222222;
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, sans-serif;
+    line-height: 158%;
+    margin: 2em 0 2em 0; }
+
+#article .body p
+  { margin-bottom: 0.8em; }
+
+#article .body h2 
+  { color: #ff0d61;
+    font-size: 160%;
+    padding: 0 0 0.5em 0;
+    margin: 1.4em 0 0.4em 0; 
+    border-bottom: 1px solid #ff0d61; }
+
+#article .body a
+  { color: #222;
+    text-decoration: none;
+    border-bottom: 1px dotted #222; }
+#article .body a:hover
+  { color: #ff0d61;
+    border-bottom: 1px solid #ff0d61; }
+
+#article .body blockquote 
+{ color: #20cefa; 
+  font: normal 105%/140% 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, sans-serif; 
+  margin: 1.2em 0 1.2em 1.2em; }
+#article .body blockquote p { margin: 0; }
+#article .body blockquote .author { color: #5e5e5e; font: normal 80%/130% 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, sans-serif; margin-top: 0.4em; }
+#article .body blockquote .tilde {  }
+#article .body blockquote .source { font-size: 95%; }
+#article .body blockquote .source a { color: #5e5e5e; }
+#article .body blockquote .source a:hover { color: #5e5e5e; border-bottom: 1px solid #5e5e5e; }
+
+/* === Code === */
+
+#article pre 
+  { color: #222;
+    font-size: 120%;
+    text-align: left; 
+    padding: 1em 1em; margin: 1.2em 0; 
+    border: 4px solid #f5f5f5; 
+    position: relative; 
+    word-wrap: break-word;
+    white-space: pre;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;	}
+#article code 
+  { font: normal 100%/120% 'Monaco', 'Consolas', 'Bitstream Vera Sans', monospace;
+    padding: 0.2em 0.2em 0.1em 0.2em; }
+
+/* === Nav === */
+
+#article .nav
+  { background: url('../images/bg/divider-floral.png') center center no-repeat;
+    height: 24px;
+    width: 529px;
+    margin: 6em auto 6em auto; }
+#article .nav .home,
+#article .nav .next
+  { font-size: 80%;
+    float: left; 
+    padding: 1.2em 0 0 0;}
+#article .nav .next
+  { float: right; }
+#article .nav a
+  { color: #ff0d61;
+    font-weight: bold;
+    text-decoration: none; 
+    border: none; }
+#article .nav a:hover
+  { border: none;
+    text-decoration: underline; }
+
+/* === Comments === */
+
+#comments .comment 
+  { font-size: 90%;
+    width: 75%; 
+    margin-top: 2em; 
+    padding-bottom: 2em; 
+    padding-right: 2em; 
+    position: relative; }
+#comments .author, #comments .message { position: relative; z-index: 1; }
+#comments .comment { font-size: 95%; line-height: 150%; }
+#comments .comment .author 
+  { color: #4c4c4c; 
+    background: url('../images/bg/comment-header-line.png') left bottom no-repeat; 
+    padding-bottom: 0.4em; 
+    margin-bottom: 0.4em; }
+#comments .comment .author strong,
+#comments .comment .author a
+  { color: #222; }
+#comments .comment .author a
+  { text-decoration: none; }
+#comments .comment .author a:hover { text-decoration: none; border-bottom: 1px solid #222; }
+
+#comments .comment .number { color: #8de4fa; font-family: 'Helvetica', 'Arial', sans-serif; line-height: 100%; font-size: 10em; font-weight: bolder;}
+#comments .comment .number { position: absolute; left: -100px; bottom: 0.04em; z-index: 1;} /* Thank you, Mike Davidson */
+
+#comments .comment.spam
+  { font-size: 70%; margin: 0; }
+#comments .comment.spam .number
+  { display: none; }
+
+#comments #comment_added_thanks
+  { color: #0a3d00;
+    background: #bcfa96;
+    font-size: 130%; }
+#comments #comment_added_thanks div.in
+  { background: #bcfa96;
+    padding: 0.5em 1em 0.2em 1em; }
+#comments #comment_added_thanks p
+  { background: url('../images/comment-added-tick.png') 0 0 no-repeat;
+    padding: 0.3em 0 0.2em 35px; }
+
+/* === Comment form === */
+#comment_form 
+  { color: #444444; }
+
+#comment_form label,
+#comment_form input.text,
+#comment_form textarea
+  { font-size: 95%;
+    text-align: left;
+  	width: 30em;
+  	padding: 2px;
+  	margin-bottom: 15px;
+  	display: block;
+  	float: left; }
+#comment_form textarea
+  { width: 50em; }
+#comment_form label
+  { color: #444; 
+    font-size: 85%;
+    text-align: right;
+  	width: 12em;
+  	padding-right: 10px; 
+  	padding-top: 0.5em; }
+#comment_form label.required
+  { font-weight: bold; }
+#comment_form span
+  { color: #9d9d9d;
+    font-size: 80%;
+    padding: 0.5em 0 0 0.5em;
+    float: left;  } 
+#comment_form.error label
+{ color: #fb076e;
+	font-weight: bold; }
+#comment_form br 
+  { clear: both; }
+#comment_form .submit 
+  { float: left;
+    margin-left: 44em;
+    padding: 0 1em 0 0.5em; }
+
+#comment_form h3 
+  { color: #444 !important; 
+    font: bold 100%/130% Helvetica, Arial, sans-serif; 
+    text-transform: uppercase; 
+    text-align: left !important; 
+    margin: 1.2em 0 0.6em 0; 
+    height: 1em; 
+    position: relative; 
+    margin-bottom: 1.6em; }
+#comment_form h3 span 
+  { background: #fafafa; 
+    padding: 0 0.5em; 
+    position: absolute; 
+    left: 13.3em; 
+    z-index: 100; }
+#comment_form h3 div 
+  { background: url('../images/bg/header-comment-form.png') center left repeat-x; 
+    width: 100%; 
+    position: absolute; 
+    z-index: 99; }
+
+#footer
+  { background: url('../images/footer-linka.png') 0 0 no-repeat; }
+#footer *
+  { color: #20cefa; }
+#footer p
+  { margin: 0.5em 0 0 0; }
+#footer small
+  { /*color: #808687;*/
+    font-size: 80%;
+    font-weight: normal; }
+ 

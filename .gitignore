@@ -4,3 +4,8 @@ log/*.log
 tmp/**/*
 config/config.yml
 config/deploy.rb
+data
+app/test/fixtures/*.db
+app/public/index.html
+doc
+REVISION

@@ -1,0 +1,39 @@
+/* Fix resets */
+body
+  { line-height: 145%; }
+
+.container h1, 
+.container h2,
+.container h3,
+.container h4
+  { font-weight: bold; }
+
+/* Overrides */
+
+.container #left
+  { width: 48em; }
+
+.post h2
+  { font-family: 'Arial Black', 'Arial', sans-serif; 
+    text-transform: uppercase; }
+#header blockquote
+  { margin: 0.4em 1.2em 0.5em 0.5em; }
+#about h2
+  { background-color: #ff0d61; }
+
+#article .body h2
+  { font-family: 'Helvetica', 'Arial', sans-serif;
+    text-transform: none; }
+
+#article pre
+  { font-size: 110%; }
+
+#article .nav .home,
+#article .nav .next
+  { padding: 2.2em 0 0 0; }
+
+#comment_form textarea
+  { width: 37em; }
+#comment_form .submit
+  { margin-left: 33.5em; }
+

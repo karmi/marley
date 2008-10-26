@@ -24,9 +24,15 @@ You have to install following Rubygems:
     sudo gem install thin
     sudo gem install rdiscount
 
-Install the application with Rake task:
+Rename to <tt>config.yml</tt}> and edit the file
+
+    config/config.example.yml
+
+Install the application with this Rake task:
 
     rake app:install
+    
+Load <tt>http://localhost:4567</tt> in your browser
 
 == Deployment
 

@@ -24,7 +24,7 @@ You have to install following Rubygems:
     sudo gem install thin
     sudo gem install rdiscount
 
-Rename to <i>config.yml</i> and edit the file
+Rename to <i>config.yml</i> and edit this file:
 
     config/config.example.yml
 
@@ -32,7 +32,9 @@ Install the application with this Rake task:
 
     rake app:install
     
-Load <tt>http://localhost:4567</tt> in your browser
+Load this URL in your browser:
+
+    http://localhost:4567
 
 == Deployment
 

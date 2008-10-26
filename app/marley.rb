@@ -228,6 +228,10 @@ get '/:post_id/comments' do
   redirect "/"+params[:post_id].to_s+'.html#comments'
 end
 
+post '/sync' do
+  puts params
+end
+
 get '/about' do
   "<p style=\"font-family:sans-serif\">I'm running on Sinatra version " + Sinatra::VERSION + '</p>'
 end

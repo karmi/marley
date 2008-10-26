@@ -1,0 +1,117 @@
+# This article contains some 20KBs of real-world Markdown to put some stress on RDiscount :)
+
+Which RDiscount just eats for breakfast in some 0.02 secs or so
+
+Framework pro vývoj webových aplikací a stránek [Ruby on Rails](http://www.rubyonrails.org) si za poslední dva tři roky získal **takovou** slávu, že jedni jsou nadšeni zcela nad míru běžně obvyklou a kážou Rails kudy chodí, druzí mluví o „pouhé módě“, „skvělém marketingu 37 Signals“ a „zbytečném *hype*“. 
+
+Z pohledu na významné vývojářské [blogy](http://www.37signals.com/svn/ "Signal vs. Noise") či [weby](http://promosearch.atomz.com/search/promosearch?sp-a=sp1000a5a9&sp-f=ISO-8859-1&sp-t=general&sp-k=Articles%7CBooks%7CConferences%7COther%7CWeblogs&sp-x-1=cat&sp-p-1=phrase&sp-q-1=&sp-x-2=cat2&sp-q-2=&sp-c=25&sp-p=all&c=&p=&query=ruby+on+rails&sp-q=ruby+on+rails&search=Go "O'Reilly Network") nebo [videa, kde v patnácti minutách naprogramujete kompletní blog](http://media.rubyonrails.org/video/rails_take2_with_sound.mov "Video, QuickTime 52MB") člověk rozhodně získá dojem, že Rails jsou mýtická [„stříbrná kulka“ softwarového vývoje](http://en.wikipedia.org/wiki/No_Silver_Bullet), technologie, jejíž pouhé použití či nasazení několikanásobně zvyšuje produktivitu. A k dovršení všeho na Ruby on Rails běží nejslavnější aplikace a stránky současného webu: [Basecamp](http://basecamphq.com/), [Shopify](http://shopify.com/), [Cork'd](http://corkd.com/), [A List Apart](http://alistapart.com/) či [Twitter](http://twitter.com/).
+
+Není třeba si tedy klást (řečnické) otázky jako [„Je Ruby on Rails stříbrná kulka?“](http://about.82ask.com/2007/04/05/ruby-on-rails/) a podobně, ale můžeme rovnou vyložit karty. Řekněme to narovinu:
+
+<p class="highlight"><strong>Jestliže se zabýváte vývojem pro web, Ruby on Rails je to nejzajímavější, co se za poslední dva roky na tomto poli objevilo. Rails je <em>killer app</em> webového vývoje.</strong></p>
+
+Panebože! Slyším ty výkřiky! Ne Ajax? Ne PHP 5? Ne Script.aculo.us? Ne … Zend framework? Ne Adobe Apollo? Ne. A nejenom proto, že Rails v sobě Ajax i Script.aculo.us zahrnují (a v jistém smyslu, k němuž se vrátíme, teprve akcelerují, neboli „staví na koleje“).
+
+Rails jsou jedinečné (a v tomto smyslu „nejzajímavější“) proto, že kromě mnoha ryze technických konceptů a inovací vnesly do webového vývoje zásadní **intelektuální koncepty** a nové myšlenky. To je ohled, který v debatách ohledně Ruby on Rails pravidelně zapadá. Debaty ohledně Rails totiž trpí známým syndromem **„to není nic nového pod sluncem“**. Poučná je v tomto smyslu debata k článku [„Proč bylo Ruby on Rails možné napsat pouze a jedině v Ruby?“](http://www.oreillynet.com/ruby/blog/2007/03/why_was_rails_only_possible_wi.html "O'Reilly Ruby"). V ní se diskutující pravidelně vracejí k objevné myšlence, že „to samé“ je možné udělat v Pythonu nebo v Perlu, že Model-View-Controller není nic nového, že lepší než Rails je framework [Django](http://www.djangoproject.com/) pro Python nebo [Catalyst](http://www.catalystframework.org/) pro Perl. A další variace: to umí .NET/Java/atd. už dávno a líp, a navíc mají IDE, a striktní typování. PHP je rozšířenější, a rychlejší, a levnější na provoz. A s „free-hostingem“. Jenže na webu se nyní o ničem nemluví s takovým nadšením jako o Rails, a jasná volba pro všechny obdivované _start-upy_ není ani .NET, ani Python. Ani PHP.
+
+Tato diskuse totiž posuzuje Rails z omezeně **technologického pohledu**. A z omezeně technologického pohledu je Ruby on Rails skutečně **jen další MVC webový framework**. Co však Rails činí zajímavé a jedinečné jsou netechnické (ve striktním slova smyslu), intelektuální a sociální aspekty, kterými se chci zabývat v těchto článcích. Právě ty ve vývojářích vyvolávají pocit „všechno v Rails a už nikdy jinak“ a právě ty vyvolaly mohutnou vlnu nadšení a nové energie pro vývoj na webu. Postoj „všechno už tu bylo, všechno je pořád stejné, je to prostě práce“ jistě v nikom příliš [entuziasmu nevzbudí](http://www.bitwisemag.com/2/What-s-Wrong-With-Ruby "I don’t want someone chatting away to me and telling me how "cool" it all is (I’ve lived long enough as a computer programmer to know it’ll never really be "cool" to be one). I just want the straight facts, plainly put."). Nejprve však krátký úvod či opakování.
+
+
+Co je Ruby a co je Ruby on Rails
+--------------------------------
+
+Ruby on Rails je **vývojový framework** postavený na bázi vzoru [Model-View-Controller](http://en.wikipedia.org/wiki/Model-view-controller) (podobně jako za všechny např. [Apache Struts](http://struts.apache.org/) či klon Rails pro PHP [CakePHP](http://www.cakephp.org/)), který automaticky mapuje URL na vnitřní řídící prvky aplikace, abstrahuje přístup k datům v databázi pomocí [Object-relational mapping](http://en.wikipedia.org/wiki/Object-relational_mapping) („řádky“ v databázi se převedou na instance objektů, „sloupce“ na jejich atributy) a obsahuje rozsáhlé pomocné knihovny pro snadné generování HTML, práci s Ajaxem, formátování dat a další. „Naučit se Ruby on Rails“ tedy znamená seznámit se s konvencemi a principy, na nichž je postavené („kde jsou šablony?“, „jak zpracuji data z formuláře?“) a naučit se programovací jazyk, který Rails používají: Ruby. Protože Ruby je základem frameworku Ruby on Rails, a jeho koncepce Rails zásadně ovlivnila, zastavíme se nejprve u něj.
+
+[Ruby](http://www.ruby-lang.org), tedy **programovací jazyk** samotný, v němž jsou Rails napsány a v němž píšete Rails aplikace, je relativně nový jazyk, který vytvořil Yukihiro Matsumoto („Matz“), a který vychází ze základního principu: programování je **tvořivá činnost**, která vám má přinášet radost:
+
+<blockquote>
+„Věřím, že — alespoň do jisté míry — je smyslem života být šťastný. Na základě tohoto přesvědčení je Ruby navrženo tak, že je nejenom snadné, ale i zábavné v něm programovat. Ruby vám umožňuje soustředit se na kreativní stránku programování, a nepřidělává vám další starosti.“
+<p class="author"><span class="tilde">~</span> Yukihiro Matsumoto<span class="source">, předmluva k prvnímu vydání knihy <a href="http://www.rubycentral.com/book/foreword.html">Programming Ruby</a></span></p>
+</blockquote>
+
+Podobnou větu v předmluvě k referenční příručce programovacího jazyka by pravděpodobně čekal málokdo. Ostatní principy Ruby jsou však z tohoto základního principu odvozené — přestože se podobné uvažování o softwarovém vývoji může zdát _hardcore geekům_ trochu divné. Výchozí motivací Matsumota bylo vytvořit jazyk, s nímž bude **radost pracovat** a který dá programátorovi co nejkomfortnější **vyjadřovací prostředky**. Fakt, že to znamená dokonale objektově orientovaný jazyk, perfektně integrované regulární výrazy, snadno čitelnou, úspornou syntaxi a pohodlné iterátory typu `10.times {puts "ahoj"}`, je přitom zcela vedlejší. Matsumoto se totiž přímo [odvolává](http://cs.byu.edu/colloquia_files/2006Fall/presentations/Matz_slides/mgp00011.html) na hypotézu [**jazykového relativismu**](http://cs.wikipedia.org/wiki/Jazykový_relativismus), která tvrdí, že vnímání světa a způsob myšlení je radikálním způsobem ovlivněno právě vyjadřovacími prostředky, tedy **jazykem**, kterým mluvíme. Tato hypotéza tvrdí nejenom to, že v různých jazycích myslíme různým způsobem. Ve své radikální podobě tato hypotéza v teorii Ludwiga Wittgensteina tvrdí, že **to, co nemohu v jazyce vyjádřit, nemohu ani myslet** (_Filosofická zkoumání_, <span class="note">§243 a následující</span>).
+
+Matsumoto tuto hypotézu vztahuje i na jazyky zvané **programovací**: programovací jazyk je totiž specifickým případem umělého jazyka, který má syntaxi, gramatiku i slovní zásobu, stejně jako jazyky přirozené. Vykládá ji tak, že čím pohodlněji se mohu **vyjádřit**, tím pohodlněji mohu i **myslet** — a v programování jde pochopitelně především o myšlení, o „výsledek“: o to, co má program dělat („nahradit všechny výrazy XXX v řetězci za YYY“, „vypsat všechny články z databáze publikované tento měsíc“, atd.). Syntaxe, gramatika, slovní zásoba, to jsou vyjadřovací prostředky, které usnadňují či znesnadňují vyjádření samotné — nejsou však vůči vyjadřované „myšlence“ nijak sekundární. Napsat program, který nahradí výraz XXX za YYY lze stejně tak v Javě, PHP, Ruby nebo assembleru, ale **pohodlnost**, s jakou tuto (triviální) myšlenku v jednotlivých jazycích vyjádříte, bude dost rozdílná. „V assembleru můžete napsat všechno. Nikdo ale už nechce psát v assembleru“ ([Yukihiro Matsumoto, _The Philosophy of Ruby_](http://www.artima.com/intv/ruby.html)).
+
+<span class="note">*Upozornění!* Následující text srovnává syntaxi Ruby a PHP. Účelem srovnání **není** dokazovat, která syntaxe je „lepší“. Účelem je demonstrovat filosofii, na které je Ruby založena. Možná se vám tato filosofie bude zdát mylná, nepodstatná nebo lhostejná. Možná se vám bude zdát, že to je „stejně jedno“, že je jazyk jako jazyk a navíc je důležitější striktní typování, výkonnostní parametry nebo paletka _Změnit všechny výskyty…_ ve „vašem IDE“. Pak vás následující argumentace asi nepřesvědčí.</span>
+
+Právě určitá **expresivita** jazyka, tedy snadnost, s jakou vyjadřuje myšlenky (programátora) je základní vlastností a rozlišovacím znakem Ruby. Rozdíl mezi „příkazem“, tak jak si jej v duchu řekneme, a skutečným kódem je v Ruby minimální. Srovnejte následující úryvek kódu v PHP, důvěrně známý všem webovým programátorům:
+
+	if ( !empty($this->email) ) echo $this->email;
+	
+Stejný úryvek v Ruby, resp. v [rozšíření Rails](http://dev.rubyonrails.org/browser/trunk/activesupport/lib/active_support/core_ext/blank.rb	):
+
+	print self.email unless self.email.blank? 
+
+Srovnání není určeno k posouzení toho, který jazyk je „lepší“, protože to vždy znamená otázku „lepší k čemu?“ nebo „lepší pro koho?“ a ty si zde neklademe, protože si je pokládá každý sám za sebe. Oba zápisy jsou si velmi podobné — na rovině syntaxe však první příklad připomíná spíše **rovnici** (matematický symbol negace, závorky), zatímco příklad druhý vypadá jako jednoduchá **věta** v přirozeném jazyce: „Vypiš proměnnou, pokud není prázdná“. _Print something to screen, unless that something is blank_ — dokonce se správným slovosledem. Podmínka `unless` zde slouží jako modifikátor (_modifier_) příkazu `print`. To, který způsob zápisu se vám zdá přehlednější, záleží zčásti na tom, zda myslíte spíše „v rovnici“, nebo „ve větě“, a především na tom, na co jste zvyklí. Díky síle zvyku se často syntaxe Ruby zdá na první pohled „divná“. Ale při řešení abstraktních problémů je přeci jen většina z nás zvyklá přemýšlet „ve větách“, dal by se shrnout přístup Ruby.
+
+„Vypiš proměnnou, pokud není prázdná“ je velmi, velmi triviální myšlenka. Tuto triviální myšlenku můžeme vyjádřit buď složitým, nebo jednoduchým zápisem. Symbol negace, striktní pravidla pro použití závorek — to vše je trivialitě oné myšlenky v zásadě cizí. V tom je tento příklad příznačný: programátoři webových aplikací velmi často na podobnou kontrolu hodnoty proměnné nedbají. Je otázka, zda a nakolik v tom má prsty přílišná striktnost syntaxe PHP. (Je přitom jisté, že chyby v nesprávně uzavřených nebo překřížených závorkách jsou v PHP jedny z nejčastějších.)
+
+Vezměme si však jiný příklad, převzatý z nejoriginálnější učebnice jazyka Ruby, [Why's Poignant Guide to Ruby](http://poignantguide.net/ruby/):
+
+	5.times { print "Hurá! " }
+	=> ‚Hurá! Hurá! Hurá! Hurá! Hurá!‘
+
+_Five times print "Hurá"_, neboli „pětkrát napiš ‚Hurá!‘“ je opět věta v přirozeném jazyce, v angličtině, a opět se správným slovosledem. Vidíme, že zahrnuje „matematické znaky“ (složené uvozovky), ty ale slouží víceméně jako interpunkce — například pomlčky nebo čárky --, pro oddělení částí souvětí.
+
+Tato „literární povaha“ je pro Ruby zcela zásadní a velmi ovlivnila právě framework Ruby on Rails. Jak [říká](http://podcast.rubyonrails.org/programs/1/episodes/dan_benjamin "Audio MP3") vývojář [Dan Benjamin](http://hivelogic.com/): „Ruby vám umožňuje se skvěle vyjádřit, a nemusíte u toho psát tucty řádků komenářů — kód v Ruby je srozumitelný sám od sebe“. I programátor, který Ruby neovládá, velmi dobře porozumí kódu, jako je:
+
+	print ["banán", "citron", "ananas"].sort.last.capitalize
+	=> ‚Citron‘
+	
+„Porozumí“ přitom znamená: „odhadne výstup programu“, porozumí tomu, co program udělá (tedy oné „myšlence“), nikoliv nutně syntaxi. Důležité je, že uvedenému kousku kódu porozumí i neprogramátor se základní znalostí angličtiny, na rozdíl od identického kódu např. v PHP:
+
+	$a = Array("banán", "citron", "ananas");
+	sort($a);
+	print ucwords( end($a) );
+	=> ‚Citron‘
+	
+Z tohoto důvodu je Ruby oblíbeným a často používaným programovacím jazykem pro [výuku programování](http://pine.fm/LearnToProgram/). Jak [říká](http://podcast.rubyonrails.org/programs/1/episodes/chris_pine "Audio MP3") autor knihy [Learn to Program](http://www.pragmaticprogrammer.com/titles/fr_ltp/), Chris Pine, Ruby je ideálním jazykem pro výuku programování, protože psát v něm programy je za á snadné a za bé je to zábava. (Úplně jinou kapitolou v použití Ruby pro výuku programování je projekt Ruby artisty Why The Lucky Stiffa [**Hackety Hack**](http://hacketyhack.net/), k němuž se zajisté ještě vrátíme.)
+
+Na uvedených úryvcích kódu je ihned vidět jedna důležitá vlastnost Ruby: **řetězení** (_chainability_). Metody, které jsou volány na objektu (v tomto případě poli), vrací objekt samotný, takže lze volání metod řetězit a předávat si jej mezi nimi. <span class="note">(Řetězení prostřednictvím Rails ovlivnilo mnoho dalších projektů, typicky např. JavaScript frameworky [Prototype.js](http://encytemedia.com/blog/articles/2006/08/30/a-flurry-of-prototype-updates), [JQuery](http://docs.jquery.com/How_jQuery_Works#Chainability_.28The_Magic_of_jQuery.29) nebo [Fry](http://dev.april-child.com/fry/test/test-ac.fry.html).)</p> Řetězení se neuplatňuje jen v případě triviálních operací jako je seřazení pole, ale i v daleko sofistikovanějších výstupech (s výjimkou přetypovací metody `to_a`, neboli _to array_ je uvedený kód na první pohled srozumitelný):
+
+	# http://www.ruby-doc.org/stdlib/libdoc/net/http/rdoc/classes/Net/HTTP.html
+	require 'net/http' 
+	print Net::HTTP.get('www.google.cz', '/').match("<title>(.*)<\/title>").to_a.last
+	=> ‚Google‘
+
+Podobně jako podmínkové modifikátory (`print variable unless variable.blank?`) je řetězení silnou zbraní Ruby, protože umožňuje psát velmi **čitelný** a **úsporný** kód: jak říká známý teorém o jazyce [Python](http://www.paulgraham.com/power.html), „V úspornosti je síla“ (_Succinctness is power_). Nebo, jak praví známý aforismus, počítačový kód má být v první řadě čitelný pro lidi, a jen mimochodem též pro stroje.
+
+Proč je tomu tak? Jak [říká](http://www.itconversations.com/shows/detail1638.html "Audio MP3, 21. minuta") Matz: <cite>Úsporný kód znamená méně chyb — čím méně řádků kódu, tím méně chyb. A méně chyb znamená, že se cítíte chytřejší.</cite>
+
+To je to, co Matz v uvedené přednášce nazývá „efektivita měřená počtem úderů do klávesnice“ (_efficiency in keystrokes_) — nikoliv efektivita z hlediska výpočetního výkonu, ale z hlediska produktivity. Úspornost a čitelnost kódu, snadno zapamatovatelná syntaxe bez obtížné „interpunkce“ — to vše slouží k tomu, aby se programátor mohl **soustředit na „myšlenku“ a ne na to, jak ji vyjádřit**. Lze říci, že všechny ostatní, ryze technické vlastnosti Ruby jsou podřízeny tomuto principu. Kruh se uzavírá:
+
+<blockquote>
+	Programujeme proto, že nás to baví. I když programujeme pro peníze, stejně chceme, aby nás to bavilo.
+	<p class="author"><span class="tilde">~</span> Yukihiro Matsumoto<span class="source">, přednáška na <a href="http://cs.byu.edu/colloquia_files/2006Fall/presentations/Matz_slides/mgp00031.html">Brigham Young University</a></span></p>
+</blockquote>
+
+Proč tak rozsáhlý úvod do Ruby v článku, který má Ruby on Rails ve svém názvu? Protože základní principy Ruby zde shrnuté ovlivnily návrh celého frameworku Rails (ať již se jedná o princip „konvence má přednost před konfigurací“, o využití známých návrhových vzorů jako je [Active Record](http://en.wikipedia.org/wiki/ActiveRecord), a další). Takže až potkáme podobný úryvek kódu:
+
+	# http://api.rubyonrails.com/classes/ActiveSupport/CoreExtensions/Numeric/Time.html#M000394
+	10.minutes.ago 
+	=> Sat May 26 19:52:58 +0200 2007
+	
+nebo:
+	
+	# http://api.rubyonrails.com/classes/ActionView/Helpers/DateHelper.html#M000575
+	t = Article.find_by_id(1).published_at
+	=> Sat May 26 19:02:12 +0200 2007
+	time_ago_in_words(t) 
+	=> ‚about one hour‘
+
+budeme přesně vědět, odkud vítr vane. Popularita Ruby skokově vzrostla právě díky Ruby on Rails — jak říká samotný Matz: [„Rails jsou pro Ruby _killer app_“](http://www.slideshare.net/vishnu/the-top-10-reasons-the-ruby-programming-language-sucks/). Rails samotné se pak staly populárními díky tomu, že se přesně trefily do neuspokojivé situace na poli vývoje pro web, kterému vládlo (a vládne) PHP, se svými světlými i temnými stránkami, s nedostatečně ukotvenými pravidly vývoje, kdy každý vývojář objevuje Ameriku. Vzbudily v komunitě vývojářů nadšení, protože usnadnily práci s [Ajaxem](http://www.prototypejs.org/) a [vizuálními efekty](http://script.aculo.us/) a umožnily vývojářům soustředit se konečně na to, <strong>co</strong> chtějí udělat, než na to, <strong>jak</strong> toho dosáhnout. Co je ale na Rails tak fascinujícího, že o málokteré technologii se mluví s takovým nadšením? Proč prodeje knih o Ruby on Rails rostou na angloamerickém trhu [nejrychleji z celé oblasti web designu](http://radar.oreilly.com/archives/2007/05/state_of_the_co_6.html)? Právě tomu se bude věnovat další článek.
+
+	
+Poznámky a odkazy:
+------------------
+
+* Všechny uvedené příklady Ruby si můžete vyzkoušet ve webové verzi konzole: [http://tryruby.hobix.com/](http://tryruby.hobix.com/).
+
+* První vydání základní referenční příručky k Ruby, _The Pickaxe Book_, je přístupné online: [http://www.ruby-doc.org/docs/ProgrammingRuby/](http://www.ruby-doc.org/docs/ProgrammingRuby/)
+
+* Pro neředěný zážitek z Ruby a s Ruby ovšem doporučuji dobrodružný cestopis _Why's (Poignant) Guide to Ruby_: [http://www.poignantguide.net/](http://www.poignantguide.net/)
+
+* Pro další článek nemusíte znát nic více než ono [video, které všechno začalo](http://media.rubyonrails.org/video/rails_take2_with_sound.mov) <span class="note">(alespoň v mém případě)</span>
+
+<span class="note">Poděkování patří Vítku Burdovi, Vráťovi Čermákovi, Petru Krontorádovi, Pavlu Šimkovi a Václavu Vančurovi za cenné podněty, připomínky, rady a opravy při přípravě článku.</span>

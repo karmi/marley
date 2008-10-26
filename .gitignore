@@ -1,0 +1,6 @@
+.DS_Store
+*/.DS_Store
+log/*.log
+tmp/**/*
+config/config.yml
+config/deploy.rb

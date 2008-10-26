@@ -1,0 +1,8 @@
+blog:
+  title: "{REPLACE WITH TITLE OF YOUR BLOG}"       # Displayed as <title> on index page
+  name:  "{REPLACE WITH SHORT NAME OF YOUR BLOG}"  # Displayed as <title> on article page
+
+# See http://soakedandsoaped.com/articles/2006/10/01/how-to-protect-a-rails-application-against-spam-with-akismet
+akismet: 
+  key: "{REPLACE WITH YOUR AKISMET KEY}"
+  url: "{REPLACE WITH YOUR AKISMET URL}"

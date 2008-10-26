@@ -1,0 +1,14 @@
+  <h1>All posts <small>(<%= @posts.size %>)</small></h1>
+
+  <ul class="posts">
+  <% @posts.each do |post| %>
+  <li>
+    <small><%= human_date post.published_on %> &mdash;</small>
+    <strong><a href="/<%= post.id %>.html"><%= post.title %></a></strong>
+    <span class="perex"><%= post.perex %></span>
+    <span><%= post.comments.size %> comments</span>
+  </li>
+  <% end %>
+  </ul>
+
+  <pre><%= @posts.inspect.tr('<', '&lt;').tr('>', '&gt;') %></pre>

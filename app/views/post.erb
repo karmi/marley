@@ -1,0 +1,53 @@
+  <a href="/">Index</a>
+
+  <hr />
+
+  <h1><%=h @post.title %></h1>
+  
+  <div id="meta">
+  Published 
+  <%= "in categories <em>#{@post.categories.join(', ')}</em> " if @post.categories %>
+  on <%= human_date @post.published_on %>
+  </div><!-- /meta -->
+
+  <%= @post.body_html %>
+
+  <hr />
+  
+  <% unless @post.comments.empty? %>
+  <h2 id="comments">Comments</h2>
+  
+  <div class="comments">
+    <% @post.comments.each do |comment| %>
+    <p id="comment_<%= comment.id %>" style="<%= 'color:red' if comment.spam? %>"><%=h comment.author %> said on <%= human_date(comment.created_at) %>: <%=h comment.body %></p>
+    <% end %>
+  </div><!-- /comments -->
+  
+  <hr />
+  <% end %>
+  
+  <h2 id="add_comment">Add Comment</h2>
+  
+  <form action="/<%= @post.id %>/comments#add_comment" method="post" accept-charset="utf-8">
+    
+    <label>Author:</label><br />
+    <input type="text" name="author" value="" id="author" />
+    <% if  @comment and @comment.errors %><span class="error">Author <%= @comment.errors.on(:author).first %></span><% end %>
+    <br />
+    <label>E-mail:</label><br />
+    <input type="text" name="email" value="" id="email" />
+    <% if  @comment and @comment.errors %><span class="error">E-Mail <%= @comment.errors.on(:email).first %></span><% end %>
+    <br />
+    <label>URL:</label><br />
+    <input type="text" name="url" value="" id="url" />
+    <br />
+    <label>Message:</label><br />
+    <textarea name="body" rows="8" cols="40"></textarea>
+    <% if  @comment and @comment.errors %><span class="error">Message <%= @comment.errors.on(:body).first if @comment %></span><% end %>
+    <br />
+
+    <p><input type="submit" value="Post &rarr;" accesskey="s"></p>
+  </form>
+  
+  
+<pre> <%= request.env.inspect  %></pre>

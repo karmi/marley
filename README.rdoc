@@ -22,7 +22,9 @@ You have to install following Rubygems:
     sudo gem install thin
     sudo gem install rdiscount
 
-TODO
+Install the application with Rake task:
+
+    rake app:install
 
 == Deployment
 
@@ -31,6 +33,7 @@ TODO
 
 == Todo
 
+* Make Akismet work (returns "spam" for everything currently)
 * Atom/RSS export of articles and comments
 
 == Licence

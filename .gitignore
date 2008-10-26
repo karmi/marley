@@ -4,5 +4,6 @@ log/*.log
 tmp/**/*
 config/config.yml
 config/deploy.rb
-data/*
+data/*.*
 data/**/*
+app/test/fixtures/*.db

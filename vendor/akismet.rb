@@ -5,8 +5,8 @@
 # License:: BSD
 class Akismet
 
-  require 'net/HTTP'
-  require 'uri'
+  require 'net/http'
+  require 'open-uri'
   
   STANDARD_HEADERS = {
     'User-Agent' => 'Akismet Ruby API/1.0',

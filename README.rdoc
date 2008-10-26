@@ -24,7 +24,7 @@ You have to install following Rubygems:
     sudo gem install thin
     sudo gem install rdiscount
 
-Rename to <tt>config.yml</tt}> and edit the file
+Rename to <i>config.yml<i> and edit the file
 
     config/config.example.yml
 

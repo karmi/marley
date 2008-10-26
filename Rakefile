@@ -18,7 +18,7 @@ namespace :app do
       require 'rubygems'
       require 'activerecord'
       ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => './data/development.db')
-      load File.join( 'config', 'db_create_comments.rb' )
+      load File.join( File.dirname(__FILE__), 'config', 'db_create_comments.rb' )
     end
     task :create_sample_article do
       FileUtils.cp_r( File.join(File.dirname(__FILE__), 'app', 'test', 'fixtures', '001-test-article'), 

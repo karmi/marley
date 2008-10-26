@@ -1,8 +1,10 @@
 = Marley
 
-**Marley** is minimal blog engine written in Sinatra. It uses plain-text files for storing articles and SQLite database for storing comments. It comes with Rake and Capistrano tasks for deploying the application and syncing articles from your local machine to the server.
+*Marley* is minimal blog engine written in Sinatra. It uses plain-text files for storing articles and SQLite database for storing comments. It comes with Rake and Capistrano tasks for deploying the application and syncing articles from your local machine to the server.
 
-+master+ branch is what runs www.restafari.org, +plain+ branch is bare application suited for your own styling.
++master+ branch is what will run www.restafari.org, +plain+ branch is bare application suited for your own styling.
+
+It is currently pre-alpha software.
 
 == Ingredients
 

@@ -191,7 +191,12 @@ end
 
 # -----------------------------------------------------------------------------
 
+# Temporary, splash page
 get '/' do
+  File.read( File.join( File.dirname(__FILE__), 'public', 'index.html') )
+end
+# Temporary, splash page
+get '/index' do
   @posts = Blog::Post.published
   @page_title = "#{CONFIG['blog']['title']}"
   erb :index

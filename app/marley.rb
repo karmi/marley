@@ -16,10 +16,11 @@ CONFIG = YAML.load_file( File.join(File.dirname(__FILE__), '..', 'config', 'conf
 
 module Blog
 
+  # Override this as you wish
   DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', 'data') unless defined? DATA_DIRECTORY
 
   # = Articles
-  # Data source is <tt>../data</tt> directory
+  # Data source is DATA_DIRECTORY
   class Post
     
     attr_reader :id, :title, :perex, :body, :body_html, :meta, :published_on, :updated_on, :published, :comments
@@ -126,6 +127,7 @@ module Blog
   end
   
   # = Comments for articles
+  # .db file is created in DATA_DIRECTORY
   class Comment < ActiveRecord::Base
     
     ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => File.join(DATA_DIRECTORY, 'development.db') )

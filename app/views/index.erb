@@ -2,7 +2,7 @@
   
   <% @posts.each do |post| %>
   <div class="post">
-  <p class="meta"><%= human_date post.published_on %> <a href="#"><%= post.comments.size %>&nbsp;comments</a></p>
+  <p class="meta"><%= human_date post.published_on %> <a href="/<%= post.id %>.html#comments"><%= post.comments.size %>&nbsp;comments</a></p>
   <h2><a href="/<%= post.id %>.html"><%= post.title %></a></h2>
   <p class="perex"><%= post.perex %> <a href="/<%= post.id %>.html">&rarr;&nbsp;continue</a></p>
   </div>

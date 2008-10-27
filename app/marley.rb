@@ -18,7 +18,7 @@ module Marley
   DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', CONFIG['data_directory']) unless defined? DATA_DIRECTORY
 end
 
-%w{post comment akismet}.each { |f| require File.join(File.dirname(__FILE__), 'marley', f) }
+%w{post comment}.each { |f| require File.join(File.dirname(__FILE__), 'marley', f) }
 
 # -----------------------------------------------------------------------------
 

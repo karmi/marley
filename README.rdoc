@@ -10,7 +10,7 @@ It is currently pre-alpha software.
 
 * Sinatra and Rack
 * ActiveRecord and SQLite
-* Akismet spam filtering (see <tt>./vendor</tt> directory)
+* Akismet spam filtering (see <tt>./vendor/akismetor.rb</tt>)
 * YAML configuration
 * RDiscount for Markdown --> HTML conversion
 * Builder for Atom feed generation
@@ -42,7 +42,7 @@ Load this URL in your browser:
 
 == Todo
 
-* Make Akismet work (returns "spam" for everything currently)
+* Implement admin interface for filtering spam comments
 
 == Licence
 

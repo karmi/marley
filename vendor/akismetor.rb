@@ -1,3 +1,6 @@
+require 'net/http'
+
+# http://railscasts.com/episodes/65-stopping-spam-with-akismet
 # http://github.com/hornbeck/blerb-core/tree/master/lib/akismetor.rb
 
 class Akismetor

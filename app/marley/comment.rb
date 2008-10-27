@@ -29,16 +29,8 @@ module Marley
     end
     
     def check_spam
-      # result = Marley::Akismet.check( self.ip, self.user_agent, self.referrer, nil, 'comment', self.author, self.email, self.url, self.body, nil )
-      #       puts result.inspect
-      #       if result
-      #         self.checked = true
-      #         self.spam = result
-      #       end
-      result = !Akismetor.spam?(akismet_attributes)
-      puts result
       self.checked = true
-      self.spam = result
+      self.spam = !Akismetor.spam?(akismet_attributes)
       true # return true so it doesn't stop save
     end
     

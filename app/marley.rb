@@ -14,7 +14,7 @@ CONFIG = YAML.load_file( File.join(File.dirname(__FILE__), '..', 'config', 'conf
 
 # -----------------------------------------------------------------------------
 
-module Blog
+module Marley
 
   # Override this as you wish
   DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', '..', 'data') unless defined? DATA_DIRECTORY
@@ -52,7 +52,7 @@ module Blog
       posts = []
       self.extract_posts_from_directory(options).each do |file|
         attributes = self.extract_post_info_from(file, options)
-        attributes.merge!( :comments => Blog::Comment.find_all_by_post_id(attributes[:id], :select => ['id']) )
+        attributes.merge!( :comments => Marley::Comment.find_all_by_post_id(attributes[:id], :select => ['id']) )
         posts << self.new( attributes )
       end
       return posts.reverse
@@ -66,7 +66,7 @@ module Blog
       directory = directory.first
       return unless directory or !File.exist?(directory)
       file = Dir["#{directory}/*.txt"].first
-      self.new( self.extract_post_info_from(file, options).merge( :comments => Blog::Comment.find_all_by_post_id(id) ) )
+      self.new( self.extract_post_info_from(file, options).merge( :comments => Marley::Comment.find_all_by_post_id(id) ) )
     end
     
     # Returns directories in data directory. Default is published only (no <tt>.draft</tt> in name)
@@ -84,12 +84,12 @@ module Blog
     end
     
     # Extracts post information from the directory name, file contents, modification time, etc
-    # Returns hash which can be passed to <tt>Blog::Post.new()</tt>
+    # Returns hash which can be passed to <tt>Marley::Post.new()</tt>
     # Extracted attributes can be configured with <tt>:except</tt> and <tt>:only</tt> options
     def self.extract_post_info_from(file, options={})
       raise ArgumentError, "#{file} is not a readable file" unless File.exist?(file) and File.readable?(file)
       options[:except] ||= []
-      options[:only]   ||= Blog::Post.instance_methods # FIXME: Refaktorovat!!
+      options[:only]   ||= Marley::Post.instance_methods # FIXME: Refaktorovat!!
       dirname       = File.dirname(file).split('/').last
       file_content  = File.read(file)
       meta_content  = file_content.slice!( self.regexp[:meta] )
@@ -141,7 +141,7 @@ module Blog
     private
     
     def check_spam
-      result = Blog::Akismet.check( self.ip, self.user_agent, self.referrer, nil, 'comment', self.author, self.email, self.url, self.body, nil )
+      result = Marley::Akismet.check( self.ip, self.user_agent, self.referrer, nil, 'comment', self.author, self.email, self.url, self.body, nil )
       puts result.inspect
       if result
         self.checked = true
@@ -199,24 +199,24 @@ get '/' do
 end
 # Temporary, splash page
 get '/index' do
-  @posts = Blog::Post.published
+  @posts = Marley::Post.published
   @page_title = "#{CONFIG['blog']['title']}"
   erb :index
 end
 
 get '/:post_id.html' do
-  @post = Blog::Post[ params[:post_id] ]
+  @post = Marley::Post[ params[:post_id] ]
   throw :halt, [404, 'Post not found' ] unless @post
   @page_title = "#{@post.title} #{CONFIG['blog']['name']}"
   erb :post 
 end
 
 post '/:post_id/comments' do
-  @post = Blog::Post[ params[:post_id] ]
+  @post = Marley::Post[ params[:post_id] ]
   throw :halt, [404, erb(not_found) ] unless @post
   params.merge!( { :ip => request.env['REMOTE_ADDR'], :user_agent => request.env['HTTP_USER_AGENT'] } )
   puts params.inspect
-  @comment = Blog::Comment.create( params )
+  @comment = Marley::Comment.create( params )
   if @comment.valid?
     redirect "/"+params[:post_id].to_s+'.html?thank_you=#comment_form'
   else

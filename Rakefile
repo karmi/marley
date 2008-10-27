@@ -31,7 +31,7 @@ namespace :app do
     end
     task :create_sample_comment do
       require 'app/marley'
-      Blog::Comment.create( :author  => 'John Doe',
+      Marley::Comment.create( :author  => 'John Doe',
                             :email   => 'john@example.com',
                             :body    => 'Lorem ipsum dolor sit amet',
                             :post_id => 'test-article' )

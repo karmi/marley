@@ -4,7 +4,7 @@ require 'sinatra'
 require 'sinatra/test/unit'
 
 # Redefine data directory for tests
-module Blog
+module Marley
   DATA_DIRECTORY = File.join(File.dirname(__FILE__), 'fixtures')
 end
 
@@ -12,7 +12,7 @@ end
 require '../marley'
 
 # Redefine database with comments for tests
-module Blog
+module Marley
   class Comment < ActiveRecord::Base
     ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => './fixtures/test.db' )
   end
@@ -48,7 +48,7 @@ class MarleyTest < Test::Unit::TestCase
   end
 
   def test_should_create_comment
-    comment_count = Blog::Comment.count
+    comment_count = Marley::Comment.count
     post_it '/test-article/comments', { :ip => "127.0.0.1",
                                         :user_agent => "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_4; en-us)",
                                         :body => "Testing comments...",
@@ -57,7 +57,7 @@ class MarleyTest < Test::Unit::TestCase
                                         :author => 'Tester',
                                         :email => "tester@localhost" }
     assert @response.status == 302
-    assert Blog::Comment.count == comment_count + 1
+    assert Marley::Comment.count == comment_count + 1
   end
 
 end

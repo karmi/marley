@@ -10,6 +10,12 @@
 
 	<title><%= h(@page_title) %></title>
 
+  <!-- *Syndicate* -->
+  <link href="http://<%= request.env['HTTP_HOST'] %>/feed" rel="alternate" title="Feed for <%= h(CONFIG['blog']['title']) %>" type="application/atom+xml" />
+  <% if @post %>
+  <link href="http://<%= request.env['HTTP_HOST'] %>/<%= @post.id %>/feed" rel="alternate" title="Feed for comments on article &ldquo;<%= h(@post.title) %>&rdquo; <%= h(CONFIG['blog']['name']) %>" type="application/atom+xml" />
+  <% end %>
+
   <!-- *CSS* -->
    <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" media="screen" />
    <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" />

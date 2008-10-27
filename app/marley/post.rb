@@ -1,10 +1,7 @@
 module Marley
 
-  # Override this as you wish
-  DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', '..', 'data') unless defined? DATA_DIRECTORY
-
   # = Articles
-  # Data source is DATA_DIRECTORY
+  # Data source is Marley::DATA_DIRECTORY (set in <tt>config.yml</tt>)
   class Post
     
     attr_reader :id, :title, :perex, :body, :body_html, :meta, :published_on, :updated_on, :published, :comments

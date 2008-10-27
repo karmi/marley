@@ -4,6 +4,9 @@ blog:
 
 ga_code: "{REPLACE WITH YOUR GOOGLE ANALYTICS CODE OR LEAVE EMPTY}"
 
+# Set this relatively to application main ("marley") directory
+data_directory: "../../data"
+
 # See http://soakedandsoaped.com/articles/2006/10/01/how-to-protect-a-rails-application-against-spam-with-akismet
 akismet: 
   key: "{REPLACE WITH YOUR AKISMET KEY}"

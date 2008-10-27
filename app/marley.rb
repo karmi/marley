@@ -14,8 +14,8 @@ CONFIG = YAML.load_file( File.join(File.dirname(__FILE__), '..', 'config', 'conf
 # -----------------------------------------------------------------------------
 
 module Marley
-  # Override this as you wish
-  DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', '..', 'data') unless defined? DATA_DIRECTORY
+  # Override this as you wish in <tt>config/config.yml</tt>
+  DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', CONFIG['data_directory']) unless defined? DATA_DIRECTORY
 end
 
 %w{post comment akismet}.each { |f| require File.join(File.dirname(__FILE__), 'marley', f) }

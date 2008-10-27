@@ -24,6 +24,8 @@ Application = {
 
     Application.Page.About.initialize()
     Application.Comments.Thanks.initialize()
+
+    Application.Code.initialize()
     
     // # Debug
     log.debug(this)
@@ -65,6 +67,15 @@ Application = {
       }
     }
 
+  },
+  
+  Code : {
+    initialize : function() {
+      this.make_code_default_as_ruby()
+    },
+    make_code_default_as_ruby: function() {
+      $$('#article code').invoke('addClassName', 'ruby')
+  	}
   },
 
   // --------- Utils --------------------------------------------------------------------

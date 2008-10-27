@@ -22,7 +22,7 @@ namespace :app do
       require 'rubygems'
       require 'activerecord'
       ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', 
-                                               :database => File.join(File.dirname(__FILE__), '..', 'data', 'development.db')
+                                               :database => File.join(File.dirname(__FILE__), '..', 'data', 'comments.db')
                                              )
       load( File.join( File.dirname(__FILE__), 'config', 'db_create_comments.rb' ) )
     end

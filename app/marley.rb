@@ -130,7 +130,7 @@ module Blog
   # .db file is created in DATA_DIRECTORY
   class Comment < ActiveRecord::Base
     
-    ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => File.join(DATA_DIRECTORY, 'development.db') )
+    ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => File.join(DATA_DIRECTORY, 'comments.db') )
     
     belongs_to :post
 

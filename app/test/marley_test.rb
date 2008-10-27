@@ -18,6 +18,8 @@ module Marley
   end
 end
 
+# TODO : Stub Akismetor library
+
 # Setup fresh comments table
 File.delete('./fixtures/test.db') if File.exists?('./fixtures/test.db')
 ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => './fixtures/test.db')

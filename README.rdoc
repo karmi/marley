@@ -42,6 +42,7 @@ Load this URL in your browser:
 
 == Todo
 
+* Implement data syncing logic (upload, Github, etc)
 * Implement admin interface for filtering spam comments
 
 == Licence

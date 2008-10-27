@@ -12,15 +12,15 @@ It is currently pre-alpha software.
 * ActiveRecord and SQLite
 * Akismet spam filtering (see <tt>./vendor</tt> directory)
 * YAML configuration
-* Rake and Capistrano
 * RDiscount for Markdown --> HTML conversion
 * Builder for Atom feed generation
+* Rake and Capistrano
 
 == Installation and dependencies
 
 You have to install or update following Rubygems:
 
-    sudo gem install sinatra rack thin rdiscount builder
+    sudo gem install sinatra rack thin rdiscount builder capistrano
 
 Rename to <i>config.yml</i> and edit this file:
 

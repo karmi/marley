@@ -44,6 +44,8 @@ Load this URL in your browser:
 
 * Implement data syncing logic (upload, Github, etc)
 * Implement admin interface for filtering spam comments
+* Do not show spam comments in HTML and feed
+* Optionally mail new comments to self
 
 == Licence
 

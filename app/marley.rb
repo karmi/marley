@@ -30,6 +30,10 @@ helpers do
   def human_date(datetime)
     datetime.strftime('%d|%m|%Y').gsub(/ 0(\d{1})/, ' \1')
   end
+
+  def hostname
+    (request.env['HTTP_X_FORWARDED_SERVER'] != '') ? request.env['HTTP_HOST'] : request.env['HTTP_X_FORWARDED_SERVER']
+  end
   
 end
 

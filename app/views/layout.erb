@@ -11,9 +11,9 @@
 	<title><%= h(@page_title) %></title>
 
   <!-- *Syndicate* -->
-  <link href="http://<%= request.env['HTTP_HOST'] %>/feed" rel="alternate" title="Feed for <%= h(CONFIG['blog']['title']) %>" type="application/atom+xml" />
+  <link href="http://<%= hostname %>/feed" rel="alternate" title="Feed for <%= h(CONFIG['blog']['title']) %>" type="application/atom+xml" />
   <% if @post %>
-  <link href="http://<%= request.env['HTTP_HOST'] %>/<%= @post.id %>/feed" rel="alternate" title="Feed for comments on article &ldquo;<%= h(@post.title) %>&rdquo; <%= h(CONFIG['blog']['name']) %>" type="application/atom+xml" />
+  <link href="http://<%= hostname %>/<%= @post.id %>/feed" rel="alternate" title="Feed for comments on article &ldquo;<%= h(@post.title) %>&rdquo; <%= h(CONFIG['blog']['name']) %>" type="application/atom+xml" />
   <% end %>
 
   <!-- *CSS* -->

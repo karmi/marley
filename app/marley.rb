@@ -85,9 +85,17 @@ end
 
 get '/feed' do
   @posts = Marley::Post.published
-  last_modified( @posts.first.updated_on ) # Conditinal GET, send 304 if not modified
+  last_modified( @posts.first.updated_on )        # Conditinal GET, send 304 if not modified
   builder :index
 end
+
+get '/:post_id/feed' do
+  @post = Marley::Post[ params[:post_id] ]
+  throw :halt, [404, erb(not_found) ] unless @post
+  last_modified( @post.comments.last.created_at ) if @post.comments.last # Conditinal GET, send 304 if not modified
+  builder :post
+end
+
 
 post '/sync' do
   puts params

@@ -52,6 +52,8 @@ body
 #about .content .in
   { font-size: 130%; 
     line-height: 135%; }
+#about p
+  { margin-bottom: 0.5em; } 
 #about a
   { color: #fff; 
     text-decoration: none; 
@@ -59,7 +61,8 @@ body
 #about a:hover
   { border-bottom: 1px solid #fff; }
 #about .credit
-  { font-size: 80%; }
+  { font-size: 80%; 
+    margin-top: 2em; }
 
 
 /* === List === */

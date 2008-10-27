@@ -6,3 +6,4 @@ config/config.yml
 config/deploy.rb
 data
 app/test/fixtures/*.db
+app/public/index.html

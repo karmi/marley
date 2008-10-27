@@ -83,6 +83,12 @@ get '/:post_id/comments' do
   redirect "/"+params[:post_id].to_s+'.html#comments'
 end
 
+get '/feed' do
+  @posts = Marley::Post.published
+  last_modified( @posts.first.updated_on ) # Conditinal GET, send 304 if not modified
+  builder :index
+end
+
 post '/sync' do
   puts params
 end

@@ -14,15 +14,13 @@ It is currently pre-alpha software.
 * YAML configuration
 * Rake and Capistrano
 * RDiscount for Markdown --> HTML conversion
+* Builder for Atom feed generation
 
 == Installation and dependencies
 
-You have to install following Rubygems:
+You have to install or update following Rubygems:
 
-    sudo gem install sinatra
-    sudo gem install rack
-    sudo gem install thin
-    sudo gem install rdiscount
+    sudo gem install sinatra rack thin rdiscount builder
 
 Rename to <i>config.yml</i> and edit this file:
 

@@ -4,7 +4,7 @@
 
 It has no admin interface for writing posts. Use your favorite text editor to edit plain-text files and synchronize them to server. 
 Preferably by <tt>git pull</tt>-ing from a Git repository :)
-It uses plain-text files for storing articles and SQLite database for storing comments. 
+Marley uses plain-text files for storing articles and SQLite database for storing comments. 
 It comes with Rake and Capistrano tasks for deploying the application and syncing articles from your local machine to the server.
 
 +master+ branch is what will run www.restafari.org, +plain+ branch is bare application suited for your own styling (currently out of sync).
@@ -60,4 +60,5 @@ Load this URL in your browser:
 == Licence
 
 Copyright (c) 2008 Karel Minarik (www.karmi.cz)
+
 Code released under the MIT license, do not reuse graphical assets and styles in the _master_ branch, please

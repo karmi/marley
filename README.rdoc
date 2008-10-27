@@ -1,30 +1,37 @@
 = Marley
 
-*Marley* is minimal blog engine written in Sinatra. It uses plain-text files for storing articles and SQLite database for storing comments. It comes with Rake and Capistrano tasks for deploying the application and syncing articles from your local machine to the server.
+*Marley* is minimal blog engine without admin interface written in Sinatra framework (http://sinatrarb.heroku.com/).
 
-+master+ branch is what will run www.restafari.org, +plain+ branch is bare application suited for your own styling.
+It has no admin interface for writing posts. Use your favorite text editor to edit plain-text files and synchronize them to server. 
+Preferably by <tt>git pull</tt>-ing from a Git repository :)
+It uses plain-text files for storing articles and SQLite database for storing comments. 
+It comes with Rake and Capistrano tasks for deploying the application and syncing articles from your local machine to the server.
+
++master+ branch is what will run www.restafari.org, +plain+ branch is bare application suited for your own styling (currently out of sync).
 
 It is currently pre-alpha software.
 
 == Ingredients
 
-* Sinatra and Rack
+* Sinatra, Rack and Thin
 * ActiveRecord and SQLite
 * Akismet spam filtering (see <tt>./vendor/akismetor.rb</tt>)
 * YAML configuration
 * RDiscount for Markdown --> HTML conversion
 * Builder for Atom feed generation
-* Rake and Capistrano
+* Rake and Capistrano tasks
 
 == Installation and dependencies
 
 You have to install or update following Rubygems:
 
-    sudo gem install sinatra rack thin rdiscount builder capistrano
+    sudo gem install sinatra rack thin activerecord sqlite3-ruby rdiscount builder capistrano
 
-Rename to <i>config.yml</i> and edit this file:
+Edit this configuration file:
 
     config/config.example.yml
+
+and rename it to <i>config.yml</i>.
 
 Install the application with this Rake task:
 
@@ -36,6 +43,8 @@ Load this URL in your browser:
 
 == Deployment
 
+* copy <tt>config.yml</tt> to server
+
 * <tt>cap deploy:setup</tt>
 * <tt>cap deploy:cold</tt>
 * <tt>cap deploy</tt>
@@ -46,8 +55,9 @@ Load this URL in your browser:
 * Implement admin interface for filtering spam comments
 * Do not show spam comments in HTML and feed
 * Optionally mail new comments to self
+* Cap task for uploading config.yml to server
 
 == Licence
 
 Copyright (c) 2008 Karel Minarik (www.karmi.cz)
-Code released under the MIT license, do not reuse graphical assets and styles in the _master_ branch
+Code released under the MIT license, do not reuse graphical assets and styles in the _master_ branch, please

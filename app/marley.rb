@@ -32,7 +32,7 @@ helpers do
   end
 
   def hostname
-    (request.env['HTTP_X_FORWARDED_SERVER'] != '') ? request.env['HTTP_HOST'] : request.env['HTTP_X_FORWARDED_SERVER']
+    (request.env['HTTP_X_FORWARDED_SERVER'] =~ /[a-z]*/) ? request.env['HTTP_X_FORWARDED_SERVER'] : request.env['HTTP_HOST']
   end
   
 end

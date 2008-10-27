@@ -43,15 +43,18 @@ body
 #about
   { color: #fff;
     background-color: #ff0d61;
-    letter-spacing: -0.02em; }
+    letter-spacing: -0.02em; }    
 #about h2
   { background-color: #fafafa;
-    width: 100%; }
+    width: 100%; 
+    padding: 0 0 0 0;
+    margin: 0 0 0 0; }
 #about h2.expanded
   { background-color: #ff0d61; }
 #about .content .in
   { font-size: 130%; 
-    line-height: 135%; }
+    line-height: 135%; 
+    padding: 16px 0.5em 2em 16px; }
 #about p
   { margin-bottom: 0.5em; } 
 #about a
@@ -63,6 +66,8 @@ body
 #about .credit
   { font-size: 80%; 
     margin-top: 2em; }
+#about .floral
+  { margin: 80% 0 0 35%;}
 
 
 /* === List === */

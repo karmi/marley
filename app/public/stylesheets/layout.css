@@ -28,12 +28,6 @@ body
 #header blockquote
   { width: 20%; }
 
-#about h2
-  { padding: 0 0 0 0;
-    margin: 0 0 0 0; }
-#about .content .in
-  { padding: 16px 0.5em 15em 16px; }
-
 #footer
   { padding: 0.2em 0 0 0;
     margin: 4em 0 0 0; }

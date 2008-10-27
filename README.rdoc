@@ -42,9 +42,7 @@ Load this URL in your browser:
 
 == Todo
 
-* Stick <tt>data</tt> into Git submodule or something like that
 * Make Akismet work (returns "spam" for everything currently)
-* Atom/RSS export of articles and comments
 
 == Licence
 

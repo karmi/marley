@@ -5,7 +5,7 @@ xml.feed :'xml:lang' => 'en-US', :xmlns => 'http://www.w3.org/2005/Atom' do
   xml.link :type => 'application/atom+xml', :href => "http://#{request.env['HTTP_HOST']}/feed", :rel => 'self'
   xml.title CONFIG['blog']['title']
   xml.subtitle  "#{request.env['HTTP_HOST']}"
-  xml.updated (@posts.first ? @posts.first.updated_on : Time.now.utc)
+  xml.updated(@posts.first ? @posts.first.updated_on : Time.now.utc)
   @posts.each do |post|
     xml.entry do |entry|
       entry.id

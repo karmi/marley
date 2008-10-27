@@ -60,4 +60,9 @@ class MarleyTest < Test::Unit::TestCase
     assert Marley::Comment.count == comment_count + 1
   end
 
+  def test_should_show_feed
+    get_it '/feed'
+    assert @response.status == 200
+  end
+
 end

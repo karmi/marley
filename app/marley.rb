@@ -17,7 +17,7 @@ CONFIG = YAML.load_file( File.join(File.dirname(__FILE__), '..', 'config', 'conf
 module Blog
 
   # Override this as you wish
-  DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', 'data') unless defined? DATA_DIRECTORY
+  DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', '..', 'data') unless defined? DATA_DIRECTORY
 
   # = Articles
   # Data source is DATA_DIRECTORY

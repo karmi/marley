@@ -16,7 +16,6 @@ namespace :app do
   namespace :install do
     task :create_data_directory do
       FileUtils.mkdir_p( File.join(File.dirname(__FILE__), '..', 'data') )
-      `ln -nfs ./../data data`
     end
     task :create_database do 
       require 'rubygems'

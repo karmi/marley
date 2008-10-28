@@ -6,7 +6,7 @@ if ("undefined" == typeof console) var console = { log : function(what) {} }
 log = { debug : function(msg) { if ('undefined' != typeof DEBUG && DEBUG == true) { console.log(msg) } } };
 
 // * Add initialize() handler
-document.observe("dom:loaded", function() { try {Application.initialize()} catch(e) { alert('Error when initializing application! \n' + e); } });
+// document.observe("dom:loaded", function() { try {Application.initialize()} catch(e) { alert('Error when initializing application! \n' + e); } });
 
 
 // * Application namespace

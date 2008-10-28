@@ -17,7 +17,7 @@ xml.feed :'xml:lang' => 'en-US', :xmlns => 'http://www.w3.org/2005/Atom' do
       end
       entry.author do |author|
         author.name  CONFIG['blog']['author'] || hostname
-        author.email CONFIG['blog']['email']  if CONFIG['blog']['email']
+        author.email(CONFIG['blog']['email'])  if CONFIG['blog']['email']
       end
     end
   end

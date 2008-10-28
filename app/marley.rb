@@ -1,9 +1,11 @@
 require 'rubygems'
-require 'ftools'          # ... we wanna access the filesystem ...
-require 'yaml'            # ... use YAML for configs and stuff ...
-require 'sinatra'         # ... Classy web-development dressed in DSL, http://sinatrarb.heroku.com
-require 'activerecord'    # ... or Datamapper? What? :)
-require 'rdiscount'       # ... convert Markdown into HTML in blazing speed
+require 'ftools'           # ... we wanna access the filesystem ...
+require 'yaml'             # ... use YAML for configs and stuff ...
+require 'sinatra'          # ... Classy web-development dressed in DSL, http://sinatrarb.heroku.com
+require 'activerecord'     # ... or Datamapper? What? :)
+require 'rdiscount'        # ... convert Markdown into HTML in blazing speed
+# require File.join(File.dirname(__FILE__), '..', 'vendor', 'akismetor') # ... disable comment spam
+require '../vendor/akismetor' # ... disable comment spam
 
 # ... or alternatively, run Sinatra on edge ...
 # $:.unshift File.dirname(__FILE__) + 'vendor/sinatra/lib'
@@ -29,6 +31,10 @@ helpers do
   
   def human_date(datetime)
     datetime.strftime('%d|%m|%Y').gsub(/ 0(\d{1})/, ' \1')
+  end
+
+  def rfc_date(datetime)
+    datetime.strftime("%Y-%m-%dT%H:%M:%SZ") # 2003-12-13T18:30:02Z
   end
 
   def hostname

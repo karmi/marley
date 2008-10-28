@@ -30,7 +30,7 @@ module Marley
     
     def check_spam
       self.checked = true
-      self.spam = !Akismetor.spam?(akismet_attributes)
+      self.spam = !::Akismetor.spam?(akismet_attributes)
       true # return true so it doesn't stop save
     end
     

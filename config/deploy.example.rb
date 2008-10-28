@@ -35,7 +35,6 @@ end
 after "deploy:update_code" do
   # run "ln -nfs #{shared_path}/sinatra #{release_path}/sinatra"
   run "ln -nfs #{shared_path}/config.yml #{release_path}/config/config.yml"
-  run "ln -nfs #{deploy_to}/../data #{release_path}/data"
 end
 after "deploy:cold" do
   run "cd #{current_path}; rake app:install:create_data_directory; rake app:install:create_database; rake app:install:create_sample_article"

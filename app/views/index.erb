@@ -1,12 +1,13 @@
-<div id="posts">
-  
-  <% @posts.each do |post| %>
-  <div class="post">
-  <p class="meta"><%= human_date post.published_on %> <a href="/<%= post.id %>.html#comments"><%= post.comments.size %>&nbsp;comments</a></p>
-  <h2><a href="/<%= post.id %>.html"><%= post.title %></a></h2>
-  <p class="perex"><%= post.perex %> <a href="/<%= post.id %>.html">&rarr;&nbsp;continue</a></p>
-  </div>
+<h1>All posts <small>(<%= @posts.size %>)</small></h1>
 
+<ul class="posts">
+<% @posts.each do |post| %>
+<li>
+  <small><%= human_date post.published_on %> &mdash;</small>
+  <strong><a href="/<%= post.id %>.html"><%= post.title %></a></strong>
+  <span class="perex"><%= post.perex %></span>
+  <span><%= post.comments.size %> comments</span>
+</li>
 <% end %>
+</ul>
 
-</div><!-- /posts -->

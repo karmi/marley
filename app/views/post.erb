@@ -26,7 +26,10 @@
     <% end %>
     <div class="comment <%= 'spam' if comment.spam? %>" id="comment_<%= comment.id %>">
       <div class="number"><span class="nodisplay"># </span><%= index.succ %></div>
-      <div class="author"><strong><a href="#"><%=h comment.author %></a></strong> wrote on <%= human_date(comment.created_at) %>:</div>
+      <div class="author">
+        <strong>
+        <%= comment.url ? "<a href=\"#{h(comment.url)}\">#{h(comment.author)}</a>" : h(comment.author) %>
+        </strong> wrote on <%= human_date(comment.created_at) %>:</div>
       <div class="message">
         <%=h comment.body %>
       </div>

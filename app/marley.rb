@@ -23,6 +23,19 @@ end
 
 # -----------------------------------------------------------------------------
 
+configure do
+  set_options :session => true
+end
+
+configure :production do
+  not_found do
+    File.read( File.join( File.dirname(__FILE__), 'public', '404.html') )
+  end
+  error do
+    File.read( File.join( File.dirname(__FILE__), 'public', '500.html') )
+  end
+end
+
 helpers do
   
   include Rack::Utils
@@ -40,19 +53,6 @@ helpers do
     (request.env['HTTP_X_FORWARDED_SERVER'] =~ /[a-z]*/) ? request.env['HTTP_X_FORWARDED_SERVER'] : request.env['HTTP_HOST']
   end
   
-end
-
-configure do
-  set_options :session => true
-end
-
-configure :production do
-  not_found do
-    File.read( File.join( File.dirname(__FILE__), 'public', '404.html') )
-  end
-  error do
-    File.read( File.join( File.dirname(__FILE__), 'public', '500.html') )
-  end
 end
 
 # -----------------------------------------------------------------------------

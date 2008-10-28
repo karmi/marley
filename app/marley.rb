@@ -19,7 +19,7 @@ REVISION_NUMBER = File.read( File.join(File.dirname(__FILE__), '..', 'REVISION')
 module Marley
   # Override this as you wish in <tt>config/config.yml</tt>
   DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', CONFIG['data_directory']) unless defined? DATA_DIRECTORY
-  REVISION = Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( REVISION_NUMBER ) unless defined? REVISION
+  REVISION = Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( REVISION_NUMBER.chomp ) unless defined? REVISION
 end
 
 %w{post comment}.each { |f| require File.join(File.dirname(__FILE__), 'marley', f) }

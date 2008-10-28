@@ -140,6 +140,9 @@ body
     border-bottom: 1px dotted #20cefa; }
 #article .post h1 .meta a:hover
   { border-bottom: 1px solid #20cefa; }
+#article .post h1 .meta a.image,
+#article .post h1 .meta a.image:hover
+  { border: none !important; }
 
 #article .body
   { color: #222222;

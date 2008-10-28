@@ -1,6 +1,8 @@
 blog:
   title: "{REPLACE WITH TITLE OF YOUR BLOG}"       # Displayed as <title> on index page
   name:  "{REPLACE WITH SHORT NAME OF YOUR BLOG}"  # Displayed as <title> on article page
+  author: "{REPLACE WITH YOUR NAME}"               # Used in feeds
+  email:  "{REPLACE WITH YOUR E-MAIL}"             # Used in feeds
 
 ga_code: "{REPLACE WITH YOUR GOOGLE ANALYTICS CODE OR LEAVE EMPTY}"
 

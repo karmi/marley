@@ -10,7 +10,7 @@ module Marley
 
     validates_presence_of :author, :email, :body, :post_id
 
-    before_create :check_spam
+    before_create :fix_urls, :check_spam
     
     private
 
@@ -32,6 +32,10 @@ module Marley
       self.checked = true
       self.spam = !::Akismetor.spam?(akismet_attributes)
       true # return true so it doesn't stop save
+    end
+
+    def fix_urls
+      self.url.gsub!(/^(.*)/, 'http://\1') if self.url =~ /^[a-z0-9]/
     end
     
   end

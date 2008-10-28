@@ -73,7 +73,11 @@
   <hr />
 
   <div id="footer">
-  <!-- <h3>Čtěte také v češtině na <a href="http://www.restafari.cz" title="Restafari [Coming soon]">www.restafari.cz</a></h3> -->
+  <% if revision %>
+  <%# TODO : DEFINITELY refactor the substring mess! :) %>
+  <%# TODO : Show diff from Github with Ajax %>
+  <p>Running on revision #<a href="<%= revision['url'] %>"><%= revision['id'][0...7] %></a> <small> : <%= revision['message'] %></small></p>
+  <% end %>
   </div>
   <!-- /footer -->
 

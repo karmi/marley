@@ -5,18 +5,21 @@ require 'sinatra'          # ... Classy web-development dressed in DSL, http://s
 require 'activerecord'     # ... or Datamapper? What? :)
 require 'rdiscount'        # ... convert Markdown into HTML in blazing speed
 require File.join(File.dirname(__FILE__), '..', 'vendor', 'akismetor') # ... disable comment spam
+require File.join(File.dirname(__FILE__), '..', 'vendor', 'githubber') # ... get repo info
 
 # ... or alternatively, run Sinatra on edge ...
 # $:.unshift File.dirname(__FILE__) + 'vendor/sinatra/lib'
 # require 'sinatra'
 
 CONFIG = YAML.load_file( File.join(File.dirname(__FILE__), '..', 'config', 'config.yml') ) unless defined? CONFIG
+REVISION_NUMBER = File.read( File.join(File.dirname(__FILE__), '..', 'REVISION') ) rescue nil unless defined?(REVISION_NUMBER)
 
 # -----------------------------------------------------------------------------
 
 module Marley
   # Override this as you wish in <tt>config/config.yml</tt>
   DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', CONFIG['data_directory']) unless defined? DATA_DIRECTORY
+  REVISION = Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( REVISION_NUMBER ) unless defined? REVISION
 end
 
 %w{post comment}.each { |f| require File.join(File.dirname(__FILE__), 'marley', f) }
@@ -52,7 +55,11 @@ helpers do
   def hostname
     (request.env['HTTP_X_FORWARDED_SERVER'] =~ /[a-z]*/) ? request.env['HTTP_X_FORWARDED_SERVER'] : request.env['HTTP_HOST']
   end
-  
+
+  def revision
+    Marley::REVISION || nil
+  end
+
 end
 
 # -----------------------------------------------------------------------------

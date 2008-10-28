@@ -327,4 +327,10 @@ body
   { background: url('../images/footer-linka.png') 0 0 no-repeat; }
 #footer *
   { color: #20cefa; }
+#footer p
+  { margin: 0.5em 0 0 0; }
+#footer small
+  { /*color: #808687;*/
+    font-size: 80%;
+    font-weight: normal; }
  

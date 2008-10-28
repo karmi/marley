@@ -8,7 +8,7 @@ xml.feed :'xml:lang' => 'en-US', :xmlns => 'http://www.w3.org/2005/Atom' do
   xml.updated(@post.comments.last ? rfc_date(@post.comments.last.created_at) : rfc_date(Time.now.utc)) if @post.comments.last
   @post.comments.each_with_index do |comment, index|
     xml.entry do |entry|
-      entry.id "tag:#{hostname},#{@post.published_on.strftime('%Y-%m-%d')}:/#{@post.id}/#{comment.created_at.to_i}"
+      entry.id "tag:#{hostname},#{@post.published_on.strftime('%Y-%m-%d')}:/#{@post.id}/comments/#{comment.created_at.to_i}"
       xml.updated rfc_date(comment.created_at)
       entry.link :type => 'text/html', :href => "http://#{hostname}/#{@post.id}.html#comment_#{index}", :rel => 'alternate'
       entry.title "#{h comment.author} said on #{h human_date(comment.created_at)}"
@@ -17,7 +17,7 @@ xml.feed :'xml:lang' => 'en-US', :xmlns => 'http://www.w3.org/2005/Atom' do
       end
       entry.author do |author|
         author.name  comment.author
-        author.uri   comment.url
+        author.uri(comment.url) if comment.url =~ /^[a-z]/
       end
     end
   end

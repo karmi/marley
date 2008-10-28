@@ -35,7 +35,7 @@ module Marley
     end
 
     def fix_urls
-      self.url.gsub!(/^(.*)/, 'http://\1') if self.url =~ /^[a-z0-9]/
+      self.url.gsub!(/^(.*)/, 'http://\1') unless self.url =~ %r{^http://}
     end
     
   end

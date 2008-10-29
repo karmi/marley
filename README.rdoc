@@ -63,11 +63,12 @@ Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wi
 
 == Todo
 
-* Implement data syncing logic (upload, Github, etc)
-* Implement admin interface for filtering spam comments
-* Do not show spam comments in HTML and feed
-* Optionally mail new comments to self
 * Cap task for uploading config.yml to server
+* Combined Atom feed for all comments
+* Implement data syncing logic (upload, git push to remote with post-receive hook, Github post-commit hook to Marley, etc)
+* Implement minimal admin interface for filtering spam comments (dependent on HTTP-Auth)
+* Do not show spam comments in HTML and feed (after ^^^)
+* Optionally mail new comments to self
 
 == Licence
 

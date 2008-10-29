@@ -34,8 +34,9 @@ module Marley
       true # return true so it doesn't stop save
     end
 
+    # TODO : Unit test for this
     def fix_urls
-      self.url.gsub!(/^(.*)/, 'http://\1') unless self.url =~ %r{^http://}
+      self.url.gsub!(/^(.*)/, 'http://\1') unless self.url =~ %r{^http://} or self.url.empty?
     end
     
   end

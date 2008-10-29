@@ -51,15 +51,20 @@ class MarleyTest < Test::Unit::TestCase
 
   def test_should_create_comment
     comment_count = Marley::Comment.count
-    post_it '/test-article/comments', { :ip => "127.0.0.1",
-                                        :user_agent => "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_4; en-us)",
-                                        :body => "Testing comments...",
-                                        :post_id => "test-article",
-                                        :url => "",
-                                        :author => 'Tester',
-                                        :email => "tester@localhost" }
+    post_it '/test-article/comments', default_comment_attributes
     assert @response.status == 302
     assert Marley::Comment.count == comment_count + 1
+  end
+
+  def test_should_fix_url_on_comment_create
+    post_it '/test-article/comments', default_comment_attributes.merge(:url => 'www.example.com')
+    assert_equal 'http://www.example.com', Marley::Comment.last.url
+  end
+
+  def test_should_NOT_fix_blank_url_on_comment_create
+    comment_count = Marley::Comment.count
+    post_it '/test-article/comments', default_comment_attributes.merge(:url => '')
+    assert_equal '', Marley::Comment.last.url
   end
 
   def test_should_show_feed_for_index
@@ -70,6 +75,18 @@ class MarleyTest < Test::Unit::TestCase
   def test_should_show_feed_for_article
     get_it '/test-article/feed'
     assert @response.status == 200
+  end
+
+  private
+
+  def default_comment_attributes
+    { :ip => "127.0.0.1",
+      :user_agent => "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_4; en-us)",
+      :body => "Testing comments...",
+      :post_id => "test-article",
+      :url => "www.example.com",
+      :author => 'Tester',
+      :email => "tester@localhost" }
   end
 
 end

@@ -21,14 +21,14 @@
     <% if params[:thank_you] && comment == @post.comments.last %>
     <div id="comment_added_thanks"><div class="in"><p>Thank you for your comment!</p></div></div>
     <% end %>
-    <div class="comment <%= 'spam' if comment.spam? %>" id="comment_<%= comment.id %>">
+    <div class="comment<%= ' spam' if comment.spam? %>" id="comment_<%= comment.id %>">
       <div class="number"><span class="nodisplay"># </span><%= index.succ %></div>
       <div class="author">
         <strong>
         <%= comment.url ? "<a href=\"#{h(comment.url)}\">#{h(comment.author)}</a>" : h(comment.author) %>
         </strong> wrote on <%= human_date(comment.created_at) %>:</div>
       <div class="message">
-        <%=h comment.body %>
+        <%= markup h(comment.body) %>
       </div>
     </div><!-- /comment -->
 
@@ -59,6 +59,7 @@
         <label>Message:</label>
         <textarea name="body" rows="8" cols="40"></textarea>
         <% if @comment and @comment.errors %><span class="error">Message <%= @comment.errors.on(:body).first if @comment %></span><% end %>
+        <span>(Use Markdown syntax)</span>
         <br />
 
         <input class="submit" type="submit" value="Send message &rarr;" accesskey="s" />

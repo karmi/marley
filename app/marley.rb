@@ -43,6 +43,10 @@ helpers do
   
   include Rack::Utils
   alias_method :h, :escape_html
+
+  def markup(string)
+    RDiscount::new(string).to_html
+  end
   
   def human_date(datetime)
     datetime.strftime('%d|%m|%Y').gsub(/ 0(\d{1})/, ' \1')

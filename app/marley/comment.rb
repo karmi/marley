@@ -17,8 +17,8 @@ module Marley
     # See http://railscasts.com/episodes/65-stopping-spam-with-akismet
     def akismet_attributes
       {
-        :key                  => CONFIG['akismet']['key'],
-        :blog                 => CONFIG['akismet']['url'],
+        :key                  => CONFIG['typekey_antispam']['key'],
+        :blog                 => CONFIG['typekey_antispam']['url'],
         :user_ip              => self.ip,
         :user_agent           => self.user_agent,
         :comment_author       => self.author,
@@ -30,7 +30,7 @@ module Marley
     
     def check_spam
       self.checked = true
-      self.spam = !::Akismetor.spam?(akismet_attributes)
+      self.spam = !::Antispammer.spam?(akismet_attributes)
       true # return true so it doesn't stop save
     end
 

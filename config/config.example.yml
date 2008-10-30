@@ -13,3 +13,8 @@ data_directory: "../../data"
 akismet: 
   key: "{REPLACE WITH YOUR AKISMET KEY}"
   url: "{REPLACE WITH YOUR AKISMET URL}"
+
+# http://antispam.typepad.com/info/developers.html
+typekey_antispam:
+  key: "{REPLACE WITH YOUR TYPEKEY ANTISPAM URL}"
+  url: "{REPLACE WITH YOUR BLOG URL}"

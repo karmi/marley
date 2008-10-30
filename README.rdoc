@@ -14,7 +14,7 @@ It is currently alpha software.
 
 * Sinatra, Rack and Thin
 * ActiveRecord and SQLite
-* Akismet spam filtering (see <tt>./vendor/akismetor.rb</tt>)
+* Typekey Antispam filtering (see <tt>./vendor/antispammer.rb</tt>)
 * YAML configuration
 * RDiscount for Markdown --> HTML conversion
 * Builder for Atom feed generation

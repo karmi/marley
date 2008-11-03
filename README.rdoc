@@ -63,7 +63,6 @@ Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wi
 
 == Todo
 
-* Cap task for uploading config.yml to server
 * Combined Atom feed for all comments
 * Implement data syncing logic (upload, git push to remote with post-receive hook, Github post-commit hook to Marley, etc)
 * Add minimal admin interface feature for filtering spam comments (dependent on HTTP-Auth)

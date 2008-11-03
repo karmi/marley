@@ -31,6 +31,11 @@ namespace :data do
   end
 end
 
+desc "Upload configuration file (config/config.yml) to deploy"
+task :upload_config, :roles => :app do
+ top.upload('config/config.yml', "#{shared_path}/config.yml" )
+end
+
 # ----- Hooks ----------------------------------------------------------------
 after "deploy:update_code" do
   # run "ln -nfs #{shared_path}/sinatra #{release_path}/sinatra"

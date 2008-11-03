@@ -18,7 +18,13 @@ module Marley
   end
 end
 
-# TODO : Stub Akismetor library
+# "Stub" anti-spam library
+class Antispammer
+  def self.spam?(attributes)
+    rand > 0.5 ? true : false
+  end
+end
+
 
 # Setup fresh comments table
 File.delete('./fixtures/test.db') if File.exists?('./fixtures/test.db')

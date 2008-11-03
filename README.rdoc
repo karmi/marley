@@ -63,15 +63,15 @@ Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wi
 
 == Todo
 
-* Markdown formatting for comments
 * Cap task for uploading config.yml to server
 * Combined Atom feed for all comments
 * Implement data syncing logic (upload, git push to remote with post-receive hook, Github post-commit hook to Marley, etc)
-* Implement minimal admin interface for filtering spam comments (dependent on HTTP-Auth)
+* Add minimal admin interface feature for filtering spam comments (dependent on HTTP-Auth)
 * Do not show spam comments in HTML and feed (after ^^^)
+* Enable commenters edit their comments for 15 minutes after posting (based on cookie)
 * Optionally mail new comments to self
 * Kick Markdown formatting into a Formatter so everyone can use whatever formatter she likes
-* Kick articles extraction logic into an Interface so everyone can use whatever data store she likes, not being plain (text) like me
+* Kick articles extraction logic into an Interface so everyone can use whatever data store she likes, not being plain (texter) like me
 
 == Licence
 

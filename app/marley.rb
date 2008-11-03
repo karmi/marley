@@ -19,7 +19,9 @@ REVISION_NUMBER = File.read( File.join(File.dirname(__FILE__), '..', 'REVISION')
 module Marley
   # Override this as you wish in <tt>config/config.yml</tt>
   DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', CONFIG['data_directory']) unless defined? DATA_DIRECTORY
-  REVISION = Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( REVISION_NUMBER.chomp ) unless defined?(REVISION) if REVISION_NUMBER
+  unless defined?(REVISION)
+    REVISION = REVISION_NUMBER ? Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( REVISION_NUMBER.chomp ) : nil
+  end
 end
 
 %w{post comment}.each { |f| require File.join(File.dirname(__FILE__), 'marley', f) }
@@ -31,12 +33,8 @@ configure do
 end
 
 configure :production do
-  not_found do
-    File.read( File.join( File.dirname(__FILE__), 'public', '404.html') )
-  end
-  error do
-    File.read( File.join( File.dirname(__FILE__), 'public', '500.html') )
-  end
+  not_found { not_found }
+  error     { error }
 end
 
 helpers do
@@ -64,6 +62,14 @@ helpers do
     Marley::REVISION || nil
   end
 
+  def not_found
+    File.read( File.join( File.dirname(__FILE__), 'public', '404.html') )
+  end
+
+  def error
+    File.read( File.join( File.dirname(__FILE__), 'public', '500.html') )
+  end
+
 end
 
 # -----------------------------------------------------------------------------
@@ -88,14 +94,14 @@ end
 
 get '/:post_id.html' do
   @post = Marley::Post[ params[:post_id] ]
-  throw :halt, [404, 'Post not found' ] unless @post
+  throw :halt, [404, not_found ] unless @post
   @page_title = "#{@post.title} #{CONFIG['blog']['name']}"
   erb :post 
 end
 
 post '/:post_id/comments' do
   @post = Marley::Post[ params[:post_id] ]
-  throw :halt, [404, erb(not_found) ] unless @post
+  throw :halt, [404, not_found ] unless @post
   params.merge!( { :ip => request.env['REMOTE_ADDR'], :user_agent => request.env['HTTP_USER_AGENT'] } )
   # puts params.inspect
   @comment = Marley::Comment.create( params )
@@ -112,7 +118,7 @@ end
 
 get '/:post_id/feed' do
   @post = Marley::Post[ params[:post_id] ]
-  throw :halt, [404, erb(not_found) ] unless @post
+  throw :halt, [404, not_found ] unless @post
   last_modified( @post.comments.last.created_at ) if @post.comments.last # Conditinal GET, send 304 if not modified
   builder :post
 end

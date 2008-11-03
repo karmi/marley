@@ -83,6 +83,11 @@ class MarleyTest < Test::Unit::TestCase
     assert @response.status == 200
   end
 
+  def test_should_show_feed_for_combined_comments
+    get_it '/feed/comments'
+    assert @response.status == 200
+  end
+
   private
 
   def default_comment_attributes

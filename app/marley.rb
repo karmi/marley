@@ -74,6 +74,18 @@ get '/' do
   erb :index
 end
 
+get '/feed' do
+  @posts = Marley::Post.published
+  last_modified( @posts.first.updated_on )        # Conditinal GET, send 304 if not modified
+  builder :index
+end
+
+get '/feed/comments' do
+  @comments = Marley::Comment.all(:order => 'created_at DESC', :limit => 50)
+  last_modified( @comments.first.created_at )        # Conditinal GET, send 304 if not modified
+  builder :comments
+end
+
 get '/:post_id.html' do
   @post = Marley::Post[ params[:post_id] ]
   throw :halt, [404, 'Post not found' ] unless @post
@@ -96,12 +108,6 @@ post '/:post_id/comments' do
 end
 get '/:post_id/comments' do 
   redirect "/"+params[:post_id].to_s+'.html#comments'
-end
-
-get '/feed' do
-  @posts = Marley::Post.published
-  last_modified( @posts.first.updated_on )        # Conditinal GET, send 304 if not modified
-  builder :index
 end
 
 get '/:post_id/feed' do

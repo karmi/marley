@@ -24,11 +24,14 @@ class Githubber
 
   # Modeled after Akismetor (http://railscasts.com/episodes/65-stopping-spam-with-akismet)
   def execute(command)
-    # TODO : rescue?
-    puts "* Executing command '#{command}' for the Github API"
-    http = Net::HTTP.new("github.com", 80)
-    response, content = http.get("/api/v1/yaml/#{@user}/#{@repo}/#{command}")
-    content
+    begin
+      puts "* Executing command '#{command}' for the Github API"
+      http = Net::HTTP.new("github.com", 80)
+      response, content = http.get("/api/v1/yaml/#{@user}/#{@repo}/#{command}")
+      content
+    rescue
+      nil
+    end
   end
   
 end

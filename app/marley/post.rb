@@ -10,16 +10,21 @@ module Marley
       options.each_pair { |key, value| instance_variable_set("@#{key}", value) if self.respond_to? key }
     end
   
-    def self.all(options={})
-      self.find_all options.merge(:draft => true)
-    end
+    class << self
+
+      def all(options={})
+        self.find_all options.merge(:draft => true)
+      end
     
-    def self.published(options={})
-      self.find_all options.merge(:draft => false)
-    end
+      def published(options={})
+        self.find_all options.merge(:draft => false)
+      end
   
-    def self.[](id, options={})
-      self.find_one(id, options)
+      def [](id, options={})
+        self.find_one(id, options)
+      end
+      alias :find :[]
+
     end
     
     def categories

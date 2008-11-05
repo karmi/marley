@@ -42,10 +42,14 @@ Load this URL in your browser:
 
 == Deployment
 
-* copy <tt>config.yml</tt> to server
+First time:
 
+* Use Capistrano task <tt>cap upload_config</tt> to copy <tt>config.yml</tt> to server
 * <tt>cap deploy:setup</tt>
 * <tt>cap deploy:cold</tt>
+
+Then:
+
 * <tt>cap deploy</tt>
 
 == Synchronizing content

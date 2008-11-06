@@ -6,6 +6,8 @@ module Marley
     
     attr_reader :id, :title, :perex, :body, :body_html, :meta, :published_on, :updated_on, :published, :comments
     
+    # comments are referenced via +has_many+ in Comment
+    
     def initialize(options={})
       options.each_pair { |key, value| instance_variable_set("@#{key}", value) if self.respond_to? key }
     end

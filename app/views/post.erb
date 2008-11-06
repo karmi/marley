@@ -1,4 +1,4 @@
-<h2><a href="/">&laquo; Index</a></h2>
+<h2><a href="/"><%= CONFIG['blog']['title'] %></a></h2>
 
 <div id="article">
 
@@ -16,6 +16,8 @@
   </div><!-- /body -->
   
   <div id="comments">
+    
+    <h3>Comments</h3>
     
     <% @post.comments.each_with_index do |comment, index| %>
     <% if params[:thank_you] && comment == @post.comments.last %>
@@ -37,19 +39,19 @@
     <div id="comment_form">
     <div class="container">
 
-      <h3>Add Comment</h3>
+      <h3 id="add_comment">Add Comment</h3>
 
       <form action="/<%= @post.id %>/comments#add_comment" method="post" accept-charset="utf-8">
 
         <label class="required">Your name:</label>
         <input type="text" class="text" name="author" value="" id="author" />
         <span>(required)</span>
-        <% if  @comment and @comment.errors %><span class="error">Author <%= @comment.errors.on(:author).first %></span><% end %>
+        <% if  @comment and @comment.errors %><div class="error">Author <%= @comment.errors.on(:author).first %></div><% end %>
         <br />
         <label class="required">Your e-mail:</label>
         <input type="text" class="text" name="email" value="" id="email" />
         <span>(required, won't be displayed)</span>
-        <% if  @comment and @comment.errors %><span class="error">E-Mail <%= @comment.errors.on(:email).first %></span><% end %>
+        <% if  @comment and @comment.errors %><div class="error">E-Mail <%= @comment.errors.on(:email).first %></div><% end %>
         <br />
 
         <label>Your website:</label>
@@ -58,8 +60,8 @@
 
         <label>Message:</label>
         <textarea name="body" rows="8" cols="40"></textarea>
-        <% if @comment and @comment.errors %><span class="error">Message <%= @comment.errors.on(:body).first if @comment %></span><% end %>
-        <span>(Use Markdown syntax)</span>
+        <% if @comment and @comment.errors %><div class="error">Message <%= @comment.errors.on(:body).first if @comment %></div><% end %>
+        <span style="margin-left: 13.5em">(Use Markdown syntax)</span>
         <br />
 
         <input class="submit" type="submit" value="Send message &rarr;" accesskey="s" />

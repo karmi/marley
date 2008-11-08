@@ -29,6 +29,7 @@ role :db,  "{REPLACE WITH YOUR SERVER}", :primary => true
 
 namespace :sync do
   namespace :setup do
+    desc "Set up remote repository on server with post-receive hook for autoupdating content and add remote to yout data repository"
     task :default do
       upload_data_repository
       add_post_receive_hook_for_data_repository

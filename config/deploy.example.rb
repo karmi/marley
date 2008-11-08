@@ -60,12 +60,16 @@ namespace :app do
   task :upload_config, :roles => :app do
    top.upload('config/config.yml', "#{shared_path}/config.yml" )
   end
+  task :create_database_for_comments do
+    run "cd #{current_path}; rake app:install:create_database_for_comments"
+  end
 end
 
 # ----- Hooks ----------------------------------------------------------------
 
 before "deploy:cold" do
   app.upload_config
+  app.create_database_for_comments
 end
 
 after "deploy:update_code" do

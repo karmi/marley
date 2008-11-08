@@ -18,7 +18,7 @@ namespace :app do
   desc "Install the fresh application"
   task :install do
     Rake::Task['app:install:create_data_directory'].invoke
-    Rake::Task['app:install:create_database'].invoke
+    Rake::Task['app:install:create_database_for_comments'].invoke
     Rake::Task['app:install:create_sample_article'].invoke
     Rake::Task['app:install:create_sample_comment'].invoke
     puts "* Starting application in development mode"
@@ -29,7 +29,7 @@ namespace :app do
       puts "* Creating data directory in " + Marley::DATA_DIRECTORY
       FileUtils.mkdir_p( Marley::DATA_DIRECTORY )
     end
-    task :create_database do
+    task :create_database_for_comments do
       puts "* Creating comments SQLite database in #{Marley::DATA_DIRECTORY}/comments.db"
       ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', 
                                                :database => File.join(Marley::DATA_DIRECTORY, 'comments.db')

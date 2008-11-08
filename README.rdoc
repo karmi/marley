@@ -6,9 +6,9 @@ It has no admin interface for writing posts. Use your favorite text editor to ed
 Marley uses plain-text files for storing articles and SQLite database for storing comments (set data location in <tt>config.yml</tt>).
 It comes with Rake and Capistrano tasks for deploying the application and syncing articles from your local machine to the server.
 
-The +master+ branch is bare application, +restafari_org+ branch is what will runs www.restafari.org.
+The +master+ branch is bare application, +restafari_org+ branch is what runs @ www.restafari.org.
 
-You *should make your own branch* for your own styling, so you can <tt>git pull</tt> any future updates from the master and then merge them into your branch.
+When you forks, you *should make your own branch* for your own styling, so you can <tt>git pull</tt> any future updates from the master and then merge/cherry-pick them into your branch.
 
 It is currently alpha software.
 

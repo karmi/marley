@@ -43,12 +43,9 @@ namespace :app do
     task :create_sample_comment do
       puts "* Creating sample comment"
       Marley::Comment.create( :author  => 'John Doe',
-                            :email   => 'john@example.com',
-                            :body    => 'Lorem ipsum dolor sit amet',
-                            :post_id => 'test-article' )
-    end
-    task :open_in_browser do
-      `open http://localhost:4567` if RUBY_PLATFORM =~ /darwin/
+                              :email   => 'john@example.com',
+                              :body    => 'Lorem ipsum dolor sit amet',
+                              :post_id => 'test-article' )
     end
   end
 

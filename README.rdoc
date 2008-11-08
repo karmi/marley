@@ -42,17 +42,16 @@ Load this URL in your browser:
 
     http://localhost:4567
 
-== Deployment
+== Deployment on server
 
-First time:
+Ensure that you have correct information in <tt>config/config.yml</tt> and then run:
 
-* Use Capistrano task <tt>cap upload_config</tt> to copy <tt>config.yml</tt> to server
 * <tt>cap deploy:setup</tt>
 * <tt>cap deploy:cold</tt>
 
-Then:
+Normal Capistrano deployment procedures apply (ie. you use <tt>cap deploy</tt> very often).
 
-* <tt>cap deploy</tt>
+Of course, you have to ensure that there is at least some content on the server in data directory. See next section!
 
 == Synchronizing content
 
@@ -61,8 +60,11 @@ Marley has no administrative interface for writing articles inside some silly <t
 There are several ways how to do that:
 
 * You can be hardcore and write articles over SSH in Vim directly on the server for "just-in-time-publication" when you hit <tt>:w</tt>
+
 * You can be less glorious, of course, and save your articles to some folder on your disk and <tt>scp</tt>-ing said folder to the server. Or use SFTP? Cyberduck drag & drop? Aaargh, not reccommended unless you _really_ like to see what you're doing, in real time.
-* You can implement some sane practice and start versioning your writing with Git. (What else?) This way, you can setup remote repository on your server, just <tt>push</tt>-ing changes whenever you feel like you want to say something in public. A <i>post-commit hook</i> is completely neccessary in this case, of course. (It isn't paramount of convenience having to SSH on your server to run <tt>git pull origin master</tt> in some folder.) There will be a Marley Capistrano task for setting this up in the future? You bet.
+
+* You can implement some sane practice and start versioning your writing with Git. (What else?) This way, you can setup remote repository on your server, just <tt>push</tt>-ing changes whenever you feel like you want to say something in public. A <i>post-commit hook</i> is completely neccessary in this case, of course. (It isn't paramount of convenience having to SSH on your server to run <tt>git pull origin master</tt> in some folder.) You can use Capistrano task <tt>cap sync:setup</tt> for setting this up!
+
 * When you already use Git, you can push to Github (where else?), and have Github call Marley by it's Post-Receive Hooks (http://github.com/guides/post-receive-hooks). See the <tt>get "/sync"</tt> route dangling towards the end of the marley.rb? You get the picture.
 
 Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wikis)

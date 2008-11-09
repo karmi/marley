@@ -125,7 +125,13 @@ end
 
 
 post '/sync' do
-  puts params
+  throw :halt, 404 and return if not CONFIG['github_token'] or CONFIG['github_token'].nil?
+  unless params[:token] && params[:token] == CONFIG['github_token']
+    throw :halt, [500, "You did wrong.\n"] and return
+  else
+    # Synchronize articles in data directory to Github repo
+    system "cd #{CONFIG['data_directory']}; git pull github master"
+  end
 end
 
 get '/about' do

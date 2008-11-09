@@ -1,6 +1,6 @@
 = Marley
 
-*Marley* is minimal blog engine without admin interface written in Sinatra framework (http://sinatrarb.heroku.com/).
+*Marley* is minimal blog engine without admin interface written in Sinatra framework (http://sinatra.rubyforge.org).
 
 It has no admin interface for writing posts. Use your favorite text editor to edit plain-text files and synchronize them to server.
 Marley uses plain-text files for storing articles and SQLite database for storing comments (set data location in <tt>config.yml</tt>).
@@ -63,9 +63,9 @@ There are several ways how to do that:
 
 * You can be less glorious, of course, and save your articles to some folder on your disk and <tt>scp</tt>-ing said folder to the server. Or use SFTP? Cyberduck drag & drop? Aaargh, not reccommended unless you _really_ like to see what you're doing, in real time.
 
-* You can implement some sane practice and start versioning your writing with Git. (What else?) This way, you can setup remote repository on your server, just <tt>push</tt>-ing changes whenever you feel like you want to say something in public. A <i>post-commit hook</i> is completely neccessary in this case, of course. (It isn't paramount of convenience having to SSH on your server to run <tt>git pull origin master</tt> in some folder.) You can use Capistrano task <tt>cap sync:setup</tt> for setting this up!
+* You can implement some sane practice and start versioning your writing with Git. (What else?) This way, you can setup remote repository on your server, just <tt>push</tt>-ing changes whenever you feel like you want to say something in public. A <i>post-commit hook</i> is completely neccessary in this case, of course. (It isn't paramount of convenience having to SSH on your server to run <tt>git pull origin master</tt> in some folder.) You can use Capistrano task <tt>cap sync:setup:hook</tt> for setting this up!
 
-* When you already use Git, you can push to Github (where else?), and have Github call Marley by it's Post-Receive Hooks (http://github.com/guides/post-receive-hooks). Github then calls Marley's <tt>/sync</tt> and it will <tt>git pull</tt> changes from Github. How is this authenticated? Good question. By setting up a (possibly long and secure) token in the config file. OMG! Could be overheard in the internets! If you're worried or prudent, do not use this. (Use Capistrano task <tt>cap sync:setup:github</tt> for adding remote Github repo on the server.)
+* When you already use Git, you can push to Github (where else?), and have Github call Marley by it's Post-Receive Hooks (http://github.com/guides/post-receive-hooks). Github then calls Marley's <tt>/sync</tt> and it will <tt>git pull</tt> changes from Github. How is this authenticated? Good question. By setting up a (possibly long and secure) token in the config file. OMG! Could be overheard in the internets! If you're worried or prudent, do not use this. (Use Capistrano task <tt>cap sync:setup:github</tt> for adding remote Github repo on the server!)
 
 Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wikis)
 

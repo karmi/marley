@@ -27,10 +27,28 @@ role :db,  "{REPLACE WITH YOUR SERVER}", :primary => true
 
 # ----- Marley tasks ----------------------------------------------------------
 
+data_directory_name   = CONFIG['data_directory'].split('/').last
+remote_data_directory = File.join(deploy_to, data_directory_name)
+
 namespace :sync do
   namespace :setup do
-    desc "Set up remote repository on server with post-receive hook for autoupdating content and add remote to yout data repository"
+    desc "Set up data directory on remote either by Git-cloning local stuff or cloning from Github"
     task :default do
+      Capistrano::CLI.ui.say "Choose how to setup data directory on remote:"
+      Capistrano::CLI.ui.choose do |menu|
+        menu.prompt = "Choose 1 or 2:"
+        menu.choice("By uploading local data") do
+          Capistrano::CLI.ui.say("* Setting up data directory on remote by uploading local")
+          upload_local
+        end
+        menu.choice("By cloning Github repository") do
+          Capistrano::CLI.ui.say("* Setting up data  directory on remote by cloning Github")
+          clone_github
+        end
+      end
+    end
+    desc "Set up remote repository on server with post-receive hook for autoupdating content and add remote to yout data repository"
+    task :upload_local do
       upload_data_repository
       add_post_receive_hook_for_data_repository
       add_git_remote_to_data_directory
@@ -43,7 +61,6 @@ namespace :sync do
     end
     task :add_post_receive_hook_for_data_repository do
       post_receive_script   = "#{deploy_to}/articles.git/hooks/post-receive"
-      remote_data_directory = File.join(deploy_to, CONFIG['data_directory'].split('/').last)
       hook_command ="export GIT_DIR=.git; cd #{remote_data_directory}; git pull origin master; echo \"[Post-receive] Data directory has been synchronized in #{remote_data_directory}\""
       run "chmod +x #{post_receive_script}; echo '#{hook_command}' >> #{post_receive_script}"
       puts "--- Added post-receive hook for Git repository\n"
@@ -52,12 +69,13 @@ namespace :sync do
       `cd #{CONFIG['data_directory']}; git remote add sync #{user}@#{roles[:app].instance_variable_get(:@static_servers).first.instance_variable_get(:@host)}:#{deploy_to}/articles.git`
       puts "--- Added remote repository 'sync' for data. Use 'git push sync' to synchronize your content.\n"
     end
-    desc "Add Github remote repo in your data directory"
-    task :github do
-      remote_data_directory = File.join(deploy_to, CONFIG['data_directory'].split('/').last)
+    desc "Clone Github remote repo in your data directory"
+    task :clone_github do
       url = Capistrano::CLI.ui.ask "Enter Github clone URL (you need to setup deploy keys for private repo):"
-      run "cd #{remote_data_directory}; git clone #{url} ."
-      run "cd #{remote_data_directory}; git remote add github #{url}"
+      run "cd #{deploy_to}; git clone #{url} #{data_directory_name}"
+      Capistrano::CLI.ui.say "\n"
+      Capistrano::CLI.ui.say "Setup Post-Receive URL hook (http://github.com/guides/post-receive-hooks) in administration for \
+                              your Github repository to: http://{YOUR APPLICATION}/sync?token=#{CONFIG['github_token']}"
     end
   end
 end
@@ -65,7 +83,13 @@ end
 namespace :app do
   desc "Upload configuration file (config/config.yml) to deploy"
   task :upload_config, :roles => :app do
-   top.upload('config/config.yml', "#{shared_path}/config.yml" )
+   # Fix directory nesting on server (app is in /DEPLOY/releases/XXX)
+   config_yml = File.read( File.join(File.dirname(__FILE__), 'config.yml') ).gsub!(/data_directory: "(.*)"/, 'data_directory: "../\1"')
+   File.open( File.join(File.dirname(__FILE__), 'config.remote.yml'), 'w' ) { |f| f << config_yml }
+   top.upload('config/config.remote.yml', "#{shared_path}/config.yml" )
+  end
+  task :create_data_directory do
+    run "mkdir -p #{remote_data_directory}"
   end
   task :create_database_for_comments do
     run "cd #{current_path}; rake app:install:create_database_for_comments"
@@ -74,12 +98,12 @@ end
 
 # ----- Hooks ----------------------------------------------------------------
 
-before "deploy:cold" do
-  app.upload_config
+after "sync:setup" do
+  app.create_database_for_comments
 end
 
-after "deploy:cold" do
-  app.create_database_for_comments
+after "deploy:setup" do
+  app.upload_config
 end
 
 after "deploy:update_code" do

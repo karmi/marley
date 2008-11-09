@@ -3,6 +3,7 @@
 log/*.log
 tmp/**/*
 config/config.yml
+config/config.remote.yml
 config/deploy.rb
 data
 app/test/fixtures/*.db

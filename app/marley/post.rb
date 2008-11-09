@@ -85,7 +85,7 @@ module Marley
       post          = Hash.new
       # TODO: Cleanup regexp for ID
       post[:id]           = dirname.sub(self.regexp[:id], '\1').sub(/\.draft$/, '')
-      post[:title]        = file_content.scan( self.regexp[:title] ).to_s.strip       unless options[:except].include? 'title' or 
+      post[:title]        = file_content.scan( self.regexp[:title] ).first.to_s.strip unless options[:except].include? 'title' or 
                                                                                       not options[:only].include? 'title'
       post[:perex]        = file_content.scan( self.regexp[:perex] ).first.to_s.strip unless options[:except].include? 'perex' or
                                                                                       not options[:only].include? 'perex'

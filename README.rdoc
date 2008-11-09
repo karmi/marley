@@ -6,9 +6,9 @@ It has no admin interface for writing posts. Use your favorite text editor to ed
 Marley uses plain-text files for storing articles and SQLite database for storing comments (set data location in <tt>config.yml</tt>).
 It comes with Rake and Capistrano tasks for deploying the application and syncing articles from your local machine to the server.
 
-The +master+ branch is bare application suited for your own styling, +restafari_org+ branch is what will runs www.restafari.org.
+The +master+ branch is bare application, +restafari_org+ branch is what runs @ www.restafari.org.
 
-It is currently alpha software.
+(In case you like to use Marley, you should fork it and then *make your own branch* for your own styling, so you can <tt>git pull</tt> any future updates from the master and then merge/cherry-pick them into your branch.
 
 == Ingredients
 
@@ -61,17 +61,18 @@ There are several ways how to do that:
 
 * You can be less glorious, of course, and save your articles to some folder on your disk and <tt>scp</tt>-ing said folder to the server. Or use SFTP? Cyberduck drag & drop? Aaargh, not reccommended unless you _really_ like to see what you're doing, in real time.
 
-* You can implement some sane practice and start versioning your writing with Git. (What else?) This way, you can setup remote repository on your server, just <tt>push</tt>-ing changes whenever you feel like you want to say something in public. A <i>post-commit hook</i> is completely neccessary in this case, of course. (It isn't paramount of convenience having to SSH on your server to run <tt>git pull origin master</tt> in some folder.) You can use Capistrano task <tt>cap sync:setup:hook</tt> for setting this up!
+* You can implement some sane practice and start versioning your writing with Git. (What else?) This way, you can setup remote repository on your server, just <tt>push</tt>-ing changes whenever you feel like you want to say something in public. A <i>post-commit hook</i> is completely neccessary in this case, of course. (It isn't paramount of convenience having to SSH on your server to run <tt>git pull origin master</tt> in some folder.) See Capistrano task <tt>cap sync:setup:hook</tt> for setting this up.
 
-* When you already use Git, you can push to Github (where else?), and have Github call Marley by it's Post-Receive Hooks (http://github.com/guides/post-receive-hooks). Github then calls Marley's <tt>/sync</tt> and it will <tt>git pull</tt> changes from Github. How is this authenticated? Good question. By setting up a (possibly long and secure) token in the config file. OMG! Could be overheard in the internets! If you're worried or prudent, do not use this. (Use Capistrano task <tt>cap sync:setup:github</tt> for adding remote Github repo on the server!)
+* When you already use Git, you can push to Github (where else?), and have Github call Marley by it's Post-Receive Hooks (http://github.com/guides/post-receive-hooks). Github then calls Marley's <tt>/sync</tt> and it will <tt>git pull</tt> changes from Github. How is this authenticated? Good question. By setting up a (possibly long and secure) token in the config file. OMG! Could be overheard in the internets! If you're worried or prudent, do not use this. (See Capistrano task <tt>cap sync:setup:github</tt> for adding remote Github repo on the server!)
+
+You can set-up last two options by running Capistrano task <tt>cap sync:setup</tt>. Choose whether you like to upload your local data as a Git repository to the server (and setup post-receive hook in doing so) or you want to clone data from Github repository. You should add a Post-Receive URL in your repo's administration on Github as told by the task when it has runned.
 
 Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wikis)
 
 == Todo
 
-* Combined Atom feed for all comments
-* Implement data syncing logic (upload, git push to remote with post-receive hook, Github post-commit hook to Marley, etc)
-* Add minimal admin interface feature for filtering spam comments (dependent on HTTP-Auth)
+* Solve anti-spam failing issues
+* Add minimal admin interface feature for filtering spam comments (based on HTTP-Auth)
 * Do not show spam comments in HTML and feed (after ^^^)
 * Enable commenters edit their comments for 15 minutes after posting (based on cookie)
 * Kick Markdown formatting into a Formatter so everyone can use whatever formatter she likes

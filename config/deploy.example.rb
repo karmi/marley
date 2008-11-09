@@ -52,6 +52,13 @@ namespace :sync do
       `cd #{CONFIG['data_directory']}; git remote add sync #{user}@#{roles[:app].instance_variable_get(:@static_servers).first.instance_variable_get(:@host)}:#{deploy_to}/articles.git`
       puts "--- Added remote repository 'sync' for data. Use 'git push sync' to synchronize your content.\n"
     end
+    desc "Add Github remote repo in your data directory"
+    task :github do
+      remote_data_directory = File.join(deploy_to, CONFIG['data_directory'].split('/').last)
+      url = Capistrano::CLI.ui.ask "Enter Github clone URL (you need to setup deploy keys for private repo):"
+      run "cd #{remote_data_directory}; git clone #{url} ."
+      run "cd #{remote_data_directory}; git remote add github #{url}"
+    end
   end
 end
 
@@ -69,6 +76,9 @@ end
 
 before "deploy:cold" do
   app.upload_config
+end
+
+after "deploy:cold" do
   app.create_database_for_comments
 end
 

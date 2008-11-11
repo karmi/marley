@@ -107,7 +107,8 @@ body
 .post .perex
   { color: #808687; 
     font-family: 'Lucida Grande', 'Helvetica', 'Arial', sans-serif; 
-    font-size: 90%; 
+    font-size: 90%;
+    line-height: 130%;
     letter-spacing: -0.02em; }
 .post .perex a
   { color: #808687; }

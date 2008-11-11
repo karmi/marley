@@ -19,6 +19,7 @@ body
 .container #right
   { width: 20em;
     position: absolute;
+    top: 51px;
     right: 0; }
 
 /*.container #left,

@@ -1,0 +1,21 @@
+<VirtualHost *:80>
+  ServerAdmin user@example.com
+
+  ServerName www.example.com
+  ServerAlias example.com
+
+  DocumentRoot /path/to/marley/current/public
+
+  RewriteEngine on
+
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule ^/(.*)$ balancer://marley_cluster%{REQUEST_URI} [P,QSA,L]
+
+  <Proxy balancer://marley_cluster>
+    BalancerMember http://127.0.0.1:4500
+  </Proxy>
+
+  CustomLog /var/log/apache2/marley.example.com-access.log combined
+  ErrorLog /var/log/apache2/marley.example.com-error.log
+
+</VirtualHost>

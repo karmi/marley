@@ -5,7 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="author" content="Design: Karel Minařík | www.karmi.cz" />
+	<meta name="author" content="Design &amp; Programming: Karel Minařík | www.karmi.cz" />
+	<meta name="description" content="Restafari is blog about web development, Ruby, Rails and other stuff from Karel Minarik [karmi]" />
 	<meta http-equiv="imagetoolbar" content="no" />
 
 	<title><%= h(@page_title) %></title>
@@ -80,8 +81,7 @@
   <%# TODO : Show diff from Github with Ajax %>
   <p>Running on revision #<a href="<%= revision['url'] %>"><%= revision['id'][0...7] %></a> <small> : <%= revision['message'] %></small></p>
   <% end %>
-  </div>
-  <!-- /footer -->
+  </div><!-- /footer -->
 
 </div><!-- /container -->
 

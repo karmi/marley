@@ -319,7 +319,7 @@ body
     position: absolute; 
     left: 13.3em; 
     z-index: 100; }
-#comment_form h3 div 
+#comment_form h3 span.bg 
   { background: url('../images/bg/header-comment-form.png') center left repeat-x; 
     width: 100%; 
     position: absolute; 

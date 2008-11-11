@@ -248,11 +248,11 @@ body
 
 #comments .comment .message p { line-height: 130%; margin-bottom: 0.3em; }
 
-#comments .comment.spam
+/*#comments .comment.spam
   { font-size: 70%; margin: 0; }
 #comments .comment.spam .number
   { display: none; }
-
+*/
 #comments #comment_added_thanks
   { color: #0a3d00;
     background: #bcfa96;

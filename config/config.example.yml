@@ -7,7 +7,7 @@ blog:
 ga_code: "{REPLACE WITH YOUR GOOGLE ANALYTICS CODE OR LEAVE EMPTY}"
 
 # Set this relatively to application main ("marley") directory
-data_directory: "../../data"
+data_directory: "../data"
 # If you want to add synchronizing via Github post-receive hooks, insert some secure password here
 # Then set a "Post-Receive URL" in Github administration to http://{YOUR SERVER}/sync?token={WHAT YOU SET BELOW}
 github_token: ~

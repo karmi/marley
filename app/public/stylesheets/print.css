@@ -11,10 +11,12 @@ a:link.external:after {content:" (" attr(href) ") ";font-size:90%;}
 form,
 button,
 a.button,
-hr
- { display:none; }
+hr,
+#header blockquote,
+#about .floral
+ { display: none !important; }
   
-/* Typography */
+/* Typography & Style */
 body
   { color: #000;
     background: #fff;
@@ -27,5 +29,39 @@ button *
 
 a img
   { border: none; }
-  
-  
+
+#header h1 a
+  { color: #999; text-decoration: none; letter-spacing: -0.1em; }
+
+.post h1
+  { padding: 0 0 0.3em 0; border-bottom: 2pt solid #000; }
+.post .meta
+  { color: #666; font-size: 80%; font-weight: normal; }
+.post .meta a
+  { color: #666; font-size: 85%; }
+.post .meta a.image
+  { display: none; }
+.post .body
+  { line-height: 135%; }
+
+#comments
+  { padding: 0.5em 0 0 0; border-top: 1pt solid #666; }
+div.comment
+  { padding: 1em 0 1em 0; border-bottom: 1px solid #ccc; }
+#comment_form
+  { display: none; }
+
+#about
+  { color: #333;
+    font-size: 90%; 
+    margin-bottom: 0.6em;}
+#about a
+  { color: #333; }
+#about h2 a
+  { text-decoration: none; }
+#about .content
+  { display: block !important; }
+#about h2
+  { padding: 0.2em 0 0.2em 0; margin: 0; }
+#about .content p
+  { display: inline; }

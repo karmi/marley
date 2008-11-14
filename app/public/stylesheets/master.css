@@ -180,6 +180,20 @@ body
 #article .body blockquote .source a { color: #5e5e5e; }
 #article .body blockquote .source a:hover { color: #5e5e5e; border-bottom: 1px solid #5e5e5e; }
 
+#article div.github
+  { background: #EAF2F5 url('/images/github_octocat.png') 0.5em 50% no-repeat;
+    border-top: 1px solid #BEDCE7;
+    border-bottom: 1px solid #BEDCE7;
+    padding: 0.5em 0.5em 0em 1em;
+    margin: 1em 0 1em 0; }
+#article div.github p
+  { margin-left: 30px; }
+#article div.github a
+  { font-weight: bold; }
+#article div.github a:hover
+  { color: #000;
+    border-color: #000; }
+
 /* === Code === */
 
 #article pre 

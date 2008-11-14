@@ -8,4 +8,8 @@
 #comment_form .submit
   { margin-left: 52.5em; }
   
+#article div.github
+  { padding: 1em 0.5em 0em 1em; }
+
+
 }

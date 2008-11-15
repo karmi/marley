@@ -24,7 +24,9 @@ module Marley
   end
 end
 
-%w{post comment}.each { |f| require File.join(File.dirname(__FILE__), 'marley', f) }
+# FIXME : There must be a clean way to do this :)
+req_or_load = (Sinatra.env == :development) ? :load : :require
+%w{post.rb comment.rb}.each { |f| send(req_or_load, File.join(File.dirname(__FILE__), 'marley', f) ) }
 
 # -----------------------------------------------------------------------------
 

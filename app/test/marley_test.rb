@@ -45,9 +45,11 @@ class MarleyTest < Test::Unit::TestCase
 
   def test_should_show_article_page
     get_it '/test-article.html'
-    # puts @response.inspect
+    # p @response.body
     assert @response.status == 200
-    # assert @response.body =~ /<h1>\n\s*This is the test article<\/h1>/ # Fix it later
+    assert @response.body =~ Regexp.new( 
+           Regexp.escape("<h1>\n    This is the test article one\n    <span class=\"meta\">\n      23|12|2050") ),
+           "HTML should contain valid <h1> title for post"
   end
 
   def test_should_send_404
@@ -86,6 +88,16 @@ class MarleyTest < Test::Unit::TestCase
   def test_should_show_feed_for_combined_comments
     get_it '/feed/comments'
     assert @response.status == 200
+  end
+
+  def test_articles_should_have_proper_published_on_dates
+    get_it '/'
+    # p @response.body
+    assert @response.status == 200
+    assert @response.body =~ Regexp.new(Regexp.escape("<small>23|12|2050 &mdash;</small>")),
+                             "HTML should contain proper date for post one"
+    assert @response.body =~ Regexp.new(Regexp.escape("<small>15|11|2008 &mdash;</small>")),
+                             "HTML should contain proper date for post two"
   end
 
   private

@@ -1,3 +1,5 @@
+require 'date'
+
 module Marley
 
   # = Articles
@@ -25,7 +27,7 @@ module Marley
       def [](id, options={})
         self.find_one(id, options)
       end
-      alias :find :[]
+      alias :find :[] # For +belongs_to+ in Comment
 
     end
     
@@ -83,10 +85,12 @@ module Marley
       meta_content  = file_content.slice!( self.regexp[:meta] )
       body          = file_content.sub( self.regexp[:title], '').sub( self.regexp[:perex], '').strip
       post          = Hash.new
-      # TODO: Cleanup regexp for ID
+
       post[:id]           = dirname.sub(self.regexp[:id], '\1').sub(/\.draft$/, '')
-      post[:title]        = file_content.scan( self.regexp[:title] ).first.to_s.strip unless options[:except].include? 'title' or 
-                                                                                      not options[:only].include? 'title'
+      post[:title], post[:published_on] = file_content.scan( self.regexp[:title_with_date] ).first
+      post[:title]        = file_content.scan( self.regexp[:title] ).first.to_s.strip if post[:title].nil?
+      post[:published_on] = DateTime.parse( post[:published_on] ) rescue File.mtime( File.dirname(file) )
+
       post[:perex]        = file_content.scan( self.regexp[:perex] ).first.to_s.strip unless options[:except].include? 'perex' or
                                                                                       not options[:only].include? 'perex'
       post[:body]         = body                                                      unless options[:except].include? 'body' or
@@ -95,7 +99,6 @@ module Marley
                                                                                       not options[:only].include? 'body_html'
       post[:meta]         = ( meta_content ) ? YAML::load( meta_content.scan( self.regexp[:meta]).to_s ) : 
                                                nil unless options[:except].include? 'meta' or not options[:only].include? 'meta'
-      post[:published_on] = File.mtime( File.dirname(file) )                          unless options[:except].include? 'published_on' or
                                                                                       not options[:only].include? 'published_on'
       post[:updated_on]   = File.mtime( file )                                        unless options[:except].include? 'updated_on' or
                                                                                       not options[:only].include? 'updated_on'
@@ -106,7 +109,9 @@ module Marley
     
     def self.regexp
       { :id    => /^\d{0,4}-{0,1}(.*)$/,
-        :title => /^#\s*(.*)$/,
+        :title => /^#\s*(.*)\s+$/,
+        :title_with_date => /^#\s*(.*)\s+\(([0-9\/]+)\)$/,
+        :published_on => /.*\s+\(([0-9\/]+)\)$/,
         :perex => /^([^\#\n]+\n)$/, 
         :meta  => /^\{\{\n(.*)\}\}\n$/mi # Multiline Regexp 
       } 

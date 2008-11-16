@@ -61,7 +61,7 @@ module Marley
     
     # Returns directories in data directory. Default is published only (no <tt>.draft</tt> in name)
     def self.load_directories_with_posts(options={})
-      if options[:draft]
+      if options[:draft] || ( Sinatra.env && Sinatra.env == :development)
         Dir[File.join(DATA_DIRECTORY, '*')].select { |dir| File.directory?(dir)  }.sort
       else
         Dir[File.join(DATA_DIRECTORY, '*')].select { |dir| File.directory?(dir) and not dir.include?('.draft')  }.sort

@@ -185,12 +185,23 @@ body
 #article .body ul li
   { list-style-type: square; }
 
+#article .body small
+  { color: #666; font-size: 90%; }
+#article .body small a
+  { color: #666; border-color: #666; }
+
+#article .body .caps
+  { font-variant: small-caps; }
+
+/*#article .body p img
+  { margin: -32px; }
+*/
 #article div.github
   { background: #EAF2F5 url('/images/github_octocat.png') 0.5em 50% no-repeat;
     border-top: 1px solid #BEDCE7;
     border-bottom: 1px solid #BEDCE7;
     padding: 0.65em 0.5em 0em 1em;
-    margin: 1em 0 1em 0; }
+    margin: 2em 0 2em 0; }
 #article div.github p
   { margin-left: 30px; }
 #article div.github a
@@ -213,9 +224,11 @@ body
     white-space: pre-wrap;
     white-space: -moz-pre-wrap;
     white-space: -o-pre-wrap;	}
-#article code 
+#article code
   { font: normal 115%/120% 'Monaco', 'Consolas', 'Bitstream Vera Sans', monospace;
     padding: 0.2em 0.2em 0.1em 0.2em; }
+#article strong code
+  { font-weight: bold; }
 
 /* === Nav === */
 

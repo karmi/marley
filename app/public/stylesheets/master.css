@@ -184,7 +184,7 @@ body
   { background: #EAF2F5 url('/images/github_octocat.png') 0.5em 50% no-repeat;
     border-top: 1px solid #BEDCE7;
     border-bottom: 1px solid #BEDCE7;
-    padding: 0.5em 0.5em 0em 1em;
+    padding: 0.65em 0.5em 0em 1em;
     margin: 1em 0 1em 0; }
 #article div.github p
   { margin-left: 30px; }

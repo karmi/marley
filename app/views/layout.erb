@@ -79,7 +79,7 @@
   <% if revision %>
   <%# TODO : DEFINITELY refactor the substring mess! :) %>
   <%# TODO : Show diff from Github with Ajax %>
-  <p>Running on revision #<a href="<%= revision['url'] %>"><%= revision['id'][0...7] %></a> <small> : <%= revision['message'] %></small></p>
+  <p>Running on revision #<a href="<%= revision['url'] %>"><%= revision['id'][0...7] %></a> <small> : <%= h(revision['message']) %></small></p>
   <% end %>
   </div><!-- /footer -->
 

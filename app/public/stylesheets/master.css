@@ -198,7 +198,7 @@ body
 
 #article pre 
   { color: #222;
-    font-size: 125%;
+    font-size: 100%;
     text-align: left; 
     padding: 1em 1em; margin: 1.2em 0; 
     border: 4px solid #f5f5f5; 
@@ -209,7 +209,7 @@ body
     white-space: -moz-pre-wrap;
     white-space: -o-pre-wrap;	}
 #article code 
-  { font: normal 90%/120% 'Monaco', 'Consolas', 'Bitstream Vera Sans', monospace;
+  { font: normal 115%/120% 'Monaco', 'Consolas', 'Bitstream Vera Sans', monospace;
     padding: 0.2em 0.2em 0.1em 0.2em; }
 
 /* === Nav === */

@@ -180,6 +180,11 @@ body
 #article .body blockquote .source a { color: #5e5e5e; }
 #article .body blockquote .source a:hover { color: #5e5e5e; border-bottom: 1px solid #5e5e5e; }
 
+#article .body ul
+  { margin: 0 0 0 1.5em; padding: 0; }
+#article .body ul li
+  { list-style-type: square; }
+
 #article div.github
   { background: #EAF2F5 url('/images/github_octocat.png') 0.5em 50% no-repeat;
     border-top: 1px solid #BEDCE7;

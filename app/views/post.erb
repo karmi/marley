@@ -8,6 +8,10 @@
       <a href="#comments"><%= @post.comments.size %>&nbsp;comments</a>&nbsp;<a href="http://<%= hostname %>/<%= @post.id %>/feed" class="image"><img src="/images/rss.icon.12x12.png" width="12" height="12" alt="Comments for article feed" title="Comments for article feed" /></a>
     </span>
   </h1>
+
+  <div class="perex">
+    <%= @post.perex %>
+  </div><!-- /perex -->
   
   <div class="body">
 

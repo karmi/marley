@@ -11,5 +11,9 @@
 #article div.github
   { padding: 1em 0.5em 0.5em 1em; }
 
+#article pre
+  { font-size: 105%; }
 
+#article code
+  { font-size: 110% }
 }

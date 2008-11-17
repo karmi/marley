@@ -145,11 +145,20 @@ body
 #article .post h1 .meta a.image:hover
   { border: none !important; }
 
+#article .perex
+  { color: #7D7D7D;
+    font-size: 115%;
+    font-weight: bold;
+    letter-spacing: 0em;
+    margin: 1.5em 0 1.5em 0; }
+#article .perex code
+  { font-size: 100%; }
+
 #article .body
   { color: #222222;
     font-family: 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, sans-serif;
     line-height: 158%;
-    margin: 2em 0 2em 0; }
+    margin: -0.5em 0 2em 0; }
 
 #article .body p
   { margin-bottom: 0.8em; }
@@ -212,9 +221,9 @@ body
 
 /* === Code === */
 
-#article pre 
+#article pre
   { color: #222;
-    font-size: 100%;
+    font-size: 115%;
     text-align: left; 
     padding: 1em 1em; margin: 1.2em 0; 
     border: 4px solid #f5f5f5; 
@@ -225,7 +234,7 @@ body
     white-space: -moz-pre-wrap;
     white-space: -o-pre-wrap;	}
 #article code
-  { font: normal 115%/120% 'Monaco', 'Consolas', 'Bitstream Vera Sans', monospace;
+  { font: normal 100%/120% 'Monaco', 'Consolas', 'Bitstream Vera Sans', monospace;
     padding: 0.2em 0.2em 0.1em 0.2em; }
 #article strong code
   { font-weight: bold; }

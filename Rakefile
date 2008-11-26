@@ -38,7 +38,7 @@ namespace :app do
     end
     task :create_sample_article do
       puts "* Creating sample article"
-      FileUtils.cp_r( File.join(File.dirname(__FILE__), 'app', 'test', 'fixtures', '001-test-article'), Marley::DATA_DIRECTORY )
+      FileUtils.cp_r( File.join(File.dirname(__FILE__), 'app', 'test', 'fixtures', '001-test-article-one'), Marley::DATA_DIRECTORY )
     end
     task :create_sample_comment do
       require 'vendor/antispammer'

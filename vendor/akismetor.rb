@@ -9,7 +9,7 @@ class Akismetor
   # Does a comment-check on Akismet with the submitted hash.
   # Returns true or false depending on response.
   def self.spam?(attributes)
-    self.new(attributes).execute('comment-check') != "false"
+    self.new(attributes).execute('comment-check') == "true"
   end
   
   # Does a submit-spam on Akismet with the submitted hash.
@@ -39,7 +39,7 @@ private
   
   def http_headers
     {
-      'User-Agent' => 'Akismetor Merb Library/1.0',
+      'User-Agent' => 'Akismetor Ruby Library/1.0',
       'Content-Type' => 'application/x-www-form-urlencoded'
     }
   end

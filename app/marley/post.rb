@@ -34,6 +34,10 @@ module Marley
     def categories
       self.meta['categories'] if self.meta and self.meta['categories']
     end
+
+    def permalink
+      "/#{id}.html"
+    end
             
     private
     

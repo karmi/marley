@@ -17,10 +17,13 @@ module Marley
     # See http://railscasts.com/episodes/65-stopping-spam-with-akismet
     def akismet_attributes
       {
-        :key                  => CONFIG['typekey_antispam']['key'],
-        :blog                 => CONFIG['typekey_antispam']['url'],
+        :key                  => CONFIG['akismet']['key'],
+        :blog                 => CONFIG['akismet']['url'],
         :user_ip              => self.ip,
         :user_agent           => self.user_agent,
+        :referrer             => self.referrer,
+        :permalink            => self.permalink,
+        :comment_type         => 'comment',
         :comment_author       => self.author,
         :comment_author_email => self.email,
         :comment_author_url   => self.url,
@@ -30,7 +33,7 @@ module Marley
     
     def check_spam
       self.checked = true
-      self.spam = !::Antispammer.spam?(akismet_attributes)
+      self.spam = Akismetor.spam?(akismet_attributes)
       true # return true so it doesn't stop save
     end
 

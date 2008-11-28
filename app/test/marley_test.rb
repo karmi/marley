@@ -96,7 +96,7 @@ class MarleyTest < Test::Unit::TestCase
     assert @response.status == 200
     assert @response.body =~ Regexp.new(Regexp.escape("23|12|2050")),
                              "HTML should contain proper date for post one"
-    assert @response.body =~ Regexp.new(Regexp.escape("15|11|2008")),
+    assert @response.body =~ Regexp.new(Regexp.escape("<small>#{File.mtime(File.expand_path('./fixtures/002-test-article-two/')).strftime('%d|%m|%Y')} &mdash;</small>")),
                              "HTML should contain proper date for post two"
   end
 

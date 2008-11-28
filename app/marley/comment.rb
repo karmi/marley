@@ -3,10 +3,13 @@ module Marley
   # = Comments for articles
   # .db file is created in Marley::DATA_DIRECTORY (set in <tt>config.yml</tt>)
   class Comment < ActiveRecord::Base
-    
+
     ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => File.join(DATA_DIRECTORY, 'comments.db') )
-    
+
     belongs_to :post
+
+    named_scope :recent,   :order => 'created_at DESC', :limit => 50
+    named_scope :ham, :conditions => { :spam => false }
 
     validates_presence_of :author, :email, :body, :post_id
 

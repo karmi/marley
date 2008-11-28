@@ -22,6 +22,16 @@ module Marley
   unless defined?(REVISION)
     REVISION = REVISION_NUMBER ? Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( REVISION_NUMBER.chomp ) : nil
   end
+  unless defined?(THEMES_DIRECTORY)
+    THEMES_DIRECTORY = File.join(File.dirname(__FILE__), *%w[.. themes])
+  end
+  unless defined?(DEFAULT_THEME)
+    DEFAULT_THEME = "default"
+  end
+  
+  def self.directory_for_theme(theme_name)
+    File.join(THEMES_DIRECTORY, theme_name)
+  end
 end
 
 # FIXME : There must be a clean way to do this :)
@@ -32,6 +42,9 @@ req_or_load = (Sinatra.env == :development) ? :load : :require
 
 configure do
   set_options :session => true
+
+  theme_directory = Marley.directory_for_theme(CONFIG['theme'] || Marley::DEFAULT_THEME)
+  set_options :views => theme_directory if File.directory?(theme_directory)
 end
 
 configure :production do

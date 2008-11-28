@@ -35,7 +35,7 @@ load File.join( '..', '..', 'config', 'db_create_comments.rb' )
 class MarleyTest < Test::Unit::TestCase
 
   configure do
-    set_options :views => File.join( File.dirname(__FILE__), '..', 'views' )
+    set_options :views => Marley.directory_for_theme(Marley::DEFAULT_THEME)
   end
 
   def test_should_show_index_page

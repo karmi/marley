@@ -19,7 +19,7 @@ module Marley
 end
 
 # "Stub" anti-spam library
-class Antispammer
+class Akismetor
   def self.spam?(attributes)
     rand > 0.5 ? true : false
   end

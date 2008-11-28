@@ -4,7 +4,7 @@ require 'yaml'             # ... use YAML for configs and stuff ...
 require 'sinatra'          # ... Classy web-development dressed in DSL, http://sinatrarb.heroku.com
 require 'activerecord'     # ... or Datamapper? What? :)
 require 'rdiscount'        # ... convert Markdown into HTML in blazing speed
-require File.join(File.dirname(__FILE__), '..', 'vendor', 'antispammer') # ... disable comment spam
+require File.join(File.dirname(__FILE__), '..', 'vendor', 'akismetor')   # ... disable comment spam
 require File.join(File.dirname(__FILE__), '..', 'vendor', 'githubber')   # ... get repo info
 
 # ... or alternatively, run Sinatra on edge ...
@@ -104,7 +104,12 @@ end
 post '/:post_id/comments' do
   @post = Marley::Post[ params[:post_id] ]
   throw :halt, [404, not_found ] unless @post
-  params.merge!( { :ip => request.env['REMOTE_ADDR'], :user_agent => request.env['HTTP_USER_AGENT'] } )
+  params.merge!( {
+      :ip         => request.env['REMOTE_ADDR'].to_s,
+      :user_agent => request.env['HTTP_USER_AGENT'].to_s,
+      :referrer   => request.env['REFERER'].to_s,
+      :permalink  => "#{hostname}#{@post.permalink}"
+  } )
   # puts params.inspect
   @comment = Marley::Comment.create( params )
   if @comment.valid?

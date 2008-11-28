@@ -29,6 +29,7 @@ namespace :app do
       puts "* Creating data directory in " + Marley::DATA_DIRECTORY
       FileUtils.mkdir_p( Marley::DATA_DIRECTORY )
     end
+    desc "Create database for comments"
     task :create_database_for_comments do
       puts "* Creating comments SQLite database in #{Marley::DATA_DIRECTORY}/comments.db"
       ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', 

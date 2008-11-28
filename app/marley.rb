@@ -89,7 +89,7 @@ get '/feed' do
 end
 
 get '/feed/comments' do
-  @comments = Marley::Comment.all(:order => 'created_at DESC', :limit => 50)
+  @comments = Marley::Comment.recent.ham
   last_modified( @comments.first.created_at )        # Conditinal GET, send 304 if not modified
   builder :comments
 end

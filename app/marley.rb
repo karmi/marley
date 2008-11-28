@@ -11,39 +11,26 @@ require File.join(File.dirname(__FILE__), '..', 'vendor', 'githubber')   # ... g
 # $:.unshift File.dirname(__FILE__) + 'vendor/sinatra/lib'
 # require 'sinatra'
 
-CONFIG = YAML.load_file( File.join(File.dirname(__FILE__), '..', 'config', 'config.yml') ) unless defined? CONFIG
-REVISION_NUMBER = File.read( File.join(File.dirname(__FILE__), '..', 'REVISION') ) rescue nil unless defined?(REVISION_NUMBER)
+unless defined?(MARLEY_ROOT)
+  MARLEY_ROOT = File.join(File.dirname(__FILE__), '..')
+end
+
+CONFIG = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') ) unless defined?(CONFIG)
 
 # -----------------------------------------------------------------------------
 
-module Marley
-  # Override this as you wish in <tt>config/config.yml</tt>
-  DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', CONFIG['data_directory']) unless defined? DATA_DIRECTORY
-  unless defined?(REVISION)
-    REVISION = REVISION_NUMBER ? Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( REVISION_NUMBER.chomp ) : nil
-  end
-  unless defined?(THEMES_DIRECTORY)
-    THEMES_DIRECTORY = File.join(File.dirname(__FILE__), *%w[.. themes])
-  end
-  unless defined?(DEFAULT_THEME)
-    DEFAULT_THEME = "default"
-  end
-  
-  def self.directory_for_theme(theme_name)
-    File.join(THEMES_DIRECTORY, theme_name)
-  end
-end
-
 # FIXME : There must be a clean way to do this :)
 req_or_load = (Sinatra.env == :development) ? :load : :require
-%w{post.rb comment.rb}.each { |f| send(req_or_load, File.join(File.dirname(__FILE__), 'marley', f) ) }
+%w{application.rb post.rb comment.rb}.each do |f| 
+  send(req_or_load, File.join(File.dirname(__FILE__), 'marley', f) )
+end
 
 # -----------------------------------------------------------------------------
 
 configure do
   set_options :session => true
 
-  theme_directory = Marley.directory_for_theme(CONFIG['theme'] || Marley::DEFAULT_THEME)
+  theme_directory = Marley::Application.directory_for_theme(CONFIG['theme'] || Marley::Application::DEFAULT_THEME)
   set_options :views => theme_directory if File.directory?(theme_directory)
 end
 
@@ -74,7 +61,7 @@ helpers do
   end
 
   def revision
-    Marley::REVISION || nil
+    Marley::Application::REVISION || nil
   end
 
   def not_found

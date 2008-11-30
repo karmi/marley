@@ -71,7 +71,8 @@ Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wi
 
 == Todo
 
-* Solve anti-spam failing issues
+* Better documentation for themes (from Luke's commits)
+* Authenticate Github hook by HTTP-Auth, not token
 * Add minimal admin interface feature for filtering spam comments (based on HTTP-Auth)
 * Do not show spam comments in HTML and feed (after ^^^)
 * Enable commenters edit their comments for 15 minutes after posting (based on cookie)
@@ -82,4 +83,4 @@ Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wi
 
 Copyright (c) 2008 Karel Minarik (www.karmi.cz)
 
-Code released under the MIT license, do not reuse graphical assets and styles in the _master_ branch, please
+Code released under the MIT license, do not reuse graphical assets and styles in the <i>restafari_org</i> branch, please

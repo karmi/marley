@@ -11,9 +11,7 @@ require File.join(File.dirname(__FILE__), '..', 'vendor', 'githubber')   # ... g
 # $:.unshift File.dirname(__FILE__) + 'vendor/sinatra/lib'
 # require 'sinatra'
 
-unless defined?(MARLEY_ROOT)
-  MARLEY_ROOT = File.join(File.dirname(__FILE__), '..')
-end
+MARLEY_ROOT = File.join(File.dirname(__FILE__), '..') unless defined?(MARLEY_ROOT)
 
 CONFIG = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') ) unless defined?(CONFIG)
 
@@ -21,16 +19,14 @@ CONFIG = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') ) unless
 
 # FIXME : There must be a clean way to do this :)
 req_or_load = (Sinatra.env == :development) ? :load : :require
-%w{application.rb post.rb comment.rb}.each do |f| 
+%w{configuration.rb post.rb comment.rb}.each do |f|
   send(req_or_load, File.join(File.dirname(__FILE__), 'marley', f) )
 end
 
 # -----------------------------------------------------------------------------
 
 configure do
-  set_options :session => true
-
-  theme_directory = Marley::Application.directory_for_theme(CONFIG['theme'] || Marley::Application::DEFAULT_THEME)
+  theme_directory = Marley::Configuration.directory_for_theme(CONFIG['theme'] || Marley::Configuration::DEFAULT_THEME)
   set_options :views => theme_directory if File.directory?(theme_directory)
 end
 
@@ -61,7 +57,7 @@ helpers do
   end
 
   def revision
-    Marley::Application::REVISION || nil
+    Marley::Configuration::REVISION || nil
   end
 
   def not_found

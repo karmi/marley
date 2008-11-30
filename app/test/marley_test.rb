@@ -8,7 +8,7 @@ require '../marley'
 
 # Redefine data directory for tests
 module Marley
-  module Application
+  module Configuration
     DATA_DIRECTORY = File.join(File.dirname(__FILE__), 'fixtures')
   end
 end
@@ -37,7 +37,7 @@ load File.join(MARLEY_ROOT, 'config', 'db_create_comments.rb' )
 class MarleyTest < Test::Unit::TestCase
 
   configure do
-    set_options :views => Marley::Application.directory_for_theme(Marley::Application::DEFAULT_THEME)
+    set_options :views => Marley::Configuration.directory_for_theme(Marley::Configuration::DEFAULT_THEME)
   end
 
   def test_should_show_index_page

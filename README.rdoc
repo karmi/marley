@@ -14,7 +14,7 @@ The +master+ branch is bare application, +restafari_org+ branch is what runs @ w
 
 * Sinatra, Rack and Thin
 * ActiveRecord and SQLite
-* Typekey Antispam filtering (see <tt>./vendor/antispammer.rb</tt>)
+* Akismet filtering (see <tt>./vendor/akismetor.rb</tt>)
 * YAML configuration
 * RDiscount for Markdown --> HTML conversion
 * Builder for Atom feed generation

@@ -219,6 +219,14 @@ body
   { color: #000;
     border-color: #000; }
 
+#article .github_file
+  { font-family: 'Monaco', 'Consolas', 'Bitstream Vera Sans', monospace;;
+    background: url('/images/github_icon.png') 0 3px no-repeat; 
+    padding: 0 0 0 22px; }
+#article .github_file a:hover
+  { color: #4183c4;
+    border-color: #4183c4; }
+
 /* === Code === */
 
 #article pre

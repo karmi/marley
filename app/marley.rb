@@ -25,13 +25,13 @@ module Marley
 end
 
 # FIXME : There must be a clean way to do this :)
-req_or_load = (Sinatra.env == :development) ? :load : :require
+req_or_load = (Sinatra::Application.environment == :development) ? :load : :require
 %w{post.rb comment.rb}.each { |f| send(req_or_load, File.join(File.dirname(__FILE__), 'marley', f) ) }
 
 # -----------------------------------------------------------------------------
 
 configure do
-  set_options :session => true
+  set :session => true
 end
 
 configure :production do

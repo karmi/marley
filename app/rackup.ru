@@ -1,5 +1,3 @@
-$:.unshift File.dirname(__FILE__) + '/sinatra/lib'
-require 'sinatra'
 require 'marley'
  
 set :environment, :production

@@ -18,7 +18,7 @@ CONFIG = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') ) unless
 # -----------------------------------------------------------------------------
 
 # FIXME : There must be a clean way to do this :)
-req_or_load = (Sinatra.env == :development) ? :load : :require
+req_or_load = (Sinatra::Application.environment == :development) ? :load : :require
 %w{configuration.rb post.rb comment.rb}.each do |f|
   send(req_or_load, File.join(File.dirname(__FILE__), 'marley', f) )
 end
@@ -27,7 +27,7 @@ end
 
 configure do
   theme_directory = Marley::Configuration.directory_for_theme(CONFIG['theme'] || Marley::Configuration::DEFAULT_THEME)
-  set_options :views => theme_directory if File.directory?(theme_directory)
+  set :views => theme_directory if File.directory?(theme_directory)
 end
 
 configure :production do

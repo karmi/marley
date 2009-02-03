@@ -127,6 +127,11 @@ get '/:post_id/feed' do
   builder :post
 end
 
+get '/:post_id/*' do
+  file = params[:splat].to_s.split('/').last
+  redirect "/#{params[:post_id]}.html" unless file
+  send_file( File.join( CONFIG['data_directory'], params[:post_id], file ), :disposition => 'inline' )
+end
 
 post '/sync' do
   throw :halt, 404 and return if not CONFIG['github_token'] or CONFIG['github_token'].nil?

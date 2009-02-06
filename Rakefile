@@ -7,7 +7,7 @@ MARLEY_ROOT = '.'
 
 CONFIG = YAML.load_file(File.join(MARLEY_ROOT, 'config', 'config.yml')) unless defined?(CONFIG)
 
-%w{configuration post comment}.each { |f| require File.join(MARLEY_ROOT, 'app', 'marley', f) }
+%w{configuration post comment}.each { |f| require File.join(MARLEY_ROOT, 'app', 'lib', f) }
 
 task :default => 'app:start'
 

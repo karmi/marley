@@ -4,8 +4,6 @@ module Marley
   # .db file is created in Marley::Configuration::DATA_DIRECTORY (set in <tt>config.yml</tt>)
   class Comment < ActiveRecord::Base
 
-    ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => File.join(Configuration::DATA_DIRECTORY, 'comments.db') )
-
     belongs_to :post
 
     named_scope :recent,   :order => 'created_at DESC', :limit => 50

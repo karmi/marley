@@ -1,32 +1,27 @@
-require 'rubygems'
-$LOAD_PATH.unshift File.join( File.dirname(__FILE__), '..', 'vendor/sinatra-sinatra/lib' )
-require 'ftools'           # ... we wanna access the filesystem ...
-require 'yaml'             # ... use YAML for configs and stuff ...
-require 'sinatra'          # ... Classy web-development dressed in DSL, http://sinatrarb.heroku.com
-require 'activerecord'     # ... or Datamapper? What? :)
-require 'rdiscount'        # ... convert Markdown into HTML in blazing speed
-require File.join(File.dirname(__FILE__), '..', 'vendor', 'akismetor')   # ... disable comment spam
-require File.join(File.dirname(__FILE__), '..', 'vendor', 'githubber')   # ... get repo info
+$LOAD_PATH.unshift File.join( File.dirname(__FILE__), '..', 'vendor/sinatra-sinatra/lib' ) # Edge Sinatra
 
-# ... or alternatively, run Sinatra on edge ...
-# $:.unshift File.dirname(__FILE__) + 'vendor/sinatra/lib'
-# require 'sinatra'
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'vendor')
+
+require 'rubygems'
+require 'ftools'
+require 'yaml'
+require 'sinatra'
+require 'activerecord'
+require 'rdiscount'
+require 'akismetor'
+require 'githubber'
 
 MARLEY_ROOT = File.join(File.dirname(__FILE__), '..') unless defined?(MARLEY_ROOT)
-
 CONFIG = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') ) unless defined?(CONFIG)
 
-# -----------------------------------------------------------------------------
-
-# FIXME : There must be a clean way to do this :)
-req_or_load = (Sinatra::Application.environment == :development) ? :load : :require
-%w{configuration.rb post.rb comment.rb}.each do |f|
-  send(req_or_load, File.join(File.dirname(__FILE__), 'marley', f) )
-end
+require File.join(File.dirname(__FILE__), 'lib/configuration')
+require File.join(File.dirname(__FILE__), 'lib/post')
+require File.join(File.dirname(__FILE__), 'lib/comment')
 
 # -----------------------------------------------------------------------------
 
 configure do
+  ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => File.join(Marley::Configuration::DATA_DIRECTORY, 'comments.db') )
   theme_directory = Marley::Configuration.directory_for_theme(CONFIG['theme'] || Marley::Configuration::DEFAULT_THEME)
   set :views => theme_directory if File.directory?(theme_directory)
 end

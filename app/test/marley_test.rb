@@ -37,16 +37,16 @@ load File.join(MARLEY_ROOT, 'config', 'db_create_comments.rb' )
 class MarleyTest < Test::Unit::TestCase
 
   configure do
-    set_options :views => Marley::Configuration.directory_for_theme(Marley::Configuration::DEFAULT_THEME)
+    set :views => Marley::Configuration.directory_for_theme(Marley::Configuration::DEFAULT_THEME)
   end
 
   def test_should_show_index_page
-    get_it '/'
+    get '/'
     assert @response.status == 200
   end
 
   def test_should_show_article_page
-    get_it '/test-article.html'
+    get '/test-article.html'
     # p @response.body
     assert @response.status == 200
     assert @response.body =~ Regexp.new( 
@@ -55,45 +55,45 @@ class MarleyTest < Test::Unit::TestCase
   end
 
   def test_should_send_404
-    get_it '/i-am-not-here.html'
+    get '/i-am-not-here.html'
     assert @response.status == 404
   end
 
   def test_should_create_comment
     comment_count = Marley::Comment.count
-    post_it '/test-article/comments', default_comment_attributes
+    post '/test-article/comments', default_comment_attributes
     assert @response.status == 302
     assert Marley::Comment.count == comment_count + 1
   end
 
   def test_should_fix_url_on_comment_create
-    post_it '/test-article/comments', default_comment_attributes.merge(:url => 'www.example.com')
+    post '/test-article/comments', default_comment_attributes.merge(:url => 'www.example.com')
     assert_equal 'http://www.example.com', Marley::Comment.last.url
   end
 
   def test_should_NOT_fix_blank_url_on_comment_create
     comment_count = Marley::Comment.count
-    post_it '/test-article/comments', default_comment_attributes.merge(:url => '')
+    post '/test-article/comments', default_comment_attributes.merge(:url => '')
     assert_equal '', Marley::Comment.last.url
   end
 
   def test_should_show_feed_for_index
-    get_it '/feed'
+    get '/feed'
     assert @response.status == 200
   end
 
   def test_should_show_feed_for_article
-    get_it '/test-article/feed'
+    get '/test-article/feed'
     assert @response.status == 200
   end
 
   def test_should_show_feed_for_combined_comments
-    get_it '/feed/comments'
+    get '/feed/comments'
     assert @response.status == 200
   end
 
   def test_articles_should_have_proper_published_on_dates
-    get_it '/'
+    get '/'
     # p @response.body
     assert @response.status == 200
     assert @response.body =~ Regexp.new(Regexp.escape("<small>23|12|2050 &mdash;</small>")),

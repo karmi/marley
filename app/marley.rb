@@ -1,5 +1,6 @@
-$LOAD_PATH.unshift File.join( File.dirname(__FILE__), '..', 'vendor/sinatra-sinatra/lib' ) # Edge Sinatra
+MARLEY_ROOT = File.join(File.dirname(__FILE__), '..') unless defined?(MARLEY_ROOT)
 
+$LOAD_PATH.unshift File.join( File.dirname(__FILE__), '..', 'vendor/sinatra-sinatra/lib' ) # Edge Sinatra
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'vendor')
 
 require 'rubygems'
@@ -11,17 +12,21 @@ require 'rdiscount'
 require 'akismetor'
 require 'githubber'
 
-MARLEY_ROOT = File.join(File.dirname(__FILE__), '..') unless defined?(MARLEY_ROOT)
 CONFIG = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') ) unless defined?(CONFIG)
 
-require File.join(File.dirname(__FILE__), 'lib/configuration')
-require File.join(File.dirname(__FILE__), 'lib/post')
-require File.join(File.dirname(__FILE__), 'lib/comment')
+%w{
+configuration
+post
+comment
+}.each { |f| require File.join(File.dirname(__FILE__), 'lib', f) }
 
 # -----------------------------------------------------------------------------
 
 configure do
-  ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => File.join(Marley::Configuration::DATA_DIRECTORY, 'comments.db') )
+  # Establish database connection
+  ActiveRecord::Base.establish_connection(
+    :adapter => 'sqlite3',
+    :database => File.join(Marley::Configuration::DATA_DIRECTORY, 'comments.db') )
   theme_directory = Marley::Configuration.directory_for_theme(CONFIG['theme'] || Marley::Configuration::DEFAULT_THEME)
   set :views => theme_directory if File.directory?(theme_directory)
 end
@@ -53,6 +58,7 @@ helpers do
   end
 
   def revision
+    # Marley::Configuration.revision == config.revision
     Marley::Configuration::REVISION || nil
   end
 
@@ -62,6 +68,10 @@ helpers do
 
   def error
     File.read( File.join( File.dirname(__FILE__), 'public', '500.html') )
+  end
+
+  def config
+    # Marley::Configuration
   end
 
 end

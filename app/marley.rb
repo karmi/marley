@@ -12,7 +12,7 @@ require 'rdiscount'
 require 'akismetor'
 require 'githubber'
 
-CONFIG = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') ) unless defined?(CONFIG)
+# CONFIG = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') ) unless defined?(CONFIG)
 
 %w{
 configuration
@@ -26,9 +26,10 @@ configure do
   # Establish database connection
   ActiveRecord::Base.establish_connection(
     :adapter => 'sqlite3',
-    :database => File.join(Marley::Configuration::DATA_DIRECTORY, 'comments.db') )
-  theme_directory = Marley::Configuration.directory_for_theme(CONFIG['theme'] || Marley::Configuration::DEFAULT_THEME)
-  set :views => theme_directory if File.directory?(theme_directory)
+    :database => File.join(Marley::Configuration.data_directory, 'comments.db')
+  )
+  # Set views to :theme instead of "public"
+  set :views => Marley::Configuration.theme_directory
 end
 
 configure :production do
@@ -57,11 +58,6 @@ helpers do
     (request.env['HTTP_X_FORWARDED_SERVER'] =~ /[a-z]*/) ? request.env['HTTP_X_FORWARDED_SERVER'] : request.env['HTTP_HOST']
   end
 
-  def revision
-    # Marley::Configuration.revision == config.revision
-    Marley::Configuration::REVISION || nil
-  end
-
   def not_found
     File.read( File.join( File.dirname(__FILE__), 'public', '404.html') )
   end
@@ -71,7 +67,11 @@ helpers do
   end
 
   def config
-    # Marley::Configuration
+    Marley::Configuration
+  end
+
+  def revision
+    Marley::Configuration.revision || nil
   end
 
 end
@@ -80,7 +80,7 @@ end
 
 get '/' do
   @posts = Marley::Post.published
-  @page_title = "#{CONFIG['blog']['title']}"
+  @page_title = "#{Marley::Configuration.blog.title}"
   erb :index
 end
 
@@ -99,7 +99,7 @@ end
 get '/:post_id.html' do
   @post = Marley::Post[ params[:post_id] ]
   throw :halt, [404, not_found ] unless @post
-  @page_title = "#{@post.title} #{CONFIG['blog']['name']}"
+  @page_title = "#{@post.title} #{Marley::Configuration.blog.name}"
   erb :post 
 end
 
@@ -117,7 +117,7 @@ post '/:post_id/comments' do
   if @comment.valid?
     redirect "/"+params[:post_id].to_s+'.html?thank_you=#comment_form'
   else
-    @page_title = "#{@post.title} #{CONFIG['blog']['name']}"
+    @page_title = "#{@post.title} #{Marley::Configuration.blog.name}"
     erb :post
   end
 end
@@ -135,16 +135,16 @@ end
 get '/:post_id/*' do
   file = params[:splat].to_s.split('/').last
   redirect "/#{params[:post_id]}.html" unless file
-  send_file( File.join( CONFIG['data_directory'], params[:post_id], file ), :disposition => 'inline' )
+  send_file( File.join( Marley::Configuration.data_directory, params[:post_id], file ), :disposition => 'inline' )
 end
 
 post '/sync' do
-  throw :halt, 404 and return if not CONFIG['github_token'] or CONFIG['github_token'].nil?
-  unless params[:token] && params[:token] == CONFIG['github_token']
+  throw :halt, 404 and return if not Marley::Configuration.github_token or Marley::Configuration.github_token.nil?
+  unless params[:token] && params[:token] == Marley::Configuration.github_token
     throw :halt, [500, "You did wrong.\n"] and return
   else
     # Synchronize articles in data directory to Github repo
-    system "cd #{CONFIG['data_directory']}; git pull origin master"
+    system "cd #{Marley::Configuration.data_directory}; git pull origin master"
   end
 end
 

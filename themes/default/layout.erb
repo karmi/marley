@@ -7,10 +7,10 @@
 
 	<title><%= h(@page_title) %></title>
 
-  <link href="http://<%= hostname %>/feed" rel="alternate" title="Feed for <%= h(CONFIG['blog']['title']) %>" type="application/atom+xml" />
-  <link href="http://<%= hostname %>/feed/comments" rel="alternate" title="Comments for <%= h(CONFIG['blog']['title']) %>" type="application/atom+xml" />
+  <link href="http://<%= hostname %>/feed" rel="alternate" title="Feed for <%= h(Marley::Configuration.blog.title) %>" type="application/atom+xml" />
+  <link href="http://<%= hostname %>/feed/comments" rel="alternate" title="Comments for <%= h(Marley::Configuration.blog.title) %>" type="application/atom+xml" />
   <% if @post %>
-  <link href="http://<%= hostname %>/<%= @post.id %>/feed" rel="alternate" title="Feed for comments on article &ldquo;<%= h(@post.title) %>&rdquo; <%= h(CONFIG['blog']['name']) %>" type="application/atom+xml" />
+  <link href="http://<%= hostname %>/<%= @post.id %>/feed" rel="alternate" title="Feed for comments on article &ldquo;<%= h(@post.title) %>&rdquo; <%= h(Marley::Configuration.blog.title) %>" type="application/atom+xml" />
   <% end %>
 
 
@@ -25,13 +25,13 @@
   <%= yield %>
   </div><!-- /container -->
 
-  <% if CONFIG['ga_code'] && Sinatra::Application.environment == :production %>
+  <% if Marley::Configuration.ga_code && Sinatra::Application.environment == :production %>
   <script type="text/javascript">
   var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
   document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
   </script>
   <script type="text/javascript">
-  var pageTracker = _gat._getTracker("<%= CONFIG['ga_code'] %>");
+  var pageTracker = _gat._getTracker("<%= Marley::Configuration.ga_code %>");
   pageTracker._trackPageview();
   </script>
   <% end %>

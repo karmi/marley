@@ -1,7 +1,7 @@
 module Marley
 
   # = Comments for articles
-  # .db file is created in Marley::Configuration::DATA_DIRECTORY (set in <tt>config.yml</tt>)
+  # .db file is created in Marley::Configuration.data_directory (set in <tt>config.yml</tt>)
   class Comment < ActiveRecord::Base
 
     belongs_to :post
@@ -18,8 +18,8 @@ module Marley
     # See http://railscasts.com/episodes/65-stopping-spam-with-akismet
     def akismet_attributes
       {
-        :key                  => CONFIG['akismet']['key'],
-        :blog                 => CONFIG['akismet']['url'],
+        :key                  => Marley::Configuration.akismet.key,
+        :blog                 => Marley::Configuration.akismet.url,
         :user_ip              => self.ip,
         :user_agent           => self.user_agent,
         :referrer             => self.referrer,

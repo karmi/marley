@@ -1,4 +1,4 @@
-<h1><%= CONFIG['blog']['title'] %></h1>
+<h1><%= Marley::Configuration.blog.title %></h1>
 
 <ul class="posts">
 <% @posts.each do |post| %>

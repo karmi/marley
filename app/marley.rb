@@ -28,8 +28,8 @@ configure do
     :adapter => 'sqlite3',
     :database => File.join(Marley::Configuration.data_directory, 'comments.db')
   )
-  # Set views to :theme instead of "public"
-  set :views => Marley::Configuration.theme_directory
+  # Set paths to views
+  set :views => Marley::Configuration.theme.directory
 end
 
 configure :production do
@@ -86,13 +86,13 @@ end
 
 get '/feed' do
   @posts = Marley::Post.published
-  last_modified( @posts.first.updated_on )           # Conditinal GET, send 304 if not modified
+  last_modified( @posts.first.updated_on ) rescue nil    # Conditinal GET, send 304 if not modified
   builder :index
 end
 
 get '/feed/comments' do
   @comments = Marley::Comment.recent.ham
-  last_modified( @comments.first.created_at )        # Conditinal GET, send 304 if not modified
+  last_modified( @comments.first.created_at ) rescue nil # Conditinal GET, send 304 if not modified
   builder :comments
 end
 
@@ -135,7 +135,7 @@ end
 get '/:post_id/*' do
   file = params[:splat].to_s.split('/').last
   redirect "/#{params[:post_id]}.html" unless file
-  send_file( File.join( Marley::Configuration.data_directory, params[:post_id], file ), :disposition => 'inline' )
+  send_file( Marley::Configuration.data_directory_path.join(params[:post_id], file), :disposition => 'inline' )
 end
 
 post '/sync' do

@@ -6,7 +6,47 @@ MARLEY_ROOT = File.join(File.dirname(__FILE__), '..', '..') unless defined?(MARL
 
 module Marley
 
+  # == Wrapping theme related logic
+  class Theme
+
+    def initialize(config)
+      @config = config
+    end
+
+    def name
+      @config.theme || default_theme_name
+    end
+
+    def directory
+      Pathname.new( File.join(themes_directory, name) )
+    end
+
+    def views
+      Pathname.new( File.join(themes_directory, name, 'views') )
+    end
+
+    def public
+      Pathname.new( File.join(themes_directory, name, 'public') )
+    end
+
+    def default_theme_name
+      'default'
+    end
+
+    def themes_directory
+      Pathname.new( File.join(MARLEY_ROOT, 'themes') )
+    end
+
+    def to_s
+      name
+    end
+
+  end
+
+  # == Wrapping configuration
   class Configuration
+
+    # Theme = Struct.new(:name, :directory, :views, :public) unless defined? Theme
 
     class << self
 
@@ -14,8 +54,13 @@ module Marley
       # TODO : Freeze / Make immutable
       def load
         raw_config = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') )
-        @@config = nested_hash_to_openstruct(raw_config)
-        # puts (@@config.public_methods - Object.public_methods).inspect
+        @@config   = nested_hash_to_openstruct(raw_config)
+        # theme_name = @@config.theme || default_theme_name
+        # @@theme    = Theme.new( theme_name,
+        #                Pathname.new( File.join(themes_directory, theme_name) ),
+        #                Pathname.new( File.join(themes_directory, theme_name, 'views') ),
+        #                Pathname.new( File.join(themes_directory, theme_name, 'public') ) )
+        @@theme   = Theme.new(@@config)
       end
 
       # Return version info about application
@@ -24,31 +69,15 @@ module Marley
         sha ? Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( sha.chomp ) : nil
       end
 
-      # Full path to data directory
-      def data_directory_fullpath
-        File.join(MARLEY_ROOT, data_directory)
+      def data_directory_path
+        Pathname.new( File.join(MARLEY_ROOT, data_directory) )
       end
 
-      # Theme name from config or default
       def theme
-        default_theme_name || @@config.theme
-      end
-
-      # Pathname-like object for theme
-      def theme_directory
-        Pathname.new( File.join(themes_directory, theme)  )
+        @@theme
       end
       
-      # Directory with themes (default is MARLEY_ROOT/themes)
-      def themes_directory
-        File.join(MARLEY_ROOT, 'themes')
-      end
-
-      def default_theme_name
-        'default'
-      end
-
-      # Delegate config methods
+      # Delegate configuration methods to @@config
       def method_missing(method_name, *attributes)
         if has = @@config.send(method_name)
           return has
@@ -72,11 +101,8 @@ module Marley
     end
 
   end
+
   # Autoload
   Configuration.load
 
 end
-
-# puts Marley::Configuration.blog
-# puts Marley::Configuration.blog.title
-# puts Marley::Configuration.blog.title.class

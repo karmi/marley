@@ -1,4 +1,4 @@
-MARLEY_ROOT = File.join(File.dirname(__FILE__), '..') unless defined?(MARLEY_ROOT)
+MARLEY_ROOT = File.join(File.expand_path(File.dirname(__FILE__)), '..') unless defined?(MARLEY_ROOT)
 
 $LOAD_PATH.unshift File.join( File.dirname(__FILE__), '..', 'vendor/sinatra-sinatra/lib' ) # Edge Sinatra
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'vendor')
@@ -28,8 +28,11 @@ configure do
     :adapter => 'sqlite3',
     :database => File.join(Marley::Configuration.data_directory, 'comments.db')
   )
-  # Set paths to views
-  set :views => Marley::Configuration.theme.directory
+  # Set paths to views and public
+  set :views  => Marley::Configuration.theme.views.to_s
+  set :public => Marley::Configuration.theme.public.to_s
+  # set :public => '/Users/karmi/Projects/Restafari_org/Application/marley/themes/default/public'
+  # set :public => '/Users/karmi/Projects/Restafari_org/Application/marley/app/../themes/default/public'
 end
 
 configure :production do
@@ -59,11 +62,11 @@ helpers do
   end
 
   def not_found
-    File.read( File.join( File.dirname(__FILE__), 'public', '404.html') )
+    File.read( File.join( Sinatra::Application.public, '404.html') )
   end
 
   def error
-    File.read( File.join( File.dirname(__FILE__), 'public', '500.html') )
+    File.read( File.join( Sinatra::Application.public, '500.html') )
   end
 
   def config

@@ -2,7 +2,7 @@ require 'yaml'
 require 'ostruct'
 require 'pathname'
 
-MARLEY_ROOT = File.join(File.dirname(__FILE__), '..', '..') unless defined?(MARLEY_ROOT)
+MARLEY_ROOT = File.join(File.expand_path(File.dirname(__FILE__)), '..', '..') unless defined?(MARLEY_ROOT)
 
 module Marley
 
@@ -46,8 +46,6 @@ module Marley
   # == Wrapping configuration
   class Configuration
 
-    # Theme = Struct.new(:name, :directory, :views, :public) unless defined? Theme
-
     class << self
 
       # Load configuration form YAML
@@ -55,11 +53,7 @@ module Marley
       def load
         raw_config = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') )
         @@config   = nested_hash_to_openstruct(raw_config)
-        # theme_name = @@config.theme || default_theme_name
-        # @@theme    = Theme.new( theme_name,
-        #                Pathname.new( File.join(themes_directory, theme_name) ),
-        #                Pathname.new( File.join(themes_directory, theme_name, 'views') ),
-        #                Pathname.new( File.join(themes_directory, theme_name, 'public') ) )
+
         @@theme   = Theme.new(@@config)
       end
 

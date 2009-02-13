@@ -8,6 +8,7 @@ MARLEY_ROOT = '.'
 %w{configuration post comment}.each { |f| require File.join(MARLEY_ROOT, 'app', 'lib', f) }
 
 task :default => 'app:start'
+task :test    => 'app:test'
 
 namespace :app do
 

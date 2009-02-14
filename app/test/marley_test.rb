@@ -6,11 +6,17 @@ require 'sinatra/test/unit'
 # Require application file
 require '../marley'
 
-# Redefine data directory for tests
+# Redefine configuration for tests
 module Marley
   class Configuration
     @@config.data_directory = File.join(File.dirname(__FILE__), 'fixtures')
+    @@config.theme = 'default' # We have to run on default theme in tests
+    @@theme = Theme.new(@@config)
   end
+end
+configure :test do
+  set :views  => Marley::Configuration.theme.views.to_s
+  set :public => Marley::Configuration.theme.public.to_s
 end
 
 # Redefine database with comments for tests
@@ -26,7 +32,6 @@ class Akismetor
     rand > 0.5 ? true : false
   end
 end
-
 
 # Setup fresh comments table
 File.delete('./fixtures/test.db') if File.exists?('./fixtures/test.db')

@@ -94,10 +94,10 @@ namespace :manage do
 
   namespace :spam do
 
-    desc "Print number of spam comments in the DB"
-    task :count => :db_connect do
-      spam_count = Marley::Comment.spam.size
-      puts "* There's #{spam_count} pieces of spam in the DB"
+    desc "Display stats about spam comments in the DB"
+    task :stats => :db_connect do
+      spam_comments = Marley::Comment.spam
+      puts "* There're #{spam_comments.size} pieces of spam in the DB -- authors: #{spam_comments.map(&:author).join(', ')}"
     end
 
     desc "Delete and report as spam all spam comments in the DB"

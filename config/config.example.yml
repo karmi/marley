@@ -1,18 +1,23 @@
 # Blog meta-information
 blog:
-  title: "{REPLACE WITH TITLE OF YOUR BLOG}"       # Displayed as <title> on index page
-  name:  "{REPLACE WITH SHORT NAME OF YOUR BLOG}"  # Displayed as <title> on article page
-  author: "{REPLACE WITH YOUR NAME}"               # Used in feeds
-  email:  "{REPLACE WITH YOUR E-MAIL}"             # Used in feeds
+  title:  "{REPLACE WITH TITLE OF YOUR BLOG}"       # Displayed as <title> on index page
+  name:   "{REPLACE WITH SHORT NAME OF YOUR BLOG}"  # Displayed as part of <title> on article page
+  author: "{REPLACE WITH YOUR NAME}"                # Used in feeds
+  email:  "{REPLACE WITH YOUR E-MAIL}"              # Used in feeds
 
-# Google Analytics code
-ga_code: "{REPLACE WITH YOUR GOOGLE ANALYTICS CODE OR LEAVE EMPTY}"
+# Admin credentials (prepend article URL with URL to see why)
+admin:
+  username: 'admin'
+  password: 'admin'
 
 # Set this relatively to application main ("marley") directory
 data_directory: "../data"
 
 # Set this to your own theme in "themes" directory
 # theme: "{REPLACE WITH THEME NAME}"
+
+# Google Analytics code ("UA-123132-00" etc)
+ga_code: ~
 
 # If you want to add synchronizing via Github post-receive hooks, insert some secure password here
 # Then set a "Post-Receive URL" in Github administration to http://{YOUR SERVER}/sync?token={WHAT YOU SET BELOW}
@@ -22,8 +27,3 @@ github_token: ~
 akismet: 
   key: "{REPLACE WITH YOUR AKISMET KEY}"
   url: "{REPLACE WITH YOUR AKISMET URL}"
-
-# http://antispam.typepad.com/info/developers.html
-typekey_antispam:
-  key: "{REPLACE WITH YOUR TYPEKEY ANTISPAM URL}"
-  url: "{REPLACE WITH YOUR BLOG URL}"

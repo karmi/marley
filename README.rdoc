@@ -72,11 +72,15 @@ You can set-up last two options by running Capistrano task <tt>cap sync:setup</t
 
 Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wikis)
 
+== Managing spam
+
+Marley by default displays spam comments on the article page. You can easily mark and delete spam when you prepend article URL with _admin_, as in http://localhost:4567/admin/my-slashdotted-article.html. Log in with credentials set in <tt>config.yml</tt>.
+
+In addition, there're Rake and Capistrano tasks for easily destroying spam from command line or a cron job: `rake manage:spam:prune` and `cap manage:spam:prune`. You just lose "false positives" this way. But there aren't much of them with Akismet.
+
 == Todo
 
 * Authenticate Github hook by HTTP-Auth, not token
-* Add minimal admin interface feature for filtering spam comments (based on HTTP-Auth)
-* Do not show spam comments in HTML (after ^^^)
 * Enable commenters edit their comments for 15 minutes after posting (based on cookie)
 * Kick Markdown formatting into a Formatter so everyone can use whatever formatter she likes
 * Kick articles extraction logic into an Interface so everyone can use whatever data store she likes, not being plain (texter) like me

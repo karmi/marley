@@ -15,15 +15,19 @@ set :application, 'marley'
 set :scm, :git
 # set :branch, "deploy"
 set :git_enable_submodules, 1
-set :repository,  "{REPLACE WITH YOUR REPOSITORY}"
+set :repository,  "{REPLACE WITH YOUR PATH TO YOUR REPOSITORY}"
 set :deploy_via, :remote_cache
 set :deploy_to, "{REPLACE WITH YOUR PATH}/#{application}"
 set :use_sudo, false
 
-# ----- Setup servers, paths and callbacks ------------------------------------
+# ----- Setup servers ---------------------------------------------------------
 role :app, "{REPLACE WITH YOUR SERVER}"
 role :web, "{REPLACE WITH YOUR SERVER}"
 role :db,  "{REPLACE WITH YOUR SERVER}", :primary => true
+
+
+# ***** No need to change anything below **************************************
+
 
 # ----- Marley tasks ----------------------------------------------------------
 
@@ -96,18 +100,27 @@ namespace :app do
   end
 end
 
+namespace :manage do
+
+  namespace :spam do
+    desc "Display stats about spam comments in the DB"
+    task :stats do
+      run "cd #{current_path}; rake manage:spam:stats"
+    end
+    desc "Delete all spam comments from the DB"
+    task :prune do
+      run "cd #{current_path}; rake manage:spam:prune"
+    end
+  end
+
+end
+
 # ----- Hooks ----------------------------------------------------------------
 
-after "sync:setup" do
-  app.create_database_for_comments
-end
-
-after "deploy:setup" do
-  app.upload_config
-end
-
+after "sync:setup"   { app.create_database_for_comments }
+after "deploy:setup" { app.upload_config }
+after 'deploy'       { cleanup }
 after "deploy:update_code" do
-  # run "ln -nfs #{shared_path}/sinatra #{release_path}/sinatra"
   run "ln -nfs #{shared_path}/config.yml #{release_path}/config/config.yml"
 end
 
@@ -154,13 +167,3 @@ namespace :deploy do
 
 end
 
-namespace :manage do
-
-  namespace :spam do
-    "Delete all spam comments from the DB"
-    task :prune do
-      run "cd #{current_path}; rake manage:spam:prune"
-    end
-  end
-
-end

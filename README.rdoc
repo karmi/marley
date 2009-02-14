@@ -74,9 +74,9 @@ Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wi
 
 == Managing spam
 
-Marley by default displays spam comments on the article page. You can easily mark and delete spam when you prepend article URL with _admin_, as in http://localhost:4567/admin/my-slashdotted-article.html. Log in with credentials set in <tt>config.yml</tt>.
+Marley displays spam comments on the article page, by default. You can easily mark and delete spam in admin interface, when you prepend article URL with _admin_ -- as in http://localhost:4567/admin/my-slashdotted-article.html. Log in with credentials set in <tt>config.yml</tt>.
 
-In addition, there're Rake and Capistrano tasks for easily destroying spam from command line or a cron job: `rake manage:spam:prune` and `cap manage:spam:prune`. You just lose "false positives" this way. But there aren't much of them with Akismet.
+In addition, there are Rake and Capistrano tasks for easily destroying spam from command line or a cron job: <tt>rake manage:spam:prune</tt> and <tt>cap manage:spam:prune</tt>. You just lose "false positives" this way. But there aren't much of them with Akismet.
 
 == Todo
 

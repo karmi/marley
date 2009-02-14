@@ -1,0 +1,12 @@
+<h1><%= Marley::Configuration.blog.title %></h1>
+
+<ul class="posts">
+<% @posts.each do |post| %>
+<li>
+  <small><%= human_date post.published_on %> &mdash;</small>
+  <strong><a href="/<%= post.id %>.html"><%= post.title %></a></strong>
+  <span class="perex"><%= post.perex %> (<%= post.comments.size %> comments)</span>
+</li>
+<% end %>
+</ul>
+

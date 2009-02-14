@@ -1,37 +1,34 @@
+MARLEY_ROOT = File.join(File.expand_path(File.dirname(__FILE__)), '..') unless defined?(MARLEY_ROOT)
+
+# $LOAD_PATH.unshift File.join( File.dirname(__FILE__), '..', 'vendor/sinatra-sinatra/lib' ) # Edge Sinatra
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'vendor')
+
 require 'rubygems'
-require 'ftools'           # ... we wanna access the filesystem ...
-require 'yaml'             # ... use YAML for configs and stuff ...
-require 'sinatra'          # ... Classy web-development dressed in DSL, http://sinatrarb.heroku.com
-require 'activerecord'     # ... or Datamapper? What? :)
-require 'rdiscount'        # ... convert Markdown into HTML in blazing speed
-require File.join(File.dirname(__FILE__), '..', 'vendor', 'akismetor')   # ... disable comment spam
-require File.join(File.dirname(__FILE__), '..', 'vendor', 'githubber')   # ... get repo info
+require 'ftools'
+require 'yaml'
+require 'sinatra'
+require 'activerecord'
+require 'rdiscount'
+require 'akismetor'
+require 'githubber'
 
-# ... or alternatively, run Sinatra on edge ...
-# $:.unshift File.dirname(__FILE__) + 'vendor/sinatra/lib'
-# require 'sinatra'
-
-CONFIG = YAML.load_file( File.join(File.dirname(__FILE__), '..', 'config', 'config.yml') ) unless defined? CONFIG
-REVISION_NUMBER = File.read( File.join(File.dirname(__FILE__), '..', 'REVISION') ) rescue nil unless defined?(REVISION_NUMBER)
-
-# -----------------------------------------------------------------------------
-
-module Marley
-  # Override this as you wish in <tt>config/config.yml</tt>
-  DATA_DIRECTORY = File.join(File.dirname(__FILE__), '..', CONFIG['data_directory']) unless defined? DATA_DIRECTORY
-  unless defined?(REVISION)
-    REVISION = REVISION_NUMBER ? Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( REVISION_NUMBER.chomp ) : nil
-  end
-end
-
-# FIXME : There must be a clean way to do this :)
-req_or_load = (Sinatra::Application.environment == :development) ? :load : :require
-%w{post.rb comment.rb}.each { |f| send(req_or_load, File.join(File.dirname(__FILE__), 'marley', f) ) }
+%w{
+configuration
+post
+comment
+}.each { |f| require File.join(File.dirname(__FILE__), 'lib', f) }
 
 # -----------------------------------------------------------------------------
 
 configure do
-  set :session => true
+  # Establish database connection
+  ActiveRecord::Base.establish_connection(
+    :adapter => 'sqlite3',
+    :database => File.join(Marley::Configuration.data_directory, 'comments.db')
+  )
+  # Set paths to views and public
+  set :views  => Marley::Configuration.theme.views.to_s
+  set :public => Marley::Configuration.theme.public.to_s
 end
 
 configure :production do
@@ -60,16 +57,20 @@ helpers do
     (request.env['HTTP_X_FORWARDED_SERVER'] =~ /[a-z]*/) ? request.env['HTTP_X_FORWARDED_SERVER'] : request.env['HTTP_HOST']
   end
 
-  def revision
-    Marley::REVISION || nil
-  end
-
   def not_found
-    File.read( File.join( File.dirname(__FILE__), 'public', '404.html') )
+    File.read( File.join( Sinatra::Application.public, '404.html') )
   end
 
   def error
-    File.read( File.join( File.dirname(__FILE__), 'public', '500.html') )
+    File.read( File.join( Sinatra::Application.public, '500.html') )
+  end
+
+  def config
+    Marley::Configuration
+  end
+
+  def revision
+    Marley::Configuration.revision || nil
   end
 
 end
@@ -78,26 +79,26 @@ end
 
 get '/' do
   @posts = Marley::Post.published
-  @page_title = "#{CONFIG['blog']['title']}"
+  @page_title = "#{Marley::Configuration.blog.title}"
   erb :index
 end
 
 get '/feed' do
   @posts = Marley::Post.published
-  last_modified( @posts.first.updated_on )           # Conditinal GET, send 304 if not modified
+  last_modified( @posts.first.updated_on ) rescue nil    # Conditinal GET, send 304 if not modified
   builder :index
 end
 
 get '/feed/comments' do
   @comments = Marley::Comment.recent.ham
-  last_modified( @comments.first.created_at )        # Conditinal GET, send 304 if not modified
+  last_modified( @comments.first.created_at ) rescue nil # Conditinal GET, send 304 if not modified
   builder :comments
 end
 
 get '/:post_id.html' do
   @post = Marley::Post[ params[:post_id] ]
   throw :halt, [404, not_found ] unless @post
-  @page_title = "#{@post.title} #{CONFIG['blog']['name']}"
+  @page_title = "#{@post.title} #{Marley::Configuration.blog.name}"
   erb :post 
 end
 
@@ -115,7 +116,7 @@ post '/:post_id/comments' do
   if @comment.valid?
     redirect "/"+params[:post_id].to_s+'.html?thank_you=#comment_form'
   else
-    @page_title = "#{@post.title} #{CONFIG['blog']['name']}"
+    @page_title = "#{@post.title} #{Marley::Configuration.blog.name}"
     erb :post
   end
 end
@@ -130,14 +131,19 @@ get '/:post_id/feed' do
   builder :post
 end
 
+get '/:post_id/*' do
+  file = params[:splat].to_s.split('/').last
+  redirect "/#{params[:post_id]}.html" unless file
+  send_file( Marley::Configuration.data_directory_path.join(params[:post_id], file), :disposition => 'inline' )
+end
 
 post '/sync' do
-  throw :halt, 404 and return if not CONFIG['github_token'] or CONFIG['github_token'].nil?
-  unless params[:token] && params[:token] == CONFIG['github_token']
+  throw :halt, 404 and return if not Marley::Configuration.github_token or Marley::Configuration.github_token.nil?
+  unless params[:token] && params[:token] == Marley::Configuration.github_token
     throw :halt, [500, "You did wrong.\n"] and return
   else
     # Synchronize articles in data directory to Github repo
-    system "cd #{CONFIG['data_directory']}; git pull origin master"
+    system "cd #{Marley::Configuration.data_directory}; git pull origin master"
   end
 end
 

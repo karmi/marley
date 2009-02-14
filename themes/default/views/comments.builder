@@ -3,7 +3,7 @@ xml.feed :'xml:lang' => 'en-US', :xmlns => 'http://www.w3.org/2005/Atom' do
   xml.id "http://#{hostname}/feed/comments"
   xml.link :type => 'text/html', :href => "http://#{hostname}", :rel => 'alternate'
   xml.link :type => 'application/atom+xml', :href => "http://#{hostname}/feed/comments", :rel => 'self'
-  xml.title "Comments for #{CONFIG['blog']['title']}"
+  xml.title "Comments for #{Marley::Configuration.blog.title}"
   xml.subtitle "#{h(hostname)}"
   xml.updated(@comments.first ? rfc_date(@comments.first.created_at) : rfc_date(Time.now.utc)) if @comments.first
   @comments.each_with_index do |comment, index|

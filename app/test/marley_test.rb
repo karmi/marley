@@ -3,13 +3,21 @@ require 'rack'
 require 'sinatra'
 require 'sinatra/test/unit'
 
-# Redefine data directory for tests
-module Marley
-  DATA_DIRECTORY = File.join(File.dirname(__FILE__), 'fixtures')
-end
-
 # Require application file
 require '../marley'
+
+# Redefine configuration for tests
+module Marley
+  class Configuration
+    @@config.data_directory = File.join(File.dirname(__FILE__), 'fixtures')
+    @@config.theme = 'default' # We have to run on default theme in tests
+    @@theme = Theme.new(@@config)
+  end
+end
+configure :test do
+  set :views  => Marley::Configuration.theme.views.to_s
+  set :public => Marley::Configuration.theme.public.to_s
+end
 
 # Redefine database with comments for tests
 module Marley
@@ -25,26 +33,21 @@ class Akismetor
   end
 end
 
-
 # Setup fresh comments table
 File.delete('./fixtures/test.db') if File.exists?('./fixtures/test.db')
 ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => './fixtures/test.db')
-load File.join( '..', '..', 'config', 'db_create_comments.rb' )
+load File.join(MARLEY_ROOT, 'config', 'db_create_comments.rb' )
 
 
 class MarleyTest < Test::Unit::TestCase
 
-  configure do
-    set_options :views => File.join( File.dirname(__FILE__), '..', 'views' )
-  end
-
   def test_should_show_index_page
-    get_it '/'
+    get '/'
     assert @response.status == 200
   end
 
   def test_should_show_article_page
-    get_it '/test-article.html'
+    get '/test-article.html'
     # p @response.body
     assert @response.status == 200
     assert @response.body =~ Regexp.new( 
@@ -53,50 +56,50 @@ class MarleyTest < Test::Unit::TestCase
   end
 
   def test_should_send_404
-    get_it '/i-am-not-here.html'
+    get '/i-am-not-here.html'
     assert @response.status == 404
   end
 
   def test_should_create_comment
     comment_count = Marley::Comment.count
-    post_it '/test-article/comments', default_comment_attributes
+    post '/test-article/comments', default_comment_attributes
     assert @response.status == 302
     assert Marley::Comment.count == comment_count + 1
   end
 
   def test_should_fix_url_on_comment_create
-    post_it '/test-article/comments', default_comment_attributes.merge(:url => 'www.example.com')
+    post '/test-article/comments', default_comment_attributes.merge(:url => 'www.example.com')
     assert_equal 'http://www.example.com', Marley::Comment.last.url
   end
 
   def test_should_NOT_fix_blank_url_on_comment_create
     comment_count = Marley::Comment.count
-    post_it '/test-article/comments', default_comment_attributes.merge(:url => '')
+    post '/test-article/comments', default_comment_attributes.merge(:url => '')
     assert_equal '', Marley::Comment.last.url
   end
 
   def test_should_show_feed_for_index
-    get_it '/feed'
+    get '/feed'
     assert @response.status == 200
   end
 
   def test_should_show_feed_for_article
-    get_it '/test-article/feed'
+    get '/test-article/feed'
     assert @response.status == 200
   end
 
   def test_should_show_feed_for_combined_comments
-    get_it '/feed/comments'
+    get '/feed/comments'
     assert @response.status == 200
   end
 
   def test_articles_should_have_proper_published_on_dates
-    get_it '/'
+    get '/'
     # p @response.body
     assert @response.status == 200
-    assert @response.body =~ Regexp.new(Regexp.escape("23|12|2050")),
+    assert @response.body =~ Regexp.new(Regexp.escape("<small>23|12|2050 &mdash;</small>")),
                              "HTML should contain proper date for post one"
-    assert @response.body =~ Regexp.new(Regexp.escape("#{File.mtime(File.expand_path('./fixtures/002-test-article-two/')).strftime('%d|%m|%Y')}")),
+    assert @response.body =~ Regexp.new(Regexp.escape("<small>#{File.mtime(File.expand_path('./fixtures/002-test-article-two/')).strftime('%d|%m|%Y')} &mdash;</small>")),
                              "HTML should contain proper date for post two"
   end
 

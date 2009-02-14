@@ -3,7 +3,7 @@ require 'date'
 module Marley
 
   # = Articles
-  # Data source is Marley::DATA_DIRECTORY (set in <tt>config.yml</tt>)
+  # Data source is Marley::Configuration.data_directory (set in <tt>config.yml</tt>)
   class Post
     
     attr_reader :id, :title, :perex, :body, :body_html, :meta, :published_on, :updated_on, :published, :comments
@@ -27,7 +27,7 @@ module Marley
       def [](id, options={})
         self.find_one(id, options)
       end
-      alias :find :[] # For +belongs_to+ in Comment
+      alias :find :[] # For +belongs_to+ association in Comment
 
     end
     
@@ -65,10 +65,10 @@ module Marley
     
     # Returns directories in data directory. Default is published only (no <tt>.draft</tt> in name)
     def self.load_directories_with_posts(options={})
-      if options[:draft] || ( Sinatra::Application.environment && Sinatra::Application.environment == :development)
-        Dir[File.join(DATA_DIRECTORY, '*')].select { |dir| File.directory?(dir)  }.sort
+      if options[:draft]
+        Dir[File.join(Configuration.data_directory, '*')].select { |dir| File.directory?(dir)  }.sort
       else
-        Dir[File.join(DATA_DIRECTORY, '*')].select { |dir| File.directory?(dir) and not dir.include?('.draft')  }.sort
+        Dir[File.join(Configuration.data_directory, '*')].select { |dir| File.directory?(dir) and not dir.include?('.draft')  }.sort
       end
     end
     
@@ -80,6 +80,7 @@ module Marley
     # Extracts post information from the directory name, file contents, modification time, etc
     # Returns hash which can be passed to <tt>Marley::Post.new()</tt>
     # Extracted attributes can be configured with <tt>:except</tt> and <tt>:only</tt> options
+    # TODO: Better formatting of the except/only code
     def self.extract_post_info_from(file, options={})
       raise ArgumentError, "#{file} is not a readable file" unless File.exist?(file) and File.readable?(file)
       options[:except] ||= []

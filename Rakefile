@@ -3,15 +3,12 @@ require 'activerecord'
 require 'rake'
 require 'ftools'
 
-CONFIG = YAML.load_file( File.join(File.dirname(__FILE__), 'config', 'config.yml') ) unless defined? CONFIG
+MARLEY_ROOT = '.'
 
-module Marley
-  DATA_DIRECTORY = File.join(File.dirname(__FILE__), CONFIG['data_directory']) unless defined? DATA_DIRECTORY
-end
-
-%w{post comment}.each { |f| require File.join(File.dirname(__FILE__), 'app', 'marley', f) }
+%w{configuration post comment}.each { |f| require File.join(MARLEY_ROOT, 'app', 'lib', f) }
 
 task :default => 'app:start'
+task :test    => 'app:test'
 
 namespace :app do
 
@@ -26,23 +23,23 @@ namespace :app do
   end
   namespace :install do
     task :create_data_directory do
-      puts "* Creating data directory in " + Marley::DATA_DIRECTORY
-      FileUtils.mkdir_p( Marley::DATA_DIRECTORY )
+      puts "* Creating data directory in " + Marley::Configuration.data_directory
+      FileUtils.mkdir_p( Marley::Configuration.data_directory )
     end
     desc "Create database for comments"
     task :create_database_for_comments do
-      puts "* Creating comments SQLite database in #{Marley::DATA_DIRECTORY}/comments.db"
+      puts "* Creating comments SQLite database in #{Marley::Configuration.data_directory}/comments.db"
       ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', 
-                                               :database => File.join(Marley::DATA_DIRECTORY, 'comments.db')
+                                               :database => File.join(Marley::Configuration.data_directory, 'comments.db')
                                              )
-      load( File.join( File.dirname(__FILE__), 'config', 'db_create_comments.rb' ) )
+      load( File.join( MARLEY_ROOT, 'config', 'db_create_comments.rb' ) )
     end
     task :create_sample_article do
       puts "* Creating sample article"
-      FileUtils.cp_r( File.join(File.dirname(__FILE__), 'app', 'test', 'fixtures', '001-test-article-one'), Marley::DATA_DIRECTORY )
+      FileUtils.cp_r( File.join(MARLEY_ROOT, 'app', 'test', 'fixtures', '001-test-article-one'), Marley::Configuration.data_directory )
     end
     task :create_sample_comment do
-      require 'vendor/antispammer'
+      require 'vendor/akismetor'
       puts "* Creating sample comment"
       Marley::Comment.create( :author  => 'John Doe',
                               :email   => 'john@example.com',

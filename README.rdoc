@@ -40,7 +40,7 @@ Load this URL in your browser:
 
     http://localhost:4567
 
-You're done.
+You're done. SRSLY.
 
 == Deployment on server
 

@@ -14,8 +14,8 @@ xml.feed :'xml:lang' => 'en-US', :xmlns => 'http://www.w3.org/2005/Atom' do
       entry.title post.title
       entry.content post.perex,  :type => 'html'
       entry.author do |author|
-        author.name  CONFIG['blog']['author'] || hostname
-        author.email(CONFIG['blog']['email'])  if CONFIG['blog']['email']
+        author.name  Marley::Configuration.blog.author || hostname
+        author.email Marley::Configuration.blog.email if Marley::Configuration.blog.email
       end
     end
   end

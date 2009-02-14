@@ -1,13 +1,19 @@
+# Blog meta-information
 blog:
   title: "{REPLACE WITH TITLE OF YOUR BLOG}"       # Displayed as <title> on index page
   name:  "{REPLACE WITH SHORT NAME OF YOUR BLOG}"  # Displayed as <title> on article page
   author: "{REPLACE WITH YOUR NAME}"               # Used in feeds
   email:  "{REPLACE WITH YOUR E-MAIL}"             # Used in feeds
 
+# Google Analytics code
 ga_code: "{REPLACE WITH YOUR GOOGLE ANALYTICS CODE OR LEAVE EMPTY}"
 
 # Set this relatively to application main ("marley") directory
 data_directory: "../data"
+
+# Set this to your own theme in "themes" directory
+# theme: "{REPLACE WITH THEME NAME}"
+
 # If you want to add synchronizing via Github post-receive hooks, insert some secure password here
 # Then set a "Post-Receive URL" in Github administration to http://{YOUR SERVER}/sync?token={WHAT YOU SET BELOW}
 github_token: ~

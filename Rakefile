@@ -7,7 +7,9 @@ MARLEY_ROOT = '.'
 
 %w{configuration post comment}.each { |f| require File.join(MARLEY_ROOT, 'app', 'lib', f) }
 
+desc "Start application in development"
 task :default => 'app:start'
+desc "Run tests"
 task :test    => 'app:test'
 
 namespace :app do
@@ -62,8 +64,8 @@ end
 
 namespace :data do
   
+  desc "Shortcut to sync data with Capistrano `$ cap data:sync`"
   task :sync do
-    # TODO : use Git
     exec "cap data:sync"
   end
     
@@ -71,14 +73,17 @@ end
 
 namespace :server do
   
+  desc "Start server in production on Thin, port 4500"
   task :start do
     exec "cd app; thin -R rackup.ru -d -P ../tmp/pids/thin.pid -l ../log/production.log -e production -p 4500 start"
   end
   
+  desc "Stop server in production"
   task :stop do
     exec "thin stop"
   end
   
+  desc "Restart server in production"
   task :restart do 
     exec "thin restart"
   end

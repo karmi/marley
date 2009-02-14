@@ -12,6 +12,11 @@ module Marley
     validates_presence_of :author, :email, :body, :post_id
 
     before_create :fix_urls, :check_spam
+
+    # No, we won't use +before_destroy+ hook, so we can delete comments without marking them as spam
+    def report_as_spam
+      Akismetor.submit_spam(akismet_attributes)
+    end
     
     private
 
@@ -42,11 +47,6 @@ module Marley
     def fix_urls
       return unless self.url
       self.url.gsub!(/^(.*)/, 'http://\1') unless self.url =~ %r{^http://} or self.url.empty?
-    end
-
-    # No, we won't use +before_destroy+ hook, so we can delete comments without marking them as spam
-    def report_as_spam
-      Akismetor.submit_spam(akismet_attributes)
     end
     
   end

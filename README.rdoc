@@ -30,7 +30,7 @@ Edit this configuration file:
 
     config/config.example.yml
 
-and rename it to <i>config.yml</i>.
+and save it as <i>config/config.yml</i>.
 
 Install the application with this Rake task:
 
@@ -39,6 +39,8 @@ Install the application with this Rake task:
 Load this URL in your browser:
 
     http://localhost:4567
+
+You're done.
 
 == Deployment on server
 

@@ -4,11 +4,11 @@
 
 It has no admin interface for writing posts. Use your favorite text editor to edit plain-text files and synchronize them to server.
 Marley uses plain-text files for storing articles and SQLite database for storing comments (set data location in <tt>config.yml</tt>).
-It comes with Rake and Capistrano tasks for deploying the application and syncing articles from your local machine to the server.
+It comes with Rake and Capistrano tasks for installing and deploying the application, and for syncing articles from your local machine to the server.
 
 The +master+ branch is bare application, +restafari_org+ branch is what runs @ www.restafari.org.
 
-(In case you like to use Marley, you should fork it and then *make your own branch* for your own styling, so you can <tt>git pull</tt> any future updates from the master and then merge/cherry-pick them into your branch.
+In case you like to use Marley, you should fork it and then make your own branch for your own styling, so you can <tt>git pull</tt> any future updates from the master and then merge/cherry-pick them into your branch. Marley has support for themes: see +themes+ directory. Just duplicate the +default+ directory and start tweaking. Obviously, do not use the _restafari_ theme for your own blog, please.
 
 == Ingredients
 
@@ -24,7 +24,7 @@ The +master+ branch is bare application, +restafari_org+ branch is what runs @ w
 
 You have to install or update following Rubygems:
 
-    sudo gem install sinatra rack thin activerecord sqlite3-ruby rdiscount builder capistrano
+    $ sudo gem install sinatra rack thin activerecord sqlite3-ruby rdiscount builder capistrano
 
 Edit this configuration file:
 
@@ -34,7 +34,7 @@ and rename it to <i>config.yml</i>.
 
 Install the application with this Rake task:
 
-    rake app:install
+    $ rake app:install
     
 Load this URL in your browser:
 
@@ -42,7 +42,8 @@ Load this URL in your browser:
 
 == Deployment on server
 
-Ensure that you have correct information in <tt>config/config.yml</tt> and then run:
+Ensure that you have correct information in <tt>config/config.yml</tt>. Rename example deploy file to  <tt>config/deploy.rb</tt> and fill in proper information for: _user_, _repository_, _deploy_to_, _app_, _web_, _db_.
+Then run:
 
 * <tt>cap deploy:setup</tt>
 * <tt>cap deploy:cold</tt>
@@ -71,10 +72,9 @@ Of course, put other ideas in the Marley Wiki (http://github.com/karmi/marley/wi
 
 == Todo
 
-* Better documentation for themes (from Luke's commits)
 * Authenticate Github hook by HTTP-Auth, not token
 * Add minimal admin interface feature for filtering spam comments (based on HTTP-Auth)
-* Do not show spam comments in HTML and feed (after ^^^)
+* Do not show spam comments in HTML (after ^^^)
 * Enable commenters edit their comments for 15 minutes after posting (based on cookie)
 * Kick Markdown formatting into a Formatter so everyone can use whatever formatter she likes
 * Kick articles extraction logic into an Interface so everyone can use whatever data store she likes, not being plain (texter) like me

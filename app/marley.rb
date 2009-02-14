@@ -12,8 +12,6 @@ require 'rdiscount'
 require 'akismetor'
 require 'githubber'
 
-# CONFIG = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') ) unless defined?(CONFIG)
-
 %w{
 configuration
 post

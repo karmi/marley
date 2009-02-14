@@ -26,12 +26,25 @@
   </div><!-- /body -->
   
   <div id="comments">
+
+    <% if params[:spam_deleted] && authorized? %>
+    <div id="spam_deleted"><div class="in"><p>OK, <%= params[:spam_deleted] %> spam comments deleted.</p></div></div>
+    <% end %>
+
+    <% if authorized? %>
+    <form action="/admin/<%= @post.id %>/spam" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <% end %>
     
     <% @post.comments.each_with_index do |comment, index| %>
     <% if params[:thank_you] && comment == @post.comments.last %>
     <div id="comment_added_thanks"><div class="in"><p>Thank you for your comment!</p></div></div>
     <% end %>
     <div class="comment<%= ' spam' if comment.spam? %>" id="comment_<%= comment.id %>">
+      <% if authorized? %>
+      <input type="checkbox" name="spam_comment_ids[]" value="<%= comment.id %>" id="spam_comment_id_<%= comment.id %>"<%= ' checked="checked"' if comment.spam? %> />
+      <label for="spam_comment_id_<%= comment.id %>">Spam?</label>
+      <% end %>
       <div class="number"><span class="nodisplay"># </span><%= index.succ %></div>
       <div class="author">
         <strong>
@@ -42,6 +55,14 @@
       </div>
     </div><!-- /comment -->
 
+    <% end %>
+
+    <% if authorized? %>
+    <div id="admin_panel"><div id="admin_panel_content">
+      <p>MARLEY ADMIN PANEL</p>
+      <p><input type="submit" value="Delete marked comments as spam. Careful."></p>
+      </form>
+    </div></div><!-- /admin_panel -->
     <% end %>
 
     <div id="comment_form">

@@ -29,8 +29,6 @@ configure do
   # Set paths to views and public
   set :views  => Marley::Configuration.theme.views.to_s
   set :public => Marley::Configuration.theme.public.to_s
-  # set :public => '/Users/karmi/Projects/Restafari_org/Application/marley/themes/default/public'
-  # set :public => '/Users/karmi/Projects/Restafari_org/Application/marley/app/../themes/default/public'
 end
 
 configure :production do

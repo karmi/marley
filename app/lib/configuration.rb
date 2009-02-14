@@ -49,7 +49,6 @@ module Marley
     class << self
 
       # Load configuration form YAML
-      # TODO : Freeze / Make immutable
       def load
         raw_config = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') )
         @@config   = nested_hash_to_openstruct(raw_config)

@@ -27,7 +27,7 @@ module Marley
       def [](id, options={})
         self.find_one(id, options)
       end
-      alias :find :[] # For +belongs_to+ in Comment
+      alias :find :[] # For +belongs_to+ association in Comment
 
     end
     
@@ -80,6 +80,7 @@ module Marley
     # Extracts post information from the directory name, file contents, modification time, etc
     # Returns hash which can be passed to <tt>Marley::Post.new()</tt>
     # Extracted attributes can be configured with <tt>:except</tt> and <tt>:only</tt> options
+    # TODO: Better formatting of the except/only code
     def self.extract_post_info_from(file, options={})
       raise ArgumentError, "#{file} is not a readable file" unless File.exist?(file) and File.readable?(file)
       options[:except] ||= []

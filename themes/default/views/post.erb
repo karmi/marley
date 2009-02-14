@@ -33,8 +33,10 @@
     <div id="comment_added_thanks"><div class="in"><p>Thank you for your comment!</p></div></div>
     <% end %>
     <div class="comment<%= ' spam' if comment.spam? %>" id="comment_<%= comment.id %>">
+      <% if authorized? %>
       <input type="checkbox" name="spam_comment_ids[]" value="<%= comment.id %>" id="spam_comment_id_<%= comment.id %>"<%= ' checked="checked"' if comment.spam? %> />
       <label for="spam_comment_id_<%= comment.id %>">Spam?</label>
+      <% end %>
       
       <div class="number"><span class="nodisplay"># </span><%= index.succ %></div>
       <div class="author">

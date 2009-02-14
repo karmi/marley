@@ -117,9 +117,9 @@ end
 
 # ----- Hooks ----------------------------------------------------------------
 
-after "sync:setup"   { app.create_database_for_comments }
-after "deploy:setup" { app.upload_config }
-after 'deploy'       { cleanup }
+after "sync:setup"   do; app.create_database_for_comments; end
+after "deploy:setup" do; app.upload_config; end
+after "deploy"       do; deploy.cleanup; end
 after "deploy:update_code" do
   run "ln -nfs #{shared_path}/config.yml #{release_path}/config/config.yml"
 end

@@ -73,6 +73,18 @@ helpers do
     Marley::Configuration.revision || nil
   end
 
+  def protected!
+    response['WWW-Authenticate'] = %(Basic realm="Marley Administration") and \
+    throw(:halt, [401, "Not authorized\n"]) and \
+    return unless authorized?
+  end
+
+  def authorized?
+    return false unless Marley::Configuration.admin.username && Marley::Configuration.admin.password
+    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [Marley::Configuration.admin.username, Marley::Configuration.admin.password]
+  end
+
 end
 
 # -----------------------------------------------------------------------------
@@ -120,7 +132,27 @@ post '/:post_id/comments' do
     erb :post
   end
 end
-get '/:post_id/comments' do 
+
+delete '/:post_id/spam' do
+  protected!
+  @post = Marley::Post[ params[:post_id] ]
+  throw :halt, [404, not_found ] unless @post
+  params.merge!( {
+      :ip         => request.env['REMOTE_ADDR'].to_s,
+      :user_agent => request.env['HTTP_USER_AGENT'].to_s,
+      :referrer   => request.env['REFERER'].to_s,
+      :permalink  => "#{hostname}#{@post.permalink}"
+  } )
+  spam_ids = params[:spam_comment_ids].is_a?(Array) ? params[:spam_comment_ids] : [ params[:spam_comment_ids] ]
+  @comments = Marley::Comment.find( spam_ids )
+  @comments.each do |comment|
+    comment.report_as_spam if Sinatra::Application.production?
+    comment.destroy
+  end
+  redirect "#{@post.permalink}?spam_deleted=#{@comments.size}#comments"
+end
+
+get '/:post_id/comments' do
   redirect "/"+params[:post_id].to_s+'.html#comments'
 end
 

@@ -10,3 +10,4 @@ li span.perex  { font-size: 95%; color: #444; }
 #article .body { border-bottom: 1px solid #ccc; }
 .comment       { margin: 1em 0 1em 0; border-bottom: 1px solid #fafafa; }
 #comment_added_thanks { background: #bcfa96; padding: 0.2em 0.2em 0.2em 0.5em; }
+#spam_deleted { background: #faf296; padding: 0.2em 0.2em 0.2em 0.5em; }

@@ -89,3 +89,32 @@ namespace :server do
   end
   
 end
+
+namespace :manage do
+
+  namespace :spam do
+
+    desc "Print number of spam comments in the DB"
+    task :count => :db_connect do
+      spam_count = Marley::Comment.spam.size
+      puts "* There's #{spam_count} pieces of spam in the DB"
+    end
+
+    desc "Delete and report as spam all spam comments in the DB"
+    task :prune => :db_connect do
+      spam_comments = Marley::Comment.spam
+      spam_comments.each do |comment|
+        comment.report_as_spam
+        comment.destroy
+        print "."
+      end
+      puts "* Deleted #{spam_comments.size} pieces of spam"
+    end
+
+    task :db_connect do
+      ActiveRecord::Base.establish_connection( :adapter => 'sqlite3', :database => File.join(Marley::Configuration.data_directory, 'comments.db') )
+    end
+
+  end
+
+end

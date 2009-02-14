@@ -7,7 +7,8 @@ module Marley
     belongs_to :post
 
     named_scope :recent,   :order => 'created_at DESC', :limit => 50
-    named_scope :ham, :conditions => { :spam => false }
+    named_scope :ham,  :conditions => { :spam => false }
+    named_scope :spam, :conditions => { :spam => true }
 
     validates_presence_of :author, :email, :body, :post_id
 

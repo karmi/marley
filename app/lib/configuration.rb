@@ -52,7 +52,6 @@ module Marley
       def load
         raw_config = YAML.load_file( File.join(MARLEY_ROOT, 'config', 'config.yml') )
         @@config   = nested_hash_to_openstruct(raw_config)
-
         @@theme   = Theme.new(@@config)
       end
 
@@ -72,8 +71,8 @@ module Marley
       
       # Delegate configuration methods to @@config
       def method_missing(method_name, *attributes)
-        if has = @@config.send(method_name)
-          return has
+        if @@config.respond_to?(method_name.to_sym)
+          return @@config.send(method_name.to_sym)
         else
           super
         end

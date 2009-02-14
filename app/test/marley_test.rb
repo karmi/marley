@@ -2,6 +2,7 @@ require 'rubygems'
 require 'rack'
 require 'sinatra'
 require 'sinatra/test/unit'
+require 'base64'
 
 # Require application file
 require '../marley'
@@ -103,6 +104,26 @@ class MarleyTest < Test::Unit::TestCase
                              "HTML should contain proper date for post two"
   end
 
+  def test_admin_without_authentication
+    get '/admin/test-article.html'
+    assert_equal 401, @response.status
+  end
+
+  def test_admin_with_bad_credentials
+    get '/admin/test-article.html', {}, {'HTTP_AUTHORIZATION' => encode_credentials('go', 'away')}
+    assert_equal 401, @response.status
+  end
+
+  def test_admin_with_proper_credentials
+    get '/admin/test-article.html', {}, admin_credentials
+    assert_equal 200, @response.status
+  end
+
+  def test_deleting_spam_comments
+    @spam_comment = Marley::Comment.create( default_comment_attributes.merge(:author => 'spammer', :body => 'viagra-test-123') )
+    delete '/admin/test-article/spam', { :spam_comment_ids => @spam_comment.id }, admin_credentials
+  end
+
   private
 
   def default_comment_attributes
@@ -113,6 +134,14 @@ class MarleyTest < Test::Unit::TestCase
       :url => "www.example.com",
       :author => 'Tester',
       :email => "tester@localhost" }
+  end
+
+  def encode_credentials(username, password)
+    "Basic " + Base64.encode64("#{username}:#{password}")
+  end
+
+  def admin_credentials
+    {'HTTP_AUTHORIZATION'=> encode_credentials(Marley::Configuration.admin.username, Marley::Configuration.admin.password)}
   end
 
 end

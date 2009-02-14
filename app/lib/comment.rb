@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'akismetor') unless defined? Akismetor
+
 module Marley
 
   # = Comments for articles

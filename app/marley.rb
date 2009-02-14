@@ -107,7 +107,9 @@ get '/feed/comments' do
   builder :comments
 end
 
-get '/:post_id.html' do
+get '/*?/?:post_id.html' do
+  redirect "/"+params[:post_id].to_s+'.html' unless params[:splat].first == '' || params[:splat].first == 'admin'
+  protected! if params[:splat].first == 'admin'
   @post = Marley::Post[ params[:post_id] ]
   throw :halt, [404, not_found ] unless @post
   @page_title = "#{@post.title} #{Marley::Configuration.blog.name}"
@@ -133,7 +135,11 @@ post '/:post_id/comments' do
   end
 end
 
-delete '/:post_id/spam' do
+get '/:post_id/comments' do
+  redirect "/"+params[:post_id].to_s+'.html#comments'
+end
+
+delete '/admin/:post_id/spam' do
   protected!
   @post = Marley::Post[ params[:post_id] ]
   throw :halt, [404, not_found ] unless @post
@@ -150,10 +156,6 @@ delete '/:post_id/spam' do
     comment.destroy
   end
   redirect "#{@post.permalink}?spam_deleted=#{@comments.size}#comments"
-end
-
-get '/:post_id/comments' do
-  redirect "/"+params[:post_id].to_s+'.html#comments'
 end
 
 get '/:post_id/feed' do

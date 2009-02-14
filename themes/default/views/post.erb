@@ -19,12 +19,14 @@
     
     <h3>Comments</h3>
 
-    <% if params[:spam_deleted] %>
+    <% if params[:spam_deleted] && authorized? %>
     <div id="spam_deleted"><div class="in"><p>OK, <%= params[:spam_deleted] %> spam comments deleted.</p></div></div>
     <% end %>
 
-    <form action="/<%= @post.id %>/spam" method="post">
+    <% if authorized? %>
+    <form action="/admin/<%= @post.id %>/spam" method="post">
     <input type="hidden" name="_method" value="delete">
+    <% end %>
     
     <% @post.comments.each_with_index do |comment, index| %>
     <% if params[:thank_you] && comment == @post.comments.last %>
@@ -46,8 +48,13 @@
 
     <% end %>
 
-    <p><input type="submit" value="Delete marked comments as spam &rarr;"></p>
-    </form>
+    <% if authorized? %>
+    <div id="admin_panel"><div id="admin_panel_content">
+      <p>MARLEY ADMIN PANEL</p>
+      <p><input type="submit" value="Delete marked comments as spam. Careful."></p>
+      </form>
+    </div></div><!-- /admin_panel -->
+    <% end %>
 
     <div id="comment_form">
     <div class="container">

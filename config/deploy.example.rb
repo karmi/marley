@@ -153,3 +153,14 @@ namespace :deploy do
   end
 
 end
+
+namespace :manage do
+
+  namespace :spam do
+    "Delete all spam comments from the DB"
+    task :prune do
+      run "cd #{current_path}; rake manage:spam:prune"
+    end
+  end
+
+end

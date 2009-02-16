@@ -46,7 +46,7 @@ module Marley
       posts = []
       self.extract_posts_from_directory(options).each do |file|
         attributes = self.extract_post_info_from(file, options)
-        attributes.merge!( :comments => Marley::Comment.find_all_by_post_id(attributes[:id], :select => ['id']) )
+        attributes.merge!( :comments => Marley::Comment.find_all_by_post_id(attributes[:id], :select => ['id']) ).ham
         posts << self.new( attributes )
       end
       return posts.reverse
@@ -60,7 +60,7 @@ module Marley
       directory = directory.first
       return unless directory or !File.exist?(directory)
       file = Dir["#{directory}/*.txt"].first
-      self.new( self.extract_post_info_from(file, options).merge( :comments => Marley::Comment.find_all_by_post_id(id) ) )
+      self.new( self.extract_post_info_from(file, options).merge( :comments => Marley::Comment.find_all_by_post_id(id).ham ) )
     end
     
     # Returns directories in data directory. Default is published only (no <tt>.draft</tt> in name)

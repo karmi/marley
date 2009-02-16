@@ -35,15 +35,14 @@
     <form action="/admin/<%= @post.id %>/spam" method="post">
     <input type="hidden" name="_method" value="delete">
     <% end %>
-    
     <% @post.comments.each_with_index do |comment, index| %>
-    <% if params[:thank_you] && comment == @post.comments.last %>
+    <% if params[:thank_you] && comment == @post.comments.last && comment.ham? %>
     <div id="comment_added_thanks"><div class="in"><p>Thank you for your comment!</p></div></div>
     <% end %>
     <div class="comment<%= ' spam' if comment.spam? %>" id="comment_<%= comment.id %>">
       <% if authorized? %>
-      <input type="checkbox" name="spam_comment_ids[]" value="<%= comment.id %>" id="spam_comment_id_<%= comment.id %>"<%= ' checked="checked"' if comment.spam? %> />
-      <label for="spam_comment_id_<%= comment.id %>">Spam?</label>
+      <input type="checkbox" name="spam_comment_ids[]" value="<%= comment.id %>" id="spam_comment_id_<%= comment.id %>"<%= ' checked="checked"' if comment.spam? %> style="z-index: 997" />
+      <label for="spam_comment_id_<%= comment.id %>" style="z-index: 998">Spam?</label>
       <% end %>
       <div class="number"><span class="nodisplay"># </span><%= index.succ %></div>
       <div class="author">

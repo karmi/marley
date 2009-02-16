@@ -20,6 +20,10 @@ module Marley
     def report_as_spam
       Akismetor.submit_spam(akismet_attributes)
     end
+
+    def ham?
+      !self.spam?
+    end
     
     private
 

@@ -35,8 +35,7 @@
     <form action="/admin/<%= @post.id %>/spam" method="post">
     <input type="hidden" name="_method" value="delete">
     <% end %>
-    
-    <% @post.comments.ham.each_with_index do |comment, index| %>
+    <% @post.comments.each_with_index do |comment, index| %>
     <% if params[:thank_you] && comment == @post.comments.last && comment.ham? %>
     <div id="comment_added_thanks"><div class="in"><p>Thank you for your comment!</p></div></div>
     <% end %>

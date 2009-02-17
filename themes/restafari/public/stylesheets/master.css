@@ -382,7 +382,8 @@ body
     z-index: 99; }
 
 #footer
-  { background: url('../images/footer-linka.png') 0 0 no-repeat; }
+  { background: url('../images/footer-linka.png') 0 0 no-repeat;
+    margin-right: 30%; }
 #footer *
   { color: #20cefa; }
 #footer p

@@ -1,3 +1,11 @@
+{{
+categories:
+  - ruby
+  - git
+  - markdown
+  - blogging
+}}
+
 # This is the test article one (2050/12/23)
 
 This is the perex of the test article with explicit date

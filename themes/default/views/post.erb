@@ -10,6 +10,12 @@
       <a href="#comments"><%= @post.comments.size %>&nbsp;comments</a>&nbsp;<a href="http://<%= hostname %>/<%= @post.id %>/feed" class="image">[Feed]</a>
     </span>
   </h1>
+
+  <% if @post.meta['categories'] %>
+  <div class="categories">
+    <p><em>Categories: </em><%= @post.meta['categories'].join(', ') %></p>
+  </div><!-- /categories -->
+  <% end %>
   
   <div class="body">
     <%= @post.body_html %>

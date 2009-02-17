@@ -31,6 +31,14 @@ configure do
   set :public => Marley::Configuration.theme.public.to_s
 end
 
+configure :development, :production do
+  # Create database and schema for comments if not present
+  unless Marley::Comment.table_exists?
+    puts "* Creating comments SQLite database in #{Marley::Configuration.data_directory}/comments.db"
+    load( File.join( MARLEY_ROOT, 'config', 'db_create_comments.rb' ) )
+  end
+end
+
 configure :production do
   not_found { not_found }
   error     { error }

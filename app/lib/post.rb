@@ -53,7 +53,7 @@ module Marley
     end
     
     def self.find_one(id, options={})
-      directory = self.load_directories_with_posts(options).select { |dir| dir =~ Regexp.new("#{id}") }
+      directory = self.load_directories_with_posts(options).select { |dir| dir =~ Regexp.new("\\d\\d\\d\-#{Regexp.escape(id)}\$") }
       options.merge!( {:draft => true} )
       # FIXME : Refactor this mess!
       return if directory.empty?

@@ -44,60 +44,65 @@ class MarleyTest < Test::Unit::TestCase
 
   def test_should_show_index_page
     get '/'
-    assert @response.status == 200
+    assert_equal 200, @response.status
   end
 
   def test_should_show_article_page
-    get '/test-article.html'
+    get '/test-article-one.html'
     # p @response.body
-    assert @response.status == 200
+    assert_equal 200, @response.status
     assert @response.body =~ Regexp.new( 
            Regexp.escape("<h1>\n    This is the test article one\n    <span class=\"meta\">\n      23|12|2050") ),
            "HTML should contain valid <h1> title for post"
   end
 
+  def test_should_not_find_article_by_partial_regexp_match_and_return_404
+    get '/test-article.html'
+    assert_equal 404, @response.status
+  end
+
   def test_should_send_404
-    get '/i-am-not-here.html'
-    assert @response.status == 404
+    get '/test-article-three-does-no-exist.html'
+    assert_equal 404, @response.status
   end
 
   def test_should_create_comment
     comment_count = Marley::Comment.count
-    post '/test-article/comments', default_comment_attributes
-    assert @response.status == 302
+    post '/test-article-one/comments', default_comment_attributes
+    assert_equal 302, @response.status
     assert Marley::Comment.count == comment_count + 1
   end
 
   def test_should_fix_url_on_comment_create
-    post '/test-article/comments', default_comment_attributes.merge(:url => 'www.example.com')
+    post '/test-article-one/comments', default_comment_attributes.merge(:url => 'www.example.com')
     assert_equal 'http://www.example.com', Marley::Comment.last.url
   end
 
   def test_should_NOT_fix_blank_url_on_comment_create
     comment_count = Marley::Comment.count
-    post '/test-article/comments', default_comment_attributes.merge(:url => '')
+    post '/test-article-one/comments', default_comment_attributes.merge(:url => '')
     assert_equal '', Marley::Comment.last.url
   end
 
   def test_should_show_feed_for_index
     get '/feed'
-    assert @response.status == 200
+    assert_equal 200, @response.status
   end
 
   def test_should_show_feed_for_article
-    get '/test-article/feed'
-    assert @response.status == 200
+    get '/test-article-one/feed'
+    assert_equal 200, @response.status
   end
 
   def test_should_show_feed_for_combined_comments
     get '/feed/comments'
-    assert @response.status == 200
+    assert_equal 200, @response.status
   end
 
   def test_articles_should_have_proper_published_on_dates
     get '/'
     # p @response.body
-    assert @response.status == 200
+    assert_equal 200, @response.status
     assert @response.body =~ Regexp.new(Regexp.escape("<small>23|12|2050 &mdash;</small>")),
                              "HTML should contain proper date for post one"
     assert @response.body =~ Regexp.new(Regexp.escape("<small>#{File.mtime(File.expand_path('./fixtures/002-test-article-two/')).strftime('%d|%m|%Y')} &mdash;</small>")),
@@ -105,23 +110,23 @@ class MarleyTest < Test::Unit::TestCase
   end
 
   def test_admin_without_authentication
-    get '/admin/test-article.html'
+    get '/admin/test-article-one.html'
     assert_equal 401, @response.status
   end
 
   def test_admin_with_bad_credentials
-    get '/admin/test-article.html', {}, {'HTTP_AUTHORIZATION' => encode_credentials('go', 'away')}
+    get '/admin/test-article-one.html', {}, {'HTTP_AUTHORIZATION' => encode_credentials('go', 'away')}
     assert_equal 401, @response.status
   end
 
   def test_admin_with_proper_credentials
-    get '/admin/test-article.html', {}, admin_credentials
+    get '/admin/test-article-one.html', {}, admin_credentials
     assert_equal 200, @response.status
   end
 
   def test_deleting_spam_comments
     @spam_comment = Marley::Comment.create( default_comment_attributes.merge(:author => 'spammer', :body => 'viagra-test-123') )
-    delete '/admin/test-article/spam', { :spam_comment_ids => @spam_comment.id }, admin_credentials
+    delete '/admin/test-article-one/spam', { :spam_comment_ids => @spam_comment.id }, admin_credentials
   end
 
   private

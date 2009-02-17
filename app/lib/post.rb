@@ -103,7 +103,7 @@ module Marley
       post[:body_html]    = RDiscount::new( body ).to_html                            unless options[:except].include? 'body_html' or
                                                                                       not options[:only].include? 'body_html'
       post[:meta]         = ( meta_content ) ? YAML::load( meta_content.scan( self.regexp[:meta]).to_s ) : 
-                                               nil unless options[:except].include? 'meta' or not options[:only].include? 'meta'
+                                               {} unless options[:except].include? 'meta' or not options[:only].include? 'meta'
                                                                                       not options[:only].include? 'published_on'
       post[:updated_on]   = File.mtime( file )                                        unless options[:except].include? 'updated_on' or
                                                                                       not options[:only].include? 'updated_on'

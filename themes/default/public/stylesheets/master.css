@@ -13,6 +13,12 @@ li span.perex  { font-size: 95%; color: #444; }
 #comment_added_thanks { background: #bcfa96; padding: 0.2em 0.2em 0.2em 0.5em; }
 #spam_deleted { background: #faf296; padding: 0.2em 0.2em 0.2em 0.5em; }
 
+#comments .comment .comment_controls
+  { background: #fff;
+    border: 3px solid #2e364d;
+    padding: 4px; margin: 0 0 0.5em 0;
+    width: 10em; }
+
 #admin_panel
 { font-size: 11px;
   font-family: 'Lucida Grande', Tahoma, sans-serif;

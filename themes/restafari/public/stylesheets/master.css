@@ -303,6 +303,12 @@ body
 #comments .comment.spam .number
   { display: none; }
 
+#comments .comment .comment_controls
+  { background: #fff;
+    border: 3px solid #2e364d;
+    padding: 4px;
+    position: absolute; left: -0.2em; top: -3.2em; z-index: 2; }
+
 #comments #comment_added_thanks
   { color: #0a3d00;
     background: #bcfa96;

@@ -56,9 +56,14 @@ module Marley
       end
 
       # Return version info about application
+      # Eg. curl -i http://github.com/api/v1/yaml/karmi/marley/commit/f124f12f2c792a21ae55df92b98a654434e05b5c
       def revision
-        sha = File.read( File.join(MARLEY_ROOT, '..', 'REVISION') ) rescue nil
-        sha ? Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( sha.chomp ) : nil
+        sha = File.read( File.join(MARLEY_ROOT, 'REVISION') ) rescue nil
+        if sha
+          @@revision ||= Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( sha.chomp )
+        else
+          nil
+        end
       end
 
       def data_directory_path

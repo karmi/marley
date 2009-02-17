@@ -1,8 +1,11 @@
 require 'net/http'
 require 'yaml'
+require 'timeout'
 
 # = Ultra minimal interface to Github API
+
 # TODO : Use Struct
+# TODO : Get user and repo from the MARLEY_ROOT passed to initialilzer (by parsing `git remote -v`), not from options
 
 class Githubber
 
@@ -26,10 +29,13 @@ class Githubber
   def execute(command)
     begin
       puts "* Executing command '#{command}' for the Github API"
-      http = Net::HTTP.new("github.com", 80)
-      response, content = http.get("/api/v1/yaml/#{@user}/#{@repo}/#{command}")
-      content
-    rescue
+      Timeout.timeout(35) do
+        http = Net::HTTP.new("github.com", 80)
+        response, content = http.get("/api/v1/yaml/#{@user}/#{@repo}/#{command}")
+        content
+      end
+    rescue Exception => e
+      puts "[!] Error when connecting to Github API (Message: #{e.message})"
       nil
     end
   end

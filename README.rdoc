@@ -80,6 +80,7 @@ In addition, there are Rake and Capistrano tasks for easily destroying spam from
 
 == Todo
 
+* *Githubber* -- Get user and repo from the MARLEY_ROOT passed to initialilzer (by parsing <tt>git remote -v</tt>), not from options, and therefore make it flexible for anyone
 * Authenticate Github hook by HTTP-Auth, not token
 * Enable commenters edit their comments for 15 minutes after posting (based on cookie)
 * Kick Markdown formatting into a Formatter so everyone can use whatever formatter she likes

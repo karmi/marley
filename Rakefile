@@ -104,7 +104,6 @@ namespace :manage do
     task :prune => :db_connect do
       spam_comments = Marley::Comment.spam
       spam_comments.each do |comment|
-        comment.report_as_spam
         comment.destroy
         print "."
       end

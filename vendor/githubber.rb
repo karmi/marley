@@ -4,20 +4,19 @@ require 'timeout'
 
 # = Ultra minimal interface to Github API
 
-# TODO : Use Struct
-# TODO : Get user and repo from the MARLEY_ROOT passed to initialilzer (by parsing `git remote -v`), not from options
-
 class Githubber
 
-  def initialize(options={})
-    @user = options[:user]
-    @repo = options[:repo]
+  def initialize(working_copy_path)
+    remotes  = %x[cd #{working_copy_path}; git remote -v 2>&1] rescue nil
+    return nil unless $?.success?
+    origin = remotes.select { |l| l =~ /^origin.*/ }.first
+    @user, @repo = origin.to_s.scan(/\:(\S*)\/(\S*)\.git/).first
   end
 
   # Returns revision info
   # Eg. http://github.com/defunkt/gist/commit/bbf57b44784dde90e3dd7ea626a12fc00d4e3465
   def revision(number=nil)
-    return nil if number.nil?
+    return nil if number.nil? || !@user || !@repo
     info = execute( "commit/#{number}" )
     return nil unless info
     YAML.load(info)['commit'] rescue nil

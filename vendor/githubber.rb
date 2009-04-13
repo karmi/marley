@@ -16,7 +16,7 @@ class Githubber
   # Returns revision info
   # Eg. http://github.com/defunkt/gist/commit/bbf57b44784dde90e3dd7ea626a12fc00d4e3465
   def revision(number=nil)
-    return nil if number.nil? || !@user || !@repo
+    return nil if number.nil? || @user.nil? || @repo.nil?
     info = execute( "commit/#{number}" )
     return nil unless info
     YAML.load(info)['commit'] rescue nil

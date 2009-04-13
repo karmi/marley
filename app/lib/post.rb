@@ -53,12 +53,9 @@ module Marley
     end
     
     def self.find_one(id, options={})
-      directory = self.load_directories_with_posts(options).select { |dir| dir =~ Regexp.new("\\d\\d\\d\-#{Regexp.escape(id)}\$") }
-      options.merge!( {:draft => true} )
-      # FIXME : Refactor this mess!
-      return if directory.empty?
-      directory = directory.first
-      return unless directory or !File.exist?(directory)
+      options.merge!( {:draft => true} ) if Sinatra::Application.environment == :development
+      directory = self.load_directories_with_posts(options).select { |dir| dir =~ Regexp.new("\\d\\d\\d\-#{Regexp.escape(id)}(.draft)?\$") }.first
+      return if directory.nil? or !File.exist?(directory)
       file = Dir["#{directory}/*.txt"].first
       self.new( self.extract_post_info_from(file, options).merge( :comments => Marley::Comment.find_all_by_post_id(id, :conditions => { :spam => false }) ) )
     end

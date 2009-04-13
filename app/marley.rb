@@ -102,7 +102,11 @@ end
 # -----------------------------------------------------------------------------
 
 get '/' do
-  @posts = Marley::Post.published
+  if Sinatra::Application.environment == :development
+    @posts = Marley::Post.all
+  else
+    @posts = Marley::Post.published
+  end
   @page_title = "#{Marley::Configuration.blog.title}"
   erb :index
 end

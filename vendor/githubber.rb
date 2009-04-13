@@ -10,7 +10,7 @@ class Githubber
     remotes  = %x[cd #{working_copy_path}; git remote -v 2>&1] rescue nil
     return nil unless $?.success?
     origin = remotes.select { |l| l =~ /^origin.*/ }.first
-    @user, @repo = origin.to_s.scan(/\:(\S*)\/(\S*)\.git/).first
+    @user, @repo = origin.to_s.scan(/\S+[:\/]+?(\S+)?\/(\S+)?\.git$/).first
   end
 
   # Returns revision info

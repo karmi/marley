@@ -60,7 +60,7 @@ module Marley
       def revision
         sha = File.read( File.join(MARLEY_ROOT, 'REVISION') ) rescue nil
         if sha
-          @@revision ||= Githubber.new({:user => 'karmi', :repo => 'marley'}).revision( sha.chomp )
+          @@revision ||= Githubber.new(MARLEY_ROOT).revision( sha.chomp )
         else
           nil
         end

@@ -142,13 +142,6 @@ namespace :deploy do
     update
     start
   end
-  
-  desc "Return to previous version"
-  task :rollback do
-    stop
-    rollback_code
-    start
-  end
 
   desc "Restart the webserver"  
   task :restart, :roles => :app do

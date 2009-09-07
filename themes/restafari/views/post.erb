@@ -76,12 +76,12 @@
         <label class="required">Your name:</label>
         <input type="text" class="text" name="author" value="" id="author" />
         <span>(required)</span>
-        <% if  @comment and @comment.errors %><span class="error">Author <%= @comment.errors.on(:author).first %></span><% end %>
+        <% if  @comment and @comment.errors %><span class="error">Author <%= @comment.errors.on(:author) %></span><% end %>
         <br />
         <label class="required">Your e-mail:</label>
         <input type="text" class="text" name="email" value="" id="email" />
         <span>(required, won't be displayed)</span>
-        <% if  @comment and @comment.errors %><span class="error">E-Mail <%= @comment.errors.on(:email).first %></span><% end %>
+        <% if  @comment and @comment.errors %><span class="error">E-Mail <%= @comment.errors.on(:email) %></span><% end %>
         <br />
 
         <label>Your website:</label>
@@ -90,7 +90,7 @@
 
         <label>Message:</label>
         <textarea name="body" rows="8" cols="40"></textarea>
-        <% if  @comment and @comment.errors %><span class="error">Message <%= @comment.errors.on(:body).first if @comment %></span><% end %>
+        <% if  @comment and @comment.errors %><span class="error">Message <%= @comment.errors.on(:body) if @comment %></span><% end %>
         <span style="margin-left: 14em">(Use <em>Markdown</em> syntax)</span>
         <br />
 

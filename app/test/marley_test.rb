@@ -73,6 +73,13 @@ class MarleyTest < Test::Unit::TestCase
     assert Marley::Comment.count == comment_count + 1
   end
 
+  def test_should_not_create_commit_when_author_field_is_missing
+    comment_count = Marley::Comment.count
+    post '/test-article-one/comments', default_comment_attributes.merge( :author => nil )
+    assert_equal 200, @response.status
+    assert Marley::Comment.count == comment_count
+  end
+
   def test_should_fix_url_on_comment_create
     post '/test-article-one/comments', default_comment_attributes.merge(:url => 'www.example.com')
     assert_equal 'http://www.example.com', Marley::Comment.last.url

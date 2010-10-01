@@ -1,7 +1,7 @@
 require 'rubygems'
-require 'activerecord'
+require 'active_record'
 require 'rake'
-require 'ftools'
+require 'fileutils'
 
 MARLEY_ROOT = '.'
 
@@ -41,7 +41,7 @@ namespace :app do
       FileUtils.cp_r( File.join(MARLEY_ROOT, 'app', 'test', 'fixtures', '001-test-article-one'), Marley::Configuration.data_directory )
     end
     task :create_sample_comment do
-      require 'vendor/akismetor'
+      require File.dirname(__FILE__) + '/vendor/akismetor'
       puts "* Creating sample comment"
       Marley::Comment.create( :author  => 'John Doe',
                               :email   => 'john@example.com',
@@ -73,9 +73,9 @@ end
 
 namespace :server do
   
-  desc "Start server in production on Thin, port 4500"
+  desc "Start server in production on Thin, port 80"
   task :start do
-    exec "thin --rackup config/config.ru --daemonize --log log/thin.log --pid tmp/pids/thin.pid --environment production --port 4500 start && echo '> Marley started on http://localhost:4500'"
+    exec "thin --rackup config/config.ru --daemonize --log log/thin.log --pid tmp/pids/thin.pid --environment production --port 80 start && echo '> Marley started on http://localhost:80'"
   end
   
   desc "Stop server in production"

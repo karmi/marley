@@ -84,7 +84,7 @@ module Marley
       options[:only]   ||= Marley::Post.instance_methods # FIXME: Refaktorovat!!
       dirname       = File.dirname(file).split('/').last
       file_content  = File.read(file)
-      meta_content  = file_content.slice!( self.regexp[:meta] )
+      meta_content  = file_content.slice!( self.regexp[:meta] ).sub(/^\{\{/, '---').sub(/\}\}/, '')
       body          = file_content.sub( self.regexp[:title], '').sub( self.regexp[:perex], '').strip
       post          = Hash.new
 
@@ -93,19 +93,20 @@ module Marley
       post[:title]        = file_content.scan( self.regexp[:title] ).first.to_s.strip if post[:title].nil?
       post[:published_on] = DateTime.parse( post[:published_on] ) rescue File.mtime( File.dirname(file) )
 
-      post[:perex]        = file_content.scan( self.regexp[:perex] ).first.to_s.strip unless options[:except].include? 'perex' or
-                                                                                      not options[:only].include? 'perex'
-      post[:body]         = body                                                      unless options[:except].include? 'body' or
-                                                                                      not options[:only].include? 'body'
-      post[:body_html]    = RDiscount::new( body ).to_html                            unless options[:except].include? 'body_html' or
-                                                                                      not options[:only].include? 'body_html'
-      post[:meta]         = ( meta_content ) ? YAML::load( meta_content.scan( self.regexp[:meta]).to_s ) : 
-                                               {} unless options[:except].include? 'meta' or not options[:only].include? 'meta'
-                                                                                      not options[:only].include? 'published_on'
-      post[:updated_on]   = File.mtime( file )                                        unless options[:except].include? 'updated_on' or
-                                                                                      not options[:only].include? 'updated_on'
-      post[:published]    = !dirname.match(/\.draft$/)                                unless options[:except].include? 'published' or
-                                                                                      not options[:only].include? 'published'
+      puts file_content.scan( self.regexp[:perex] ).first.to_s.delete("[\"\"]")
+      post[:perex]        = file_content.scan( self.regexp[:perex] ).first.to_s.strip.delete "[\"\"]" unless options[:except].include? :perex or
+                                                                                      not options[:only].include? :perex
+      post[:body]         = body                                                      unless options[:except].include? :body or
+                                                                                      not options[:only].include? :body
+      post[:body_html]    = RDiscount::new( body ).to_html                            unless options[:except].include? :body_html or
+                                                                                      not options[:only].include? :body_html
+      post[:meta]         = ( meta_content ) ? YAML::load( meta_content ) : 
+                                               {} unless options[:except].include? 'meta' or not options[:only].include? :meta
+                                                                                      not options[:only].include? :published_on
+      post[:updated_on]   = File.mtime( file )                                        unless options[:except].include? :updated_on or
+                                                                                      not options[:only].include? :updated_on
+      post[:published]    = !dirname.match(/\.draft$/)                                unless options[:except].include? :published or
+                                                                                      not options[:only].include? :published
       return post
     end
     
@@ -114,7 +115,7 @@ module Marley
         :title => /^#\s*(.*)\s+$/,
         :title_with_date => /^#\s*(.*)\s+\(([0-9\/]+)\)$/,
         :published_on => /.*\s+\(([0-9\/]+)\)$/,
-        :perex => /^([^\#\n]+\n)$/, 
+        :perex => /^([^\#\n]+)$/, 
         :meta  => /^\{\{\n(.*)\}\}\n$/mi # Multiline Regexp 
       } 
     end

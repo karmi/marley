@@ -1,0 +1,11 @@
+source 'http://rubygems.org'
+
+gem 'rake'
+gem 'sinatra'
+gem 'rack'
+gem 'thin'
+gem 'activerecord'
+gem 'sqlite3-ruby'
+gem 'rdiscount'
+gem 'builder'
+gem 'capistrano'
